@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # 1. MongoDB Database
+  mongodb:
+    image: mongo:latest
+    container_name: pos_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  # 2. Backend (Node.js API)
+  backend:
+    build: ./backend
+    container_name: pos_backend
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb://mongodb:27017/retail_db
+      - JWT_SECRET=please-change-this-to-a-long-random-string
+    volumes:
+      - ./backend/uploads:/app/uploads
+    depends_on:
+      - mongodb
+    restart: always
+
+volumes:
+  mongo_data:
