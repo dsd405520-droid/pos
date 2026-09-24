@@ -1,7 +1,7 @@
 #!/bin/sh
 # ເລີ່ມ container ແບບປອດໄພ:
 #   1. ລໍຖ້າ MongoDB ພ້ອມ (internal network mongodb:27017)
-#   2. ຮັນ seed.js ໂດຍອັດຕະໂນມັດ (idempotent — admin ມີແລ້ວຈະຂ້າມ)
+#   2. ຮັນ seed.js ໂດຍອັດຕະໂນມັດ (ສ້າງ admin ສະເພາະຕອນຍັງບໍ່ມີພະນັກງານເລີຍ)
 #   3. ຮັນຄໍາສັ່ງຕົ້ນສະບັບ (CMD: npm start)
 set -e
 
@@ -19,7 +19,8 @@ while [ "$i" -lt 120 ]; do
 done
 
 echo "📦 ຮັນ seed admin (ຂ້າມຖ້າມີຢູ່ແລ້ວ)..."
-node seed.js >/dev/null 2>&1 || echo "⚠️ seed ບໍ່ສຳເລັດ (ບໍ່ແມ່ນເລື່ອງຮຸນແຮງ)"
+# ສະແດງຜົນ seed ໃນ log ເພື່ອໃຫ້ເຫັນ PIN ຊົ່ວຄາວ (ຖ້າຖືກສຸ່ມ) — ເບິ່ງດ້ວຍ: docker logs pos_backend
+node seed.js || echo "⚠️ seed ບໍ່ສຳເລັດ (ກວດ log ຂ້າງເທິງ)"
 
 echo "🚀 ເລີ່ມແອັບ..."
 exec "$@"

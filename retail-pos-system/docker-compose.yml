@@ -31,6 +31,8 @@ services:
       - FRONTEND_DIST=/app/frontend/dist
       # ບໍ່ໃຫ້ຄ່າ JWT_SECRET ຄົງທີ່ໃນໄຟລ໌ ບັງຄັບໃຫ້ຕັ້ງຈາກ .env
       - JWT_SECRET=${JWT_SECRET:?JWT_SECRET ບໍ່ໄດ້ຕັ້ງ - ໃຫ້ເອົາຄ່າໄປໃສ່ໄຟລ໌ .env ກ່ອນ (ເບິ່ງ .env.example)}
+      # PIN ເລີ່ມຕົ້ນຂອງ admin (ບໍ່ບັງຄັບ) — ຖ້າບໍ່ຕັ້ງ ລະບົບຈະສຸ່ມ PIN ແລ້ວສະແດງໃນ `docker logs pos_backend`
+      - ADMIN_INITIAL_PIN=${ADMIN_INITIAL_PIN:-}
     volumes:
       - ./backend/uploads:/app/uploads
       # ພື້ນທີ່ສຳຮອງຂໍ້ມູນ (backup.js ຮັນໃນ container ຈະຂຽນອອກມາທີ່ host ໄດ້)

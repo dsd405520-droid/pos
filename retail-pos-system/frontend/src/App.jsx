@@ -9,6 +9,7 @@ function App() {
   const [employee, setEmployee] = useState(null);
   const [shopSettings, setShopSettings] = useState(null); // 🏦 ຄ່າຮ້ານ (ໂດຍສະເພາະ QR ຮັບເງິນໂອນຈິງ)
   const [currentShift, setCurrentShift] = useState(null);
+  const [sessionChecked, setSessionChecked] = useState(false); // ✅ ກວດ session ເກົ່າແລ້ວ (ກັນໜ້າ Login ກະພິບຕອນ refresh)
   
   // State ສຳລັບໜ້າ Login
   const [loginUsername, setLoginUsername] = useState('');
@@ -37,8 +38,19 @@ function App() {
   // 📦 ດຶງຂໍ້ມູນສິນຄ້າຈາກ Server
   const fetchProducts = useCallback((isBackground = false) => {
     fetch(`${API_BASE_URL}/api/products`, { headers: authHeaders() })
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
+      .then(async (res) => {
+        // 🔒 Token ໝົດອາຍຸ/ບໍ່ຖືກຕ້ອງ → ລ້າງ session ແລ້ວກັບໄປໜ້າ Login (ແທນທີ່ຈະ crash ເປັນໜ້າຂາວ)
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('employee');
+          window.location.reload();
+          return;
+        }
+        const data = await res.json();
+        // ຮັບສະເພາະ array — ຖ້າບໍ່ແມ່ນ (error object) ຈະຄົງລາຍການເກົ່າໄວ້ ບໍ່ໃຫ້ .map/.find ພັງ
+        if (Array.isArray(data)) setProducts(data);
+        else if (!isBackground) console.error('Unexpected products response:', data);
+      })
       .catch((err) => {
         if (!isBackground) {
           console.error('Error fetching products:', err);
@@ -98,38 +110,51 @@ function App() {
     }
   }, [employee, fetchProducts]);
 
-  // 🔄 ກູ້ຄືນ Session ເມື່ອ refresh ໜ້າເວັບ — ບໍ່ຕ້ອງ Login ໃໝ່ ແລະ ກະທີ່ເປີດຄ້າງໄວ້ກໍ່ຍັງຢູ່
-  // (ເຄີຍເປັນສາເຫດຕ້ອງ Login + ເປີດກະໃໝ່ທຸກຄັ້ງ ຈົນກະຈອງເປັນສິບກະ/ຄົນ)
+  // 🔄 ກູ້ຄືນ Session ເມື່ອ refresh ໜ້າເວັບ — ກວດ token ກັບ server ກ່ອນສະເໝີ (ບໍ່ເຊື່ອ localStorage ຢ່າງດຽວ)
+  //   - token ໝົດອາຍຸ/ບໍ່ຖືກຕ້ອງ (401)      → ລ້າງ session ແລ້ວສະແດງໜ້າ Login
+  //   - admin                                → ເຂົ້າລະບົບເລີຍ
+  //   - cashier ທີ່ຍັງມີກະເປີດ               → ເຂົ້າ POS ພ້ອມກະເກົ່າ
+  //   - cashier ທີ່ບໍ່ມີກະເປີດ               → ສະແດງຟອມເປີດກະ (ຍັງບໍ່ເຂົ້າ POS ຈົນກວ່າຈະເປີດກະ)
   useEffect(() => {
     const token = localStorage.getItem('token');
     const empStr = localStorage.getItem('employee');
-    if (!token || !empStr) return;
+    if (!token || !empStr) {
+      setSessionChecked(true);
+      return;
+    }
 
     let emp;
     try {
       emp = JSON.parse(empStr);
     } catch {
+      localStorage.removeItem('token');
+      localStorage.removeItem('employee');
+      setSessionChecked(true);
       return;
     }
 
-    setEmployee(emp);
+    fetch(`${API_BASE_URL}/api/shifts/my`, { headers: authHeaders() })
+      .then(async (res) => {
+        if (res.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('employee');
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (!res.ok || !data) return; // server ມີບັນຫາ → ໃຫ້ Login ໃໝ່
 
-    if (emp.role === 'cashier') {
-      fetch(`${API_BASE_URL}/api/shifts/my`, { headers: authHeaders() })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.shift) {
-            setCurrentShift(data.shift);
-          } else {
-            setTempEmployee(emp);
-            setNeedsShiftOpen(true);
-          }
-        })
-        .catch(() => {
+        if (emp.role === 'admin') {
+          setEmployee(emp);
+        } else if (data.shift) {
+          setEmployee(emp);
+          setCurrentShift(data.shift);
+        } else {
           setTempEmployee(emp);
           setNeedsShiftOpen(true);
-        });
-    }
+        }
+      })
+      .catch((err) => console.error('Restore session error:', err))
+      .finally(() => setSessionChecked(true));
   }, []);
 
   // 🔄 ລະບົບ Auto-Refresh ດຶງຂໍ້ມູນສິນຄ້າອັດຕະໂນມັດທຸກໆ 10 ວິນາທີ
@@ -237,6 +262,9 @@ function App() {
     if (!currentShift) return;
     const actualCashInput = prompt('ກະລຸນານັບເງິນສົດຕົວຈິງໃນລິ້ນຊັກແລ້ວປ້ອນຈຳນວນເງິນລົງທີ່ນີ້:');
     if (actualCashInput === null) return;
+    if (actualCashInput.trim() === '' || !Number.isFinite(Number(actualCashInput)) || Number(actualCashInput) < 0) {
+      return alert('❌ ກະລຸນາປ້ອນຈຳນວນເງິນສົດຕົວຈິງເປັນຕົວເລກ (0 ຫຼື ຫຼາຍກວ່າ)');
+    }
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/shifts/close/${currentShift._id}`, {
@@ -319,6 +347,11 @@ function App() {
         setCart([]);
         fetchProducts(false);
       } else {
+        if (data.code === 'NO_OPEN_SHIFT') {
+          alert('⚠️ ' + data.error);
+          window.location.reload(); // ກັບໄປຟອມເປີດກະ
+          return;
+        }
         alert('Checkout failed: ' + data.error);
       }
     } catch (err) {
@@ -362,6 +395,11 @@ function App() {
         alert('✅ ຊຳລະເງິນຜ່ານ QR Code ສໍາເລັດແລ້ວ!');
       } else {
         setIsCheckingQR(false);
+        if (data.code === 'NO_OPEN_SHIFT') {
+          alert('⚠️ ' + data.error);
+          window.location.reload(); // ກັບໄປຟອມເປີດກະ
+          return;
+        }
         alert('Checkout failed: ' + data.error);
       }
     } catch (err) {
@@ -370,6 +408,14 @@ function App() {
       alert('ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່');
     }
   };
+
+  if (!sessionChecked) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: '#f1f5f9', color: '#64748b' }}>
+        ກຳລັງກວດສອບການເຂົ້າສູ່ລະບົບ...
+      </div>
+    );
+  }
 
   if (!employee) {
     return (

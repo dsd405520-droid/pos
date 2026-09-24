@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
 import OrdersList from './components/OrdersList'; // 1. ນຳເຂົ້າ Component ປະຫວັດການຂາຍ
+import ShiftHistory from './components/ShiftHistory'; // 🕐 ປະຫວັດກະ (ເງິນຄວນມີ vs ເງິນນັບໄດ້)
 import StoreSettings from './components/StoreSettings'; // ⚙️ ໜ້າຕັ້ງຄ່າຮ້ານ (QR ຮັບເງິນໂອນຈິງ)
 
 export default function AdminPage() {
@@ -108,6 +109,17 @@ export default function AdminPage() {
             </button>
 
             <button
+              onClick={() => setCurrentTab('shifts')}
+              className={`w-full text-left px-4 py-2.5 rounded-lg font-medium transition ${
+                currentTab === 'shifts'
+                  ? 'bg-blue-600 text-white shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              🕐 ປະຫວັດກະ (Shifts)
+            </button>
+
+            <button
               onClick={() => setCurrentTab('settings')}
               className={`w-full text-left px-4 py-2.5 rounded-lg font-medium transition ${
                 currentTab === 'settings'
@@ -136,6 +148,7 @@ export default function AdminPage() {
         {currentTab === 'dashboard' && <Dashboard />}
         {currentTab === 'products' && <AdminPanel />}
         {currentTab === 'orders' && <OrdersList />}
+        {currentTab === 'shifts' && <ShiftHistory />}
         {currentTab === 'settings' && <StoreSettings />}
       </main>
 

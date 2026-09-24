@@ -543,7 +543,7 @@ app.get('/api/stock/logs', requireRole('admin'), async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
   try {
-    const { items, shiftId, paymentMethod, cashReceived } = req.body;
+    const { items, paymentMethod, cashReceived } = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'ບໍ່ມີສິນຄ້າໃນລາຍການ' });
@@ -552,21 +552,13 @@ app.post('/api/orders', async (req, res) => {
     // 🔒 employee ຈາກ Token (req.user.id) ເທົ່ານັ້ນ — ບໍ່ເຊື່ອ employeeId ຈາກ body ອີກຕໍ່ໄປ (ເຄີຍເປັນການປອມແທນເຈົ້າຂອງບັນຊີໄດ້)
     const employeeId = req.user.id;
 
-    // 🔒 ກວດສອບກະ (Shift): ຕ້ອງເປັນກະຂອງຕົນເອງ + ຍັງເປີດຢູ່; ຖ້າບໍ່ສົ່ງ shiftId ຈະດຶງກະເປີດຂອງຜູ້ໃຊ້ອັດຕະໂນມັດ
-    let validShiftId = null;
-    if (shiftId) {
-      const shift = await Shift.findById(shiftId);
-      if (!shift || shift.status !== 'open') {
-        return res.status(400).json({ error: 'ກະບໍ່ຖືກຕ້ອງ ຫຼື ຖືກປິດໄປແລ້ວ' });
-      }
-      if (shift.employee?.toString() !== req.user.id) {
-        return res.status(403).json({ error: 'ທ່ານບໍ່ມີສິດໃຊ້ກະນີ້ (ກະຂອງຄົນອື່ນ)' });
-      }
-      validShiftId = shift._id;
-    } else {
-      const openShift = await Shift.findOne({ employee: req.user.id, status: 'open' });
-      validShiftId = openShift ? openShift._id : null;
+    // 🔒 ກະ (Shift) ມາຈາກ Token ເທົ່ານັ້ນ — ບໍ່ເຊື່ອ shiftId ຈາກ body
+    // cashier ຕ້ອງມີກະທີ່ກຳລັງເປີດຢູ່ຈຶ່ງຂາຍໄດ້ (admin ຂາຍໄດ້ໂດຍບໍ່ຕ້ອງເປີດກະ)
+    const activeShift = await Shift.findActiveFor(req.user.id);
+    if (!activeShift && req.user.role !== 'admin') {
+      return res.status(400).json({ code: 'NO_OPEN_SHIFT', error: 'ຍັງບໍ່ໄດ້ເປີດກະ ຫຼື ກະຖືກປິດແລ້ວ — ກະລຸນາເປີດກະກ່ອນຂາຍ' });
     }
+    const validShiftId = activeShift ? activeShift._id : null;
 
     // 🏷️ Whitelist ວິທີຊຳລະເງິນ — ບໍ່ຮັບຄ່າມົວໆ ຈາກ body
     const ALLOWED_METHODS = ['cash', 'qr code', 'transfer'];
