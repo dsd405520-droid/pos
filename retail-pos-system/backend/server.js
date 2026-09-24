@@ -28,12 +28,14 @@ app.use(cors({
 app.use(express.json());
 
 // 📦 Serve frontend build (production) ວາງກ່ອນ middleware auth — ຈະບໍ່ຖືກບັງຄັບ login
-const frontendDist = path.join(__dirname, '..', 'frontend', 'dist');
-if (fs.existsSync(frontendDist)) {
+// ໃນ Docker ຈະຖືກຊີ້ໂດຍ FRONTEND_DIST (bind mount); ໃນ local ໃຊ້ ../frontend/dist ຕາມເດີມ
+const frontendDist = process.env.FRONTEND_DIST || path.join(__dirname, '..', 'frontend', 'dist');
+const frontendIndex = path.join(frontendDist, 'index.html');
+if (fs.existsSync(frontendDist) && fs.existsSync(frontendIndex)) {
   app.use(express.static(frontendDist));
   app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api/') || req.path.startsWith('/uploads/')) return next();
-    res.sendFile(path.join(frontendDist, 'index.html'));
+    res.sendFile(frontendIndex);
   });
 }
 
@@ -121,6 +123,8 @@ async function backfillEmployeeCodes() {
 const authRoutes = require('./routes/auth');
 const shiftRoutes = require('./routes/shifts');
 const employeeRoutes = require('./routes/employeeRoutes');
+const Order = require('./models/Order');
+const Shift = require('./models/Shift');
 
 // --- Schemas & Models ---
 
@@ -179,24 +183,16 @@ const unitSchema = new mongoose.Schema({
 });
 const Unit = mongoose.model('Unit', unitSchema);
 
-// 🛒 Schema & Model ສຳລັບການຂາຍ (Order) - ປັບປຸງໃຫ້ຮອງຮັບການຊຳລະເງິນ
-const orderSchema = new mongoose.Schema({
-  items: Array,
-  totalAmount: Number, 
-  employeeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee' },
-  shiftId: { type: mongoose.Schema.Types.ObjectId, ref: 'Shift' },
-  paymentMethod: { type: String, default: 'Cash' }, // 💵 ເພີ່ມ Field ປະເພດຊຳລະເງິນ
-  cashReceived: { type: Number, default: 0 },       // 💵 ເພີ່ມ Field ເງິນສົດທີ່ຮັບມາ
-  changeAmount: { type: Number, default: 0 },       // 💵 ເພີ່ມ Field ເງິນທອນ
-  createdAt: { type: Date, default: Date.now },
-});
-const Order = mongoose.model('Order', orderSchema);
-
 // --- API Endpoints & Routes Registration ---
 
 app.use('/api/auth', authRoutes);       // 🔓 Public (login)
 app.use('/api/shifts', shiftRoutes);    // 🔒 protected inside shifts.js
 app.use('/api/employees', employeeRoutes); // 🔒 admin-only, protected inside employeeRoutes.js
+
+// 🩺 ກວດສຸຂະພາບ (healthcheck ຂອງ Docker ໃຊ້) — ບໍ່ຕ້ອງ Login
+app.get('/api/health', (req, res) => {
+  res.json({ ok: true, db: mongoose.connection.readyState === 1, time: new Date().toISOString() });
+});
 
 // 🔒 2. ຈາກຈຸດນີ້ລົງໄປ ທຸກ Route ຕ້ອງ Login ກ່ອນຈຶ່ງເອີ້ນໃຊ້ໄດ້ (ແກ້ບັນຫາ "ບໍ່ມີ Authentication" ທີ່ພົບ)
 app.use(verifyToken);
@@ -547,11 +543,39 @@ app.get('/api/stock/logs', requireRole('admin'), async (req, res) => {
 
 app.post('/api/orders', async (req, res) => {
   try {
-    const { items, employeeId, shiftId, paymentMethod, cashReceived } = req.body;
+    const { items, shiftId, paymentMethod, cashReceived } = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'ບໍ່ມີສິນຄ້າໃນລາຍການ' });
     }
+
+    // 🔒 employee ຈາກ Token (req.user.id) ເທົ່ານັ້ນ — ບໍ່ເຊື່ອ employeeId ຈາກ body ອີກຕໍ່ໄປ (ເຄີຍເປັນການປອມແທນເຈົ້າຂອງບັນຊີໄດ້)
+    const employeeId = req.user.id;
+
+    // 🔒 ກວດສອບກະ (Shift): ຕ້ອງເປັນກະຂອງຕົນເອງ + ຍັງເປີດຢູ່; ຖ້າບໍ່ສົ່ງ shiftId ຈະດຶງກະເປີດຂອງຜູ້ໃຊ້ອັດຕະໂນມັດ
+    let validShiftId = null;
+    if (shiftId) {
+      const shift = await Shift.findById(shiftId);
+      if (!shift || shift.status !== 'open') {
+        return res.status(400).json({ error: 'ກະບໍ່ຖືກຕ້ອງ ຫຼື ຖືກປິດໄປແລ້ວ' });
+      }
+      if (shift.employee?.toString() !== req.user.id) {
+        return res.status(403).json({ error: 'ທ່ານບໍ່ມີສິດໃຊ້ກະນີ້ (ກະຂອງຄົນອື່ນ)' });
+      }
+      validShiftId = shift._id;
+    } else {
+      const openShift = await Shift.findOne({ employee: req.user.id, status: 'open' });
+      validShiftId = openShift ? openShift._id : null;
+    }
+
+    // 🏷️ Whitelist ວິທີຊຳລະເງິນ — ບໍ່ຮັບຄ່າມົວໆ ຈາກ body
+    const ALLOWED_METHODS = ['cash', 'qr code', 'transfer'];
+    const rawMethod = String(paymentMethod || '').trim();
+    const methodKey = rawMethod.toLowerCase();
+    if (!ALLOWED_METHODS.includes(methodKey)) {
+      return res.status(400).json({ error: 'ວິທີຊຳລະເງິນບໍ່ຖືກຕ້ອງ (ຮອງຮັບພຽງ Cash / QR Code / Transfer)' });
+    }
+    const canonicalMethod = methodKey === 'qr code' ? 'QR Code' : methodKey === 'transfer' ? 'Transfer' : 'Cash';
 
     const productsInOrder = await Product.find({ _id: { $in: items.map(i => i._id) } });
     const verifiedItems = [];
@@ -579,6 +603,13 @@ app.post('/api/orders', async (req, res) => {
       verifiedTotal += product.price * qty;
     }
 
+    // 💵 ກວດສອບເງິນທີ່ຮັບມາກັບຍອດລວມທີ່ server ຄິດໄລ່ — ບໍ່ພຽງພໍຕ້ອງຕັດອອກທັນທີ (ເຄີຍກວດພຽງ frontend ເທົ່ານັ້ນ)
+    const received = Number(cashReceived) || 0;
+    if (received < verifiedTotal) {
+      return res.status(400).json({ error: `ຈຳນວນເງິນທີ່ຮັບມາ (${received.toLocaleString()}) ນ້ອຍກວ່າຍອດລວມ (${verifiedTotal.toLocaleString()})` });
+    }
+    const changeAmount = received - verifiedTotal;
+
     const decremented = [];
     for (const item of verifiedItems) {
       const updated = await Product.findOneAndUpdate(
@@ -600,13 +631,22 @@ app.post('/api/orders', async (req, res) => {
         items: verifiedItems,
         totalAmount: verifiedTotal,
         employeeId,
-        shiftId,
-        paymentMethod: paymentMethod || 'Cash',
-        cashReceived: cashReceived || 0,
-        changeAmount: Math.max(0, (Number(cashReceived) || 0) - verifiedTotal),
+        shiftId: validShiftId,
+        paymentMethod: canonicalMethod,
+        cashReceived: received,
+        changeAmount: changeAmount,
       });
       await newOrder.save();
       res.status(201).json({ message: 'Order created successfully!', order: newOrder });
+
+      // 🕐 ອັບເດດຍອດຂາຍລວມຂອງກະ (Shift) ໃຫ້ທັນເວລາ — ຕອນປິດກະຈະຄິດໄລ່ໃໝ່ຈາກ Order ອີກເທື່ອໜຶ່ງ ເພື່ອຄວາມຖືກຕ້ອງ
+      if (validShiftId) {
+        try {
+          await Shift.findByIdAndUpdate(validShiftId, { $inc: { totalSales: verifiedTotal } });
+        } catch (shiftErr) {
+          console.error('Error updating shift totalSales:', shiftErr);
+        }
+      }
     } catch (saveErr) {
       for (const done of decremented) {
         await Product.findByIdAndUpdate(done._id, { $inc: { stock: done.quantity } });

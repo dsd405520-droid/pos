@@ -1,0 +1,18 @@
+# ຫ້າມເອົາໄຟລ໌/ໂຟນເດີພາຍໃນ image ທີ່ບໍ່ຈຳເປັນຕໍ່ການຮັນແອັບ
+# ປ້ອງກັນການຮົ່ວໄຫຼຂອງ JWT_SECRET ແລະ ການເອົາ node_modules ແລ້ວຍຽບ (node_modules ຈະຖືກ npm install ໃໝ່ໃນ image)
+node_modules
+.env
+npm-debug.log
+*.log
+server-out.log
+server-err.log
+uploads
+backups
+backup/*.log
+.git
+.gitignore
+.dockerignore
+Dockerfile
+.env.example
+install-service.js
+uninstall-service.js

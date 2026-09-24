@@ -1,14 +1,20 @@
-version: '3.8'
-
 services:
   # 1. MongoDB Database
   mongodb:
-    image: mongo:latest
+    image: mongo:7.0
     container_name: pos_mongo
-    ports:
-      - "27017:27017"
+    # ເພື່ອຄວາມປອດໄພ: ບໍ່ publish port 27017 ອອກໄປຂ້າງນອກ
+    # (ກ່ອນໜ້ານີ້ ໃຜກໍ່ເຂົ້າຖາມ DB ໂດຍບໍ່ມີການກວດສິດໄດ້)
+    expose:
+      - "27017"
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     restart: always
 
   # 2. Backend (Node.js API)
@@ -19,12 +25,27 @@ services:
       - "5001:5001"
     environment:
       - PORT=5001
-      - MONGO_URI=mongodb://mongodb:27017/retail_db
-      - JWT_SECRET=please-change-this-to-a-long-random-string
+      # ຊື່ DB ໃຫ້ຕົງກັບ .env / seed.js / backup (retail_pos)
+      - MONGO_URI=mongodb://mongodb:27017/retail_pos
+      # ບ່ອນ frontend build ພາຍໃນ container (bind mount) — ໃຊ້ FRONTEND_DIST ເພາະ __dirname ໃນ container ບໍ່ແມ່ນ path ດຽວກັບ local
+      - FRONTEND_DIST=/app/frontend/dist
+      # ບໍ່ໃຫ້ຄ່າ JWT_SECRET ຄົງທີ່ໃນໄຟລ໌ ບັງຄັບໃຫ້ຕັ້ງຈາກ .env
+      - JWT_SECRET=${JWT_SECRET:?JWT_SECRET ບໍ່ໄດ້ຕັ້ງ - ໃຫ້ເອົາຄ່າໄປໃສ່ໄຟລ໌ .env ກ່ອນ (ເບິ່ງ .env.example)}
     volumes:
       - ./backend/uploads:/app/uploads
+      # ພື້ນທີ່ສຳຮອງຂໍ້ມູນ (backup.js ຮັນໃນ container ຈະຂຽນອອກມາທີ່ host ໄດ້)
+      - ./backend/backups:/app/backups
+      # ໃຫ້ API ເສີບ frontend build ເກົ່າແບບເດີມຢູ່ port 5001 (ຖ້າມີ dist ໃນ host)
+      - ./frontend/dist:/app/frontend/dist:ro
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:5001/api/health').then(r=>{if(r.ok)process.exit(0);process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     restart: always
 
 volumes:

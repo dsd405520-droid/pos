@@ -28,6 +28,7 @@ function App() {
   const [paymentType, setPaymentType] = useState('cash'); // 'cash' ຫຼື 'qr'
   const [cashReceived, setCashReceived] = useState('');
   const [isCheckingQR, setIsCheckingQR] = useState(false);
+  const [qrVerified, setQrVerified] = useState(false); // ✅ ພະນັກງານຕ້ອງຕິກຢືນຢັນວ່າກວດເບິ່ງເງິນເຂົ້າຈິງແລ້ວ ກ່ອນຢືນຢັນການຊຳລະ QR
   
   // ⌨️ State ສຳລັບເກັບ Buffer ຂອງບາໂຄດທີ່ກຳລັງຍິງເຂົ້າມາ
   const [barcodeBuffer, setBarcodeBuffer] = useState('');
@@ -96,6 +97,40 @@ function App() {
         .catch((err) => console.error('Error fetching shop settings:', err));
     }
   }, [employee, fetchProducts]);
+
+  // 🔄 ກູ້ຄືນ Session ເມື່ອ refresh ໜ້າເວັບ — ບໍ່ຕ້ອງ Login ໃໝ່ ແລະ ກະທີ່ເປີດຄ້າງໄວ້ກໍ່ຍັງຢູ່
+  // (ເຄີຍເປັນສາເຫດຕ້ອງ Login + ເປີດກະໃໝ່ທຸກຄັ້ງ ຈົນກະຈອງເປັນສິບກະ/ຄົນ)
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const empStr = localStorage.getItem('employee');
+    if (!token || !empStr) return;
+
+    let emp;
+    try {
+      emp = JSON.parse(empStr);
+    } catch {
+      return;
+    }
+
+    setEmployee(emp);
+
+    if (emp.role === 'cashier') {
+      fetch(`${API_BASE_URL}/api/shifts/my`, { headers: authHeaders() })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.shift) {
+            setCurrentShift(data.shift);
+          } else {
+            setTempEmployee(emp);
+            setNeedsShiftOpen(true);
+          }
+        })
+        .catch(() => {
+          setTempEmployee(emp);
+          setNeedsShiftOpen(true);
+        });
+    }
+  }, []);
 
   // 🔄 ລະບົບ Auto-Refresh ດຶງຂໍ້ມູນສິນຄ້າອັດຕະໂນມັດທຸກໆ 10 ວິນາທີ
   useEffect(() => {
@@ -247,6 +282,7 @@ function App() {
     setIsCashModalOpen(true);
     setPaymentType('cash');
     setCashReceived('');
+    setQrVerified(false);
   };
 
   const handleConfirmPayment = async () => {
@@ -255,20 +291,14 @@ function App() {
       return alert('❌ ຈຳນວນເງິນທີ່ຮັບມາໜ້ອຍກວ່າຍອດລວມສິນຄ້າ!');
     }
 
-    const changeAmount = received - totalAmount;
-
     try {
       const response = await fetch(`${API_BASE_URL}/api/orders`, {
         method: 'POST',
         headers: authHeaders({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({ 
           items: cart, 
-          totalAmount, 
-          employeeId: employee._id,
-          shiftId: currentShift ? currentShift._id : null,
-          cashReceived: received,
-          changeAmount: changeAmount,
-          paymentMethod: 'Cash'
+          paymentMethod: 'Cash',
+          cashReceived: received
         }),
       });
 
@@ -279,12 +309,12 @@ function App() {
         setReceipt({
           orderId: data.order._id,
           items: [...cart],
-          totalAmount,
-          cashReceived: received,
-          changeAmount: changeAmount,
+          totalAmount: data.order.totalAmount,
+          cashReceived: data.order.cashReceived,
+          changeAmount: data.order.changeAmount,
           date: new Date().toLocaleString(),
-          employeeId: employee._id,
-          paymentMethod: 'Cash'
+          employeeId: data.order.employeeId,
+          paymentMethod: data.order.paymentMethod
         });
         setCart([]);
         fetchProducts(false);
@@ -298,52 +328,47 @@ function App() {
   };
 
   const handleConfirmQRPayment = async () => {
+    if (!qrVerified) return alert('❌ ກະລຸນາຕິກຊ່ອງຢືນຢັນວ່າ ກວດເບິ່ງເງິນເຂົ້າຈິງແລ້ວ ກ່ອນ');
     setIsCheckingQR(true);
-    
-    setTimeout(async () => {
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/orders`, {
-          method: 'POST',
-          headers: authHeaders({ 'Content-Type': 'application/json' }),
-          body: JSON.stringify({ 
-            items: cart, 
-            totalAmount, 
-            employeeId: employee._id,
-            shiftId: currentShift ? currentShift._id : null,
-            cashReceived: totalAmount,
-            changeAmount: 0,
-            paymentMethod: 'QR Code'
-          }),
-        });
 
-        const data = await response.json();
-        if (response.ok) {
-          setIsCheckingQR(false);
-          setIsCashModalOpen(false);
-          
-          setReceipt({
-            orderId: data.order._id,
-            items: [...cart],
-            totalAmount,
-            cashReceived: totalAmount,
-            changeAmount: 0,
-            date: new Date().toLocaleString(),
-            employeeId: employee._id,
-            paymentMethod: 'QR Code'
-          });
-          setCart([]);
-          fetchProducts(false);
-          alert('✅ ຊຳລະເງິນຜ່ານ QR Code ສໍາເລັດແລ້ວ!');
-        } else {
-          setIsCheckingQR(false);
-          alert('Checkout failed: ' + data.error);
-        }
-      } catch (err) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/orders`, {
+        method: 'POST',
+        headers: authHeaders({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ 
+          items: cart, 
+          paymentMethod: 'QR Code',
+          cashReceived: totalAmount
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
         setIsCheckingQR(false);
-        console.error('Checkout error:', err);
-        alert('ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່');
+        setIsCashModalOpen(false);
+
+        setReceipt({
+          orderId: data.order._id,
+          items: [...cart],
+          totalAmount: data.order.totalAmount,
+          cashReceived: data.order.cashReceived,
+          changeAmount: data.order.changeAmount,
+          date: new Date().toLocaleString(),
+          employeeId: data.order.employeeId,
+          paymentMethod: data.order.paymentMethod
+        });
+        setCart([]);
+        fetchProducts(false);
+        alert('✅ ຊຳລະເງິນຜ່ານ QR Code ສໍາເລັດແລ້ວ!');
+      } else {
+        setIsCheckingQR(false);
+        alert('Checkout failed: ' + data.error);
       }
-    }, 2000);
+    } catch (err) {
+      setIsCheckingQR(false);
+      console.error('Checkout error:', err);
+      alert('ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່');
+    }
   };
 
   if (!employee) {
@@ -626,6 +651,15 @@ function App() {
                     <div style={{ background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', marginBottom: '16px', textAlign: 'left' }}>
                       ⚠️ ລະບົບບໍ່ໄດ້ເຊື່ອມຕໍ່ທະນາຄານໂດຍກົງ — ກະລຸນາເບິ່ງແອັບທະນາຄານ/SMS ຢືນຢັນວ່າ<strong>ເງິນເຂົ້າແທ້ຈິງ</strong>ກ່ອນກົດປຸ່ມຢືນຢັນລຸ່ມນີ້
                     </div>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '10px 14px', marginBottom: '16px', cursor: 'pointer', textAlign: 'left', fontSize: '13px', color: '#166534', fontWeight: '600' }}>
+                      <input
+                        type="checkbox"
+                        checked={qrVerified}
+                        onChange={(e) => setQrVerified(e.target.checked)}
+                        style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                      />
+                      ຂ້ອຍກວດເບິ່ງແອັບທະນາຄານ/SMS ແລ້ວວ່າໄດ້ຮັບເງິນຈິງ
+                    </label>
                   </>
                 ) : (
                   <div style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', borderRadius: '10px', padding: '20px', marginBottom: '20px' }}>
@@ -637,8 +671,8 @@ function App() {
                   <button onClick={() => setIsCashModalOpen(false)} style={{ flex: 1, padding: '12px', background: '#e2e8f0', color: '#334155', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>ຍົກເລີກ</button>
                   <button 
                     onClick={handleConfirmQRPayment}
-                    disabled={isCheckingQR || !(shopSettings && shopSettings.shopQRImage)}
-                    style={{ flex: 1, padding: '12px', background: (isCheckingQR || !(shopSettings && shopSettings.shopQRImage)) ? '#94a3b8' : '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: (isCheckingQR || !(shopSettings && shopSettings.shopQRImage)) ? 'not-allowed' : 'pointer' }}
+                    disabled={isCheckingQR || !qrVerified || !(shopSettings && shopSettings.shopQRImage)}
+                    style={{ flex: 1, padding: '12px', background: (isCheckingQR || !qrVerified || !(shopSettings && shopSettings.shopQRImage)) ? '#94a3b8' : '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: (isCheckingQR || !qrVerified || !(shopSettings && shopSettings.shopQRImage)) ? 'not-allowed' : 'pointer' }}
                   >
                     {isCheckingQR ? 'ກຳລັງບັນທຶກ...' : '✅ ຢືນຢັນວ່າໄດ້ຮັບເງິນແລ້ວ'}
                   </button>

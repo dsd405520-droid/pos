@@ -6,22 +6,33 @@
 // ພາລາມິເຕີ (ບໍ່ບັງຄັບ):
 //   node backup/install-backup-task.js 03:00     ກຳນົດເວລາຮັນກັບ HH:MM 24 ຊົ່ວໂມງ (ຄ່າເລີ່ມຕົ້ນ 02:30)
 //   node backup/install-backup-task.js 02:30 /RU SYSTEM   ຮັນໃນຊື່ SYSTEM ແມ້ບໍ່ໄດ້ login (ຕ້ອງ Admin)
-
+//
+// ຕັ້ງແຕ່ຍ້າຍມາ Docker: ຄຳສັ່ງຈະຮັນ backup.js ພາຍໃນ container pos_backend
+// (docker exec) ເພື່ອໃຫ້ສຳຮອງ DB ຂອງ container ໂດຍກົງ — ຜົນອອກທີ່ ./backend/backups ເທິງ host
+// ຖ້າຊື່ container ປ່ຽນ ໃຫ້ຕັ້ງ env BACKEND_CONTAINER
 const { execFileSync } = require('child_process');
 const path = require('path');
-const fs = require('fs');
 
 const TASK_NAME = 'RetailPOSBackup';
 const timeArg = (process.argv[2] || '02:30');
 const extra = process.argv.slice(3).join(' ');
 
-const nodeExe = process.execPath;
-const backupScript = path.join(__dirname, 'backup.js');
+const container = process.env.BACKEND_CONTAINER || 'pos_backend';
 
-if (!fs.existsSync(backupScript)) {
-  console.error('❌ ບໍ່ພົບໄຟລ໌ backup.js');
-  process.exit(1);
+// Docker CLI ອາດບໍ່ຢູ່ໃນ PATH ຂອງ Scheduled Task ເລີຍຕ້ອງໃຊ້ full path
+function findDocker() {
+  if (process.env.DOCKER_CLI) return process.env.DOCKER_CLI;
+  try {
+    const out = execFileSync('where', ['docker'], { encoding: 'utf8' });
+    const hit = out.split(/\r?\n/).map((s) => s.trim()).find(Boolean);
+    if (hit) return hit;
+  } catch {}
+  const def = 'C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe';
+  return require('fs').existsSync(def) ? def : 'docker';
 }
+const dockerPath = findDocker();
+// ຫໍ່ດ້ວຍ cmd /c ເພື່ອໃຫ້ schtasks ຮັນ path ທີ່ມີຊ່ອງວ່າງ ແລະ args ໄດ້ຖືກຕ້ອງ (ERROR_BAD_EXE_FORMAT ເກີດຖ້າໃຫ້ aircraft ໂດຍກົງ)
+const command = `cmd.exe /c ""${dockerPath}" exec ${container} node backup/backup.js"`;
 
 //  Format HH:MM ທີ່ຖືກຕ້ອງ
 if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(timeArg)) {
@@ -29,7 +40,6 @@ if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(timeArg)) {
   process.exit(1);
 }
 
-const command = `"${nodeExe}" "${backupScript}"`;
 const args = [
   '/Create',
   '/F',
@@ -44,6 +54,7 @@ const args = [
 ].concat(extra.length ? extra.split(' ') : []);
 
 console.log('⏳ ກຳລັງສ້າງ Task "RetailPOSBackup"...');
+console.log(`   ຄຳສັ່ງ: ${command}`);
 try {
   const out = execFileSync('schtasks', args, { encoding: 'utf8' });
   console.log(out.trim());
@@ -53,5 +64,6 @@ try {
   console.log('   - ລຶບ:  node backup/uninstall-backup-task.js');
 } catch (err) {
   console.error('❌ ຕິດຕັ້ງບໍ່ສຳເລັດ:', (err.stderr || err.message).toString().trim());
+  console.error('   (ອາດຕ້ອງຮັນໃນ Command Prompt ທີ່ Run as Administrator)');
   process.exit(1);
 }
