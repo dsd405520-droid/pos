@@ -100,6 +100,34 @@ export default function Dashboard() {
     0
   );
 
+  // 📊 ຄິດໄລ່ກຳໄລ (ຍອດຂາຍ - ຕົ້ນທຶນ) ຈາກ costPrice ທີ່ບັນທຶກໄວ້ໃນແຕ່ລະລາຍການ ณ ເວລາຂາຍ —
+  // ບິນເກົ່າກ່ອນມີການບັນທຶກ costPrice ຈະນັບຕົ້ນທຶນເປັນ 0 (ບໍ່ຮູ້ຄ່າ) ເຮັດໃຫ້ກຳໄລສະແດງສູງກວ່າຄວາມເປັນຈິງ
+  const calcProfit = (ordersList) =>
+    ordersList.reduce((sum, order) => {
+      if (!Array.isArray(order.items)) return sum;
+      const orderProfit = order.items.reduce((s, item) => {
+        const qty = Number(item.quantity || 0);
+        const price = Number(item.price || 0);
+        const cost = Number(item.costPrice || 0); // undefined ໃນບິນເກົ່າ → 0
+        return s + (price - cost) * qty;
+      }, 0);
+      return sum + orderProfit;
+    }, 0);
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const monthStr = todayStr.slice(0, 7);
+  const ordersToday = allOrders.filter((o) => new Date(o.createdAt).toISOString().slice(0, 10) === todayStr);
+  const ordersMonth = allOrders.filter((o) => new Date(o.createdAt).toISOString().slice(0, 7) === monthStr);
+
+  const profitToday = calcProfit(ordersToday);
+  const profitMonth = calcProfit(ordersMonth);
+  const filterTotalProfit = calcProfit(filteredOrders);
+
+  // ບິນທີ່ຍັງບໍ່ມີ costPrice ບັນທຶກໄວ້ (ຂາຍກ່ອນອັບເດດຄັ້ງນີ້) — ໃຊ້ເຕືອນຄວາມແມ່ນຍຳຂອງກຳໄລ
+  const hasLegacyOrdersWithoutCost = filteredOrders.some(
+    (o) => Array.isArray(o.items) && o.items.some((it) => it.costPrice === undefined)
+  );
+
   // 🏆 คำนวณสินค้าขายดี Top 5 (จากออร์เดอร์ทั้งหมดหรือที่กรอง)
   const productSalesMap = {};
   filteredOrders.forEach((order) => {
@@ -203,7 +231,7 @@ export default function Dashboard() {
       </div>
       
       {/* 💳 ບັດສະຫຼຸບຂໍ້ມູນ */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* 1. ຍອດຂາຍມື້ນີ້ */}
         <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 shadow-sm">
           <p className="text-sm text-blue-600 font-medium">ຍອດຂາຍລວມມື້ນີ້</p>
@@ -221,6 +249,22 @@ export default function Dashboard() {
           <p className="text-sm text-green-600 font-medium">ຍອດຂາຍເດືອນນີ້</p>
           <h3 className="text-2xl font-bold text-green-800 mt-1">
             {Number(stats.totalMonth || 0).toLocaleString()} <span className="text-sm font-normal">ກີບ</span>
+          </h3>
+        </div>
+
+        {/* 📊 ກຳໄລມື້ນີ້ */}
+        <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-200 shadow-sm">
+          <p className="text-sm text-emerald-600 font-medium">ກຳໄລມື້ນີ້ (ໂດຍປະມານ)</p>
+          <h3 className="text-2xl font-bold text-emerald-800 mt-1">
+            {profitToday.toLocaleString()} <span className="text-sm font-normal">ກີບ</span>
+          </h3>
+        </div>
+
+        {/* 📊 ກຳໄລເດືອນນີ້ */}
+        <div className="bg-teal-50 p-4 rounded-xl border border-teal-200 shadow-sm">
+          <p className="text-sm text-teal-600 font-medium">ກຳໄລເດືອນນີ້ (ໂດຍປະມານ)</p>
+          <h3 className="text-2xl font-bold text-teal-800 mt-1">
+            {profitMonth.toLocaleString()} <span className="text-sm font-normal">ກີບ</span>
           </h3>
         </div>
 
@@ -267,10 +311,17 @@ export default function Dashboard() {
             </button>
           )}
         </div>
-        <div className="text-sm font-bold text-gray-800">
-          ຍອດຂາຍຕາມຊ່ວງເວລາທີ່ເລືອກ: <span className="text-green-600">{filterTotalRevenue.toLocaleString()} ກີບ</span> ({filteredOrders.length} ບິນ)
+        <div className="text-sm font-bold text-gray-800 text-right">
+          <div>ຍອດຂາຍຕາມຊ່ວງເວລາທີ່ເລືອກ: <span className="text-green-600">{filterTotalRevenue.toLocaleString()} ກີບ</span> ({filteredOrders.length} ບິນ)</div>
+          <div className="mt-1">ກຳໄລໂດຍປະມານ: <span className="text-emerald-600">{filterTotalProfit.toLocaleString()} ກີບ</span></div>
         </div>
       </div>
+
+      {hasLegacyOrdersWithoutCost && (
+        <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+          ⚠️ ຊ່ວງເວລານີ້ມີບິນທີ່ຂາຍກ່ອນລະບົບບັນທຶກຕົ້ນທຶນ (costPrice) ຕໍ່ບິນ — ຕົວເລກກຳໄລຂອງບິນເກົ່າພວກນັ້ນອາດສະແດງສູງກວ່າຄວາມເປັນຈິງ (ນັບຕົ້ນທຶນເປັນ 0)
+        </p>
+      )}
 
       {/* 📈 กราฟแสดงยอดขาย 7 วันย้อนหลัง */}
       <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">

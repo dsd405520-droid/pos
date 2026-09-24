@@ -7,6 +7,7 @@ import { API_BASE_URL, authHeaders, resolveImageUrl } from './api';
 function App() {
   // 🔐 State ສຳລັບການ Login ແລະ ຈັດການກະ (Shift)
   const [employee, setEmployee] = useState(null);
+  const [shopSettings, setShopSettings] = useState(null); // 🏦 ຄ່າຮ້ານ (ໂດຍສະເພາະ QR ຮັບເງິນໂອນຈິງ)
   const [currentShift, setCurrentShift] = useState(null);
   
   // State ສຳລັບໜ້າ Login
@@ -88,6 +89,11 @@ function App() {
   useEffect(() => {
     if (employee) {
       fetchProducts(false); // ໂຫຼດປົກກະຕິເມື່ອ Login ເຂົ້າມາ
+      // 🏦 ດຶງຄ່າຮ້ານ (QR ຈິງ) ນຳ — ໃຊ້ສະແດງຕອນເລືອກຊຳລະຜ່ານ QR
+      fetch(`${API_BASE_URL}/api/settings`, { headers: authHeaders() })
+        .then((res) => res.json())
+        .then((data) => setShopSettings(data))
+        .catch((err) => console.error('Error fetching shop settings:', err));
     }
   }, [employee, fetchProducts]);
 
@@ -605,25 +611,36 @@ function App() {
               </>
             ) : (
               <div style={{ textAlign: 'center', padding: '10px 0' }}>
-                <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '15px' }}>ກະລຸນາໃຫ້ລູກຄ້າສະແກນ QR Code ດ້ານລຸ່ມນີ້ເພື່ອຊຳລະເງິນ</p>
-                
-                <div style={{ background: '#f1f5f9', padding: '20px', borderRadius: '12px', display: 'inline-block', marginBottom: '20px', border: '1px solid #cbd5e1' }}>
-                  <img 
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Lao_QR_Payment_Mock" 
-                    alt="Payment QR Code" 
-                    style={{ width: '180px', height: '180px', objectFit: 'contain' }} 
-                  />
-                  <div style={{ marginTop: '8px', fontWeight: 'bold', color: '#1e293b' }}>ຈຳນວນ: {totalAmount.toLocaleString()} ກີບ</div>
-                </div>
+                {shopSettings && shopSettings.shopQRImage ? (
+                  <>
+                    <p style={{ color: '#64748b', fontSize: '14px', marginBottom: '15px' }}>ກະລຸນາໃຫ້ລູກຄ້າສະແກນ QR Code ດ້ານລຸ່ມນີ້ເພື່ອຊຳລະເງິນ</p>
+                    <div style={{ background: '#f1f5f9', padding: '20px', borderRadius: '12px', display: 'inline-block', marginBottom: '20px', border: '1px solid #cbd5e1' }}>
+                      <img
+                        src={resolveImageUrl(shopSettings.shopQRImage)}
+                        alt="Payment QR Code"
+                        style={{ width: '220px', height: '220px', objectFit: 'contain' }}
+                      />
+                      <div style={{ marginTop: '8px', fontWeight: 'bold', color: '#1e293b' }}>ຈຳນວນ: {totalAmount.toLocaleString()} ກີບ</div>
+                    </div>
+                    {/* ⚠️ ລະບົບບໍ່ໄດ້ຕໍ່ API ທະນາຄານ — ບໍ່ສາມາດກວດສອບອັດຕະໂນມັດວ່າເງິນເຂົ້າແທ້ຫຼືບໍ່, ຄາຊເຊຍຕ້ອງເບິ່ງເອງ */}
+                    <div style={{ background: '#fff7ed', border: '1px solid #fdba74', color: '#9a3412', borderRadius: '8px', padding: '10px 14px', fontSize: '13px', marginBottom: '16px', textAlign: 'left' }}>
+                      ⚠️ ລະບົບບໍ່ໄດ້ເຊື່ອມຕໍ່ທະນາຄານໂດຍກົງ — ກະລຸນາເບິ່ງແອັບທະນາຄານ/SMS ຢືນຢັນວ່າ<strong>ເງິນເຂົ້າແທ້ຈິງ</strong>ກ່ອນກົດປຸ່ມຢືນຢັນລຸ່ມນີ້
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', borderRadius: '10px', padding: '20px', marginBottom: '20px' }}>
+                    ⚠️ ຮ້ານຍັງບໍ່ໄດ້ຕັ້ງ QR ຮັບເງິນໂອນ — ກະລຸນາໃຫ້ admin ໄປຕັ້ງຄ່າໃນໜ້າ "ຕັ້ງຄ່າຮ້ານ" ກ່ອນ ຈຶ່ງຈະໃຊ້ຮັບເງິນຜ່ານ QR ໄດ້
+                  </div>
+                )}
 
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <button onClick={() => setIsCashModalOpen(false)} style={{ flex: 1, padding: '12px', background: '#e2e8f0', color: '#334155', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>ຍົກເລີກ</button>
                   <button 
                     onClick={handleConfirmQRPayment}
-                    disabled={isCheckingQR}
-                    style={{ flex: 1, padding: '12px', background: isCheckingQR ? '#94a3b8' : '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: isCheckingQR ? 'not-allowed' : 'pointer' }}
+                    disabled={isCheckingQR || !(shopSettings && shopSettings.shopQRImage)}
+                    style={{ flex: 1, padding: '12px', background: (isCheckingQR || !(shopSettings && shopSettings.shopQRImage)) ? '#94a3b8' : '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: (isCheckingQR || !(shopSettings && shopSettings.shopQRImage)) ? 'not-allowed' : 'pointer' }}
                   >
-                    {isCheckingQR ? 'ກຳລັງກວດສອບການໂອນ...' : '✅ ຢືນຢັນວ່າໄດ້ຮັບເງິນແລ້ວ'}
+                    {isCheckingQR ? 'ກຳລັງບັນທຶກ...' : '✅ ຢືນຢັນວ່າໄດ້ຮັບເງິນແລ້ວ'}
                   </button>
                 </div>
               </div>

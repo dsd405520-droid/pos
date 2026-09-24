@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "backup": "node backup/backup.js",
+    "backup:restore": "node backup/restore.js",
+    "backup:install": "node backup/install-backup-task.js",
+    "backup:uninstall": "node backup/uninstall-backup-task.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -1,4 +1,21 @@
+import { useState, useEffect } from 'react';
+import { API_BASE_URL, authHeaders, printReceipt } from '../api';
+
 export default function ReceiptModal({ receipt, onClose }) {
+  const [printing, setPrinting] = useState(false);
+  const [printMsg, setPrintMsg] = useState(null); // { ok: boolean, text: string }
+  const [shop, setShop] = useState(null); // 🏪 ຊື່/ທີ່ຢູ່/ເບີ/Footer ຂອງຮ້ານ ທີ່ admin ຕັ້ງໄວ້
+
+  // ດຶງຄ່າຮ້ານແບບສົດໆ ຕອນເປີດໃບບິນ ເພື່ອໃຫ້ຊື່ຮ້ານ/ຂໍ້ຄວາມ ອັບເດດຕາມທີ່ admin ຕັ້ງຫຼ້າສຸດ
+  useEffect(() => {
+    let active = true;
+    fetch(`${API_BASE_URL}/api/settings`, { headers: authHeaders() })
+      .then((res) => res.json())
+      .then((data) => { if (active) setShop(data); })
+      .catch(() => {});
+    return () => { active = false; };
+  }, []);
+
   if (!receipt) return null;
 
   const formattedDate = receipt.date 
@@ -14,17 +31,37 @@ export default function ReceiptModal({ receipt, onClose }) {
   const empStr = typeof empIdRaw === 'object' ? empIdRaw.toString() : String(empIdRaw);
   const displayEmpId = empStr.length > 10 ? `#${empStr.slice(-5)}` : empStr;
 
+  // 🖨️ ພິມອອກເຄື່ອງພິມຈິງ (ESC/POS network ຫຼື Windows driver — ຕັ້ງຢູ່ໜ້າຕັ້ງຄ່າຮ້ານ)
+  const handlePrinterPrint = async () => {
+    setPrinting(true);
+    setPrintMsg(null);
+    try {
+      const res = await printReceipt(receipt);
+      setPrintMsg({ ok: true, text: `✅ ພິມສຳເລັດ (${res.printedWith || res.method})` });
+    } catch (err) {
+      setPrintMsg({ ok: false, text: `❌ ${err.message}` });
+    } finally {
+      setPrinting(false);
+    }
+  };
+
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.6)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
       
       {/* 🧾 ໂຄງສ້າງໃບບີນຂະໜາດ 480px ເບິ່ງຊັດເຈນເຕັມຕາ */}
       <div className="receipt-container" style={{ background: '#fff', padding: '35px', borderRadius: '16px', width: '480px', boxShadow: '0 15px 35px rgba(0,0,0,0.15)', fontFamily: 'monospace' }}>
         
-        {/* 1. ຫົວໃບບີນ (Store Header) */}
+        {/* 1. ຫົວໃບບີນ (Store Header) — ໃຊ້ຄ່າທີ່ admin ຕັ້ງໄວ້ໃນໜ້າຕັ້ງຄ່າຮ້ານ */}
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <h2 style={{ margin: '0 0 6px', fontSize: '20px', fontWeight: 'bold', color: '#1e293b' }}>🏪 RETAIL POS STORE</h2>
-          <p style={{ margin: '0 0 4px', fontSize: '13px', color: '#475569' }}>ສາຂາ ຫຼັກ 2, ນະຄອນຫຼວງວຽງຈັນ</p>
-          <p style={{ margin: '0', fontSize: '12px', color: '#64748b' }}>ໂທ: 020 1234 5678 | Tax ID: C01-12345678</p>
+          <h2 style={{ margin: '0 0 6px', fontSize: '20px', fontWeight: 'bold', color: '#1e293b' }}>
+            🏪 {(shop && shop.shopName) || 'RETAIL POS STORE'}
+          </h2>
+          <p style={{ margin: '0 0 4px', fontSize: '13px', color: '#475569' }}>
+            {(shop && shop.shopAddress) || 'ສາຂາ ຫຼັກ 2, ນະຄອນຫຼວງວຽງຈັນ'}
+          </p>
+          <p style={{ margin: '0', fontSize: '12px', color: '#64748b' }}>
+            {(shop && shop.shopPhone) ? `ໂທ: ${shop.shopPhone}` : 'ໂທ: 020 1234 5678'}
+          </p>
         </div>
 
         <hr style={{ border: 'dashed 1px #cbd5e1', margin: '12px 0' }} />
@@ -91,19 +128,44 @@ export default function ReceiptModal({ receipt, onClose }) {
 
         <hr style={{ border: 'dashed 1px #cbd5e1', margin: '12px 0' }} />
 
-        {/* 5. ທ້າຍໃບບີນ (Footer & Thank you) */}
+        {/* 5. ທ້າຍໃບບີນ (Footer & Thank you) — ຂໍ້ຄວາມຕາມທີ່ admin ຕັ້ງ */}
         <div style={{ textAlign: 'center', margin: '14px 0 20px', fontSize: '12px', color: '#64748b', lineHeight: '1.5' }}>
-          <p style={{ margin: '0 0 3px', fontWeight: 'bold' }}>🙏 ຂອບໃຈທີ່ໃຊ້ບໍລິການ!</p>
+          <p style={{ margin: '0 0 3px', fontWeight: 'bold' }}>{shop?.receiptFooter || '🙏 ຂອບໃຈທີ່ໃຊ້ບໍລິການ!'}</p>
           <p style={{ margin: '0' }}>ສິນຄ້າຊື້ແລ້ວ ບໍ່ຮັບປ່ຽນ ຫຼື ຄືນທຸກກໍລະນີ</p>
         </div>
+
+        {/* ສະແດງສະຖານະການພິມ */}
+        {printMsg && (
+          <div
+            style={{
+              padding: '10px 12px',
+              marginBottom: '12px',
+              borderRadius: '8px',
+              fontSize: '13px',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              background: printMsg.ok ? '#dcfce7' : '#fee2e2',
+              color: printMsg.ok ? '#15803d' : '#b91c1c',
+            }}
+          >
+            {printMsg.text}
+          </div>
+        )}
 
         {/* ປຸ່ມກົດ (ຈະຖືກເຊື່ອງເວລາສັ່ງ Print) */}
         <div className="no-print" style={{ display: 'flex', gap: '12px' }}>
           <button 
+            onClick={handlePrinterPrint}
+            disabled={printing}
+            style={{ flex: 1, padding: '12px', background: '#16a34a', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px', opacity: printing ? 0.6 : 1 }}
+          >
+            {printing ? 'ກຳລັງພິມ...' : '🖨️ ພິມອອກເຄື່ອງ'}
+          </button>
+          <button 
             onClick={() => window.print()}
             style={{ flex: 1, padding: '12px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', fontSize: '14px' }}
           >
-            🖨️ ພິມໃບບີນ
+            🧾 ພິມແບບ Windows (Browser Print)
           </button>
           <button 
             onClick={onClose}

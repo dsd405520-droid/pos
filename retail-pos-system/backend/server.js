@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const { verifyToken, requireRole } = require('./middleware/auth');
+const printer = require('./printer'); // 🖨️ ບໍລິການພິມໃບບິນ (ESC/POS + Windows driver)
 
 const app = express();
 
@@ -150,6 +151,22 @@ const stockLogSchema = new mongoose.Schema({
 });
 const StockLog = mongoose.model('StockLog', stockLogSchema);
 
+// ⚙️ Schema & Model ສຳລັບຕັ້ງຄ່າຮ້ານ (Setting) — document ດຽວ (singleton), ໃຊ້ເກັບ QR ຮັບເງິນໂອນຈິງຂອງຮ້ານ
+const settingSchema = new mongoose.Schema({
+  shopName: { type: String, default: '' },
+  shopQRImage: { type: String, default: '' }, // 🏦 ຮູບ QR ຈິງ (ບໍ່ແມ່ນ QR ປອມອີກຕໍ່ໄປ) — admin ອັບໂຫຼດ/ຕັ້ງເອງ
+  shopAddress: { type: String, default: '' },   // 🏪 ທີ່ຢູ່ຮ້ານ (ສະແດງໃນໃບບິນ)
+  shopPhone: { type: String, default: '' },     // ☎️ ເບີໂທຮ້ານ (ສະແດງໃນໃບບິນ)
+  receiptFooter: { type: String, default: '' }, // 📝 ຂໍ້ຄວາມທ້າຍໃບບິນ
+  printerEnabled: { type: Boolean, default: false },          // 🖨️ ເປີດ/ປິດ ການພິມອອກເຄື່ອງ
+  printerMethod: { type: String, default: 'network-escpos' }, // 'network-escpos' | 'windows'
+  printerIp: { type: String, default: '' },                   // IP ເຄື່ອງພິມ (ແບບ network)
+  printerPort: { type: Number, default: 9100 },               // Port ເຄື່ອງພິມ (ປົກກະຕິ 9100)
+  printerName: { type: String, default: '' },                 // ຊື່ເຄື່ອງພິມໃນ Windows (ແບບ driver)
+  updatedAt: { type: Date, default: Date.now }
+});
+const Setting = mongoose.model('Setting', settingSchema);
+
 // 🏷️ Schema & Model ສຳລັບໝວດໝູ່ (Category)
 const categorySchema = new mongoose.Schema({ 
   name: { type: String, unique: true, required: true } 
@@ -237,6 +254,119 @@ app.delete('/api/units/:id', requireRole('admin'), async (req, res) => {
   try {
     await Unit.findByIdAndDelete(req.params.id);
     res.json({ message: 'Unit deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- ⚙️ API ສຳລັບຕັ້ງຄ່າຮ້ານ (Setting) ---
+// ໃຫ້ພະນັກງານທຸກຄົນທີ່ login ແລ້ວອ່ານໄດ້ (ຕ້ອງໃຊ້ຕອນ checkout ເພື່ອສະແດງ QR ຈິງ)
+app.get('/api/settings', async (req, res) => {
+  try {
+    let setting = await Setting.findOne();
+    if (!setting) setting = { shopName: '', shopQRImage: '' };
+    res.json(setting);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ສະເພາະ admin ຕັ້ງ/ແກ້ໄຂໄດ້ — ຮັບໄດ້ທັງອັບໂຫຼດໄຟລ໌ (qrImage) ຫຼື ວາງລິ້ງຮູບ (shopQRImage)
+app.put('/api/settings', requireRole('admin'), upload.single('qrImage'), async (req, res) => {
+  const isTrue = (v) => v === true || v === 'true' || v === 'on' || v === '1';
+  try {
+    let setting = await Setting.findOne();
+    if (!setting) setting = new Setting();
+
+    if (req.body.shopName !== undefined) {
+      setting.shopName = req.body.shopName;
+    }
+    if (req.body.shopAddress !== undefined) {
+      setting.shopAddress = req.body.shopAddress;
+    }
+    if (req.body.shopPhone !== undefined) {
+      setting.shopPhone = req.body.shopPhone;
+    }
+    if (req.body.receiptFooter !== undefined) {
+      setting.receiptFooter = req.body.receiptFooter;
+    }
+    if (req.body.printerEnabled !== undefined) {
+      setting.printerEnabled = isTrue(req.body.printerEnabled);
+    }
+    if (req.body.printerMethod !== undefined) {
+      setting.printerMethod = req.body.printerMethod;
+    }
+    if (req.body.printerIp !== undefined) {
+      setting.printerIp = String(req.body.printerIp).trim();
+    }
+    if (req.body.printerPort !== undefined) {
+      setting.printerPort = Number(req.body.printerPort) || 9100;
+    }
+    if (req.body.printerName !== undefined) {
+      setting.printerName = String(req.body.printerName).trim();
+    }
+
+    if (req.file) {
+      setting.shopQRImage = `/uploads/${req.file.filename}`;
+    } else if (req.body.shopQRImage !== undefined && req.body.shopQRImage !== '') {
+      setting.shopQRImage = req.body.shopQRImage;
+    }
+
+    setting.updatedAt = new Date();
+    await setting.save();
+    res.json({ message: 'ບັນທຶກຄ່າຮ້ານສຳເລັດ', setting });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// --- 🖨️ API ສຳລັບເຄື່ອງພິມໃບບິນ (Receipt Printer) ---
+// ອ່ານຄ່າເຄື່ອງພິມຈາກຖານຂໍ້ມູນ (ຕັ້ງຢູ່ໜ້າຕັ້ງຄ່າ) ກ່ອນ, ຖ້າບໍ່ມີຈະກັບໄປໃຊ້ຄ່າເລີ່ມຕົ້ນຈາກ .env
+function buildPrinterConfig(setting) {
+  const envBool = process.env.PRINTER_ENABLED === 'true';
+  return {
+    enabled: setting?.printerEnabled ?? envBool,
+    method: setting?.printerMethod || process.env.PRINTER_METHOD || 'network-escpos',
+    ip: setting?.printerIp || process.env.PRINTER_IP || '',
+    port: setting?.printerPort || Number(process.env.PRINTER_PORT || 9100),
+    name: setting?.printerName || process.env.PRINTER_NAME || '',
+  };
+}
+
+// 🖨️ ພິມໃບບິນອອກເຄື່ອງພິມຈິງ — ພະນັກງານທຸກຄົນທີ່ login ຢູ່ໃຊ້ໄດ້ (ຕ້ອງການຕອນ checkout)
+app.post('/api/print/receipt', async (req, res) => {
+  try {
+    const receipt = req.body.receipt || req.body;
+    if (!receipt || !Array.isArray(receipt.items)) {
+      return res.status(400).json({ error: 'ຂໍ້ມູນໃບບິນບໍ່ຖືກຕ້ອງ (ຕ້ອງມີ items)' });
+    }
+
+    const setting = await Setting.findOne();
+    const cfg = buildPrinterConfig(setting);
+    const shop = {
+      shopName: setting?.shopName || 'RETAIL POS STORE',
+      shopAddress: setting?.shopAddress || '',
+      shopPhone: setting?.shopPhone || '',
+      footer: setting?.receiptFooter || '',
+    };
+
+    const result = await printer.printReceipt(cfg, receipt, shop);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 🧪 ທົດສອບພິມ — ສະເພາະ admin
+app.post('/api/print/test', requireRole('admin'), async (req, res) => {
+  try {
+    const setting = await Setting.findOne();
+    const cfg = buildPrinterConfig(setting);
+    const shop = {
+      shopName: setting?.shopName || 'RETAIL POS STORE',
+    };
+    const result = await printer.printTestPage(cfg, shop);
+    res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -441,6 +571,7 @@ app.post('/api/orders', async (req, res) => {
         sku: product.sku,
         name: product.name,
         price: product.price,
+        costPrice: product.costPrice || 0, // 📊 ບັນທຶກຕົ້ນທຶນ ณ ເວລາຂາຍໄວ້ນຳ ເພື່ອຄິດກຳໄລຍ້ອນຫຼັງໄດ້ຖືກຕ້ອງ (ບໍ່ຖືກກະທົບຖ້າຕົ້ນທຶນປ່ຽນພາຍຫຼັງ)
         unit: product.unit,
         image: product.image,
         quantity: qty,

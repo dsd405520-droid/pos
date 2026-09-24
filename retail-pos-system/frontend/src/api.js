@@ -12,6 +12,34 @@ export function authHeaders(extra = {}) {
   };
 }
 
+// 🖨️ ພິມໃບບິນອອກເຄື່ອງພິມຈິງ (ຜ່ານ backend → ESC/POS ຫຼື Windows driver)
+// ຖ້າສຳເລັດຈະຄືນ { ok, method, printedWith } — ຖ້າລົ້ມເຫຼວຈະ throw Error ດ້ວຍຂໍ້ຄວາມ
+export async function printReceipt(receipt) {
+  const res = await fetch(`${API_BASE_URL}/api/print/receipt`, {
+    method: 'POST',
+    headers: authHeaders({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({ receipt }),
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok || !data || !data.ok) {
+    throw new Error((data && data.error) || 'ພິມໃບບິນບໍ່ສຳເລັດ (ເຄື່ອງພິມບໍ່ຕອບສະໜອງ)');
+  }
+  return data;
+}
+
+// 🧪 ສັ່ງພິມໜ້າທົດສອບ (test page) ອອກເຄື່ອງພິມ — ໃຊ້ໃນໜ້າຕັ້ງຄ່າຮ້ານ (admin)
+export async function printTestPage() {
+  const res = await fetch(`${API_BASE_URL}/api/print/test`, {
+    method: 'POST',
+    headers: authHeaders(),
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok || !data || !data.ok) {
+    throw new Error((data && data.error) || 'ທົດສອບພິມບໍ່ສຳເລັດ');
+  }
+  return data;
+}
+
 // ✅ ຕໍ່ URL ຮູບພາບໃຫ້ຄົບ (ຮອງຮັບທັງ path ແບບ relative "/uploads/xxx" ແລະ URL ເຕັມເກົ່າ)
 export function resolveImageUrl(image) {
   if (!image) return 'https://via.placeholder.com/40';
