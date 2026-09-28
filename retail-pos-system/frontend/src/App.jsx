@@ -4,6 +4,94 @@ import ReceiptModal from './components/ReceiptModal';
 import EmployeeManagement from './components/EmployeeManagement';
 import { API_BASE_URL, authHeaders, resolveImageUrl } from './api';
 
+// ✨ CSS ອະນິເມຊັນຕອນເລື່ອນໜ້າ (ແກ້ໄຂຄ່າໄດ້ງ່າຍທີ່ນີ້): ບັດສິນຄ້າເລື່ອນຂຶ້ນ/ລົງ + ຄ່ອຍໆປາກົດ ເມື່ອເຂົ້າມາໃນໜ້າຈໍ
+// ເປີດ/ປິດ ຈາກຄ່າ POS_SCROLL_ANIMATION ລຸ່ມນີ້ (false = ບໍ່ມີອະນິເມຊັນ) — ຖ້າເຄື່ອງຊ້າ ຫຼື ສິນຄ້າຫຼາຍຈົນກະຕຸກ ໃຫ້ປິດ
+const POS_SCROLL_ANIMATION = true;
+const POS_SCROLL_CSS = `
+  .pos-reveal { opacity: 0; }
+  .pos-reveal.pos-in {
+    animation: pos-reveal-in 0.38s cubic-bezier(0.2, 0.7, 0.3, 1) var(--reveal-delay, 0ms) both;
+  }
+  @keyframes pos-reveal-in {
+    from { opacity: 0; transform: translateY(var(--reveal-from, 22px)) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
+  .pos-card-hover { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .pos-card-hover:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12) !important; }
+  .pos-card-hover:active { transform: scale(0.97); }
+  @media (prefers-reduced-motion: reduce) {
+    .pos-reveal { opacity: 1; }
+    .pos-reveal.pos-in { animation: none; }
+    .pos-card-hover, .pos-card-hover:hover, .pos-card-hover:active { transition: none; transform: none; }
+  }
+`;
+
+// 🃏 ບັດສິນຄ້າໜຶ່ງໃບ — ເບິ່ງ IntersectionObserver ວ່າເຂົ້າ/ອອກຈາກໜ້າຈໍເມື່ອໃດ ແລ້ວສະຫຼັບ class ເພື່ອຫຼິ້ນອະນິເມຊັນ
+// ໃຊ້ wrapper ຂ້າງນອກເປັນຕົວເຄື່ອນໄຫວ ເພື່ອບໍ່ໃຫ້ທັບຄ່າ opacity ຂອງບັດ "ສິນຄ້າໝົດ" (0.4) ທີ່ຕັ້ງໄວ້ຢູ່ຂ້າງໃນ
+function ProductCard({ product: p, index, scrollDirRef, onAdd }) {
+  const wrapRef = useRef(null);
+  const [inView, setInView] = useState(!POS_SCROLL_ANIMATION);
+
+  useEffect(() => {
+    if (!POS_SCROLL_ANIMATION) return undefined;
+    const el = wrapRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // ເລື່ອນລົງ → ບັດຂຶ້ນມາຈາກລຸ່ມ, ເລື່ອນຂຶ້ນ → ບັດລົງມາຈາກເທິງ
+          el.style.setProperty('--reveal-from', scrollDirRef.current === 'up' ? '-22px' : '22px');
+          setInView(true);
+        } else {
+          // ອອກຈາກໜ້າຈໍແລ້ວ: ຕັ້ງກັບເປັນຊ່ອນ ເພື່ອໃຫ້ຫຼິ້ນອີກເທື່ອເມື່ອເລື່ອນກັບມາ
+          setInView(false);
+        }
+      },
+      { threshold: 0.08 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [scrollDirRef]);
+
+  const inStock = p.stock > 0;
+
+  return (
+    <div
+      ref={wrapRef}
+      className={POS_SCROLL_ANIMATION ? `pos-reveal${inView ? ' pos-in' : ''}` : undefined}
+      style={POS_SCROLL_ANIMATION ? { '--reveal-delay': `${(index % 6) * 35}ms`, display: 'flex' } : { display: 'flex' }}
+    >
+      <div
+        onClick={() => inStock && onAdd(p)}
+        className={inStock ? 'pos-card-hover' : undefined}
+        style={{
+          width: '100%', boxSizing: 'border-box',
+          background: '#fff', padding: '14px', borderRadius: '12px', cursor: inStock ? 'pointer' : 'not-allowed',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.05)', opacity: inStock ? 1 : 0.4, textAlign: 'center',
+          border: '1px solid #e2e8f0'
+        }}
+      >
+        <img src={resolveImageUrl(p.image)} alt={p.name} style={{ width: '100%', height: '110px', objectFit: 'cover', borderRadius: '8px' }} />
+        <h4 style={{ margin: '10px 0 4px', fontSize: '14px', color: '#334155', fontWeight: '600' }}>{p.name}</h4>
+        <p style={{ margin: '0', color: '#2563eb', fontWeight: '700', fontSize: '14px' }}>{p.price.toLocaleString()} ກີບ</p>
+        <p style={{ margin: '4px 0 2px', fontSize: '11px', color: '#64748b' }}>SKU: {p.sku || '-'}</p>
+        <p style={{ margin: '2px 0 0', fontSize: '12px', fontWeight: '500', color: inStock ? '#16a34a' : '#dc2626' }}>
+          ຄົງເຫຼືອ: {p.stock} {p.unit || ''}
+        </p>
+        {Number(p.conversionRate) > 1 && (
+          <p style={{ margin: '1px 0 0', fontSize: '10px', color: '#94a3b8' }}>
+            ≈ {Math.floor((p.stock || 0) / p.conversionRate)} {p.purchaseUnit || p.unit}
+            {((p.stock || 0) % p.conversionRate) > 0 && ` + ${(p.stock || 0) % p.conversionRate} ${p.unit}`}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   // 🔐 State ສຳລັບການ Login ແລະ ຈັດການກະ (Shift)
   const [employee, setEmployee] = useState(null);
@@ -34,6 +122,16 @@ function App() {
   // ⌨️ State ສຳລັບເກັບ Buffer ຂອງບາໂຄດທີ່ກຳລັງຍິງເຂົ້າມາ
   const [barcodeBuffer, setBarcodeBuffer] = useState('');
   const barcodeTimerRef = useRef(null);
+  // ✨ ຕິດຕາມທິດທາງການເລື່ອນຂອງພື້ນທີ່ສິນຄ້າ (ຂຶ້ນ/ລົງ) ເພື່ອໃຫ້ບັດເຄື່ອນໄຫວເຂົ້າມາຖືກທິດ
+  const scrollDirRef = useRef('down');
+  const lastScrollTopRef = useRef(0);
+  const handleProductScroll = (e) => {
+    const top = e.currentTarget.scrollTop;
+    if (top !== lastScrollTopRef.current) {
+      scrollDirRef.current = top > lastScrollTopRef.current ? 'down' : 'up';
+      lastScrollTopRef.current = top;
+    }
+  };
 
   // 📦 ດຶງຂໍ້ມູນສິນຄ້າຈາກ Server
   const fetchProducts = useCallback((isBackground = false) => {
@@ -508,7 +606,8 @@ function App() {
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex' }}>
         {activeTab === 'pos' || employee.role === 'cashier' ? (
           <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-            <div style={{ flex: 2, padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+            <div onScroll={handleProductScroll} style={{ flex: 2, padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+              <style>{POS_SCROLL_CSS}</style>
               
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h2 style={{ color: '#1e293b', margin: 0, fontSize: '22px', fontWeight: '700' }}>ລະບົບຂາຍສິນຄ້າ (ຍິງບາໂຄດໄດ້ທົ່ວໜ້າຈໍ)</h2>
@@ -527,30 +626,8 @@ function App() {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: '16px' }}>
-                {products.map((p) => (
-                  <div 
-                    key={p._id} 
-                    onClick={() => p.stock > 0 && addToCart(p)}
-                    style={{
-                      background: '#fff', padding: '14px', borderRadius: '12px', cursor: p.stock > 0 ? 'pointer' : 'not-allowed',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.05)', opacity: p.stock > 0 ? 1 : 0.4, textAlign: 'center',
-                      border: '1px solid #e2e8f0'
-                    }}
-                  >
-                    <img src={resolveImageUrl(p.image)} alt={p.name} style={{ width: '100%', height: '110px', objectFit: 'cover', borderRadius: '8px' }} />
-                    <h4 style={{ margin: '10px 0 4px', fontSize: '14px', color: '#334155', fontWeight: '600' }}>{p.name}</h4>
-                    <p style={{ margin: '0', color: '#2563eb', fontWeight: '700', fontSize: '14px' }}>{p.price.toLocaleString()} ກີບ</p>
-                    <p style={{ margin: '4px 0 2px', fontSize: '11px', color: '#64748b' }}>SKU: {p.sku || '-'}</p>
-                    <p style={{ margin: '2px 0 0', fontSize: '12px', fontWeight: '500', color: p.stock > 0 ? '#16a34a' : '#dc2626' }}>
-                      ຄົງເຫຼືອ: {p.stock} {p.unit || ''}
-                    </p>
-                    {Number(p.conversionRate) > 1 && (
-                      <p style={{ margin: '1px 0 0', fontSize: '10px', color: '#94a3b8' }}>
-                        ≈ {Math.floor((p.stock || 0) / p.conversionRate)} {p.purchaseUnit || p.unit}
-                        {((p.stock || 0) % p.conversionRate) > 0 && ` + ${(p.stock || 0) % p.conversionRate} ${p.unit}`}
-                      </p>
-                    )}
-                  </div>
+                {products.map((p, i) => (
+                  <ProductCard key={p._id} product={p} index={i} scrollDirRef={scrollDirRef} onAdd={addToCart} />
                 ))}
               </div>
             </div>

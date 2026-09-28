@@ -139,8 +139,24 @@ const productSchema = new mongoose.Schema({
   category: { type: String, default: 'ທົ່ວໄປ' },
   unit: { type: String, default: 'ອັນ' },              // ຫົວໜ່ວຍຍ່ອຍ — ໃຊ້ຂາຍໜ້າຮ້ານ (ອັນ, ແກ້ວ, ຊິ້ນ...)
   purchaseUnit: { type: String, default: '' },          // ຫົວໜ່ວຍໃຫຍ່ — ໃຊ້ຕອນຊື້ເຂົ້າ (ແພັກ, ແກັດ, ລັງ...)
-  conversionRate: { type: Number, default: 1 }          // 1 purchaseUnit = ຈັກ unit (ຫົວໜ່ວຍຍ່ອຍ)
+  conversionRate: { type: Number, default: 1 },         // 1 purchaseUnit = ຈັກ unit (ຫົວໜ່ວຍຍ່ອຍ)
+  // 🥩 ສິນຄ້າສົດ (ຊີ້ນ/ຜັກ/ຂອງສົດ) — ຊື້ເປັນກິໂລ ແບ່ງແພັກຢູ່ນອກລະບົບ ແລ້ວຂາຍເປັນ "ແພັກ" ນ້ຳໜັກຄົງທີ່ (unit=ແພັກ, conversionRate=1), ຕ້ອງຕິດຕາມວັນໝົດອາຍຸ
+  productType: { type: String, enum: ['packaged', 'fresh'], default: 'packaged' },
+  receivedDate: { type: Date, default: null },   // ວັນທີ່ຮັບເຂົ້າລ່າສຸດ
+  expiryDate: { type: Date, default: null }      // ວັນທີ່ຄວນຂາຍໝົດ/ໝົດອາຍຸ (ສະເພາະສິນຄ້າສົດ)
 });
+// 🏷️ ສ້າງ SKU ອັດຕະໂນມັດ (ເມື່ອບໍ່ໄດ້ໃສ່ເອງ): ເລກ 6 ຫຼັກ ບໍ່ຊ້ຳກັບສິນຄ້າທີ່ມີຢູ່ — ເໝາະໃຊ້ເປັນເລກບາໂຄດຕິດແພັກ
+// (ແທນວິທີເກົ່າ "P + 4 ຫຼັກທ້າຍຂອງເວລາ" ທີ່ຊ້ຳກັນໄດ້ງ່າຍເມື່ອສິນຄ້າຫຼາຍຂຶ້ນ ແລ້ວບັນທຶກບໍ່ໄດ້)
+async function generateUniqueSku() {
+  for (let i = 0; i < 20; i++) {
+    const candidate = String(Math.floor(100000 + Math.random() * 900000));
+    const exists = await Product.exists({ sku: candidate });
+    if (!exists) return candidate;
+  }
+  // ໂອກາດນ້ອຍຫຼາຍທີ່ຈະມາຮອດນີ້: ໃຊ້ເລກຈາກເວລາເຕັມ (13 ຫຼັກ) ແທນ
+  return String(Date.now());
+}
+
 const Product = mongoose.model('Product', productSchema);
 
 // 📦 Schema & Model ສຳລັບປະຫວັດການນຳເຂົ້າສິນຄ້າ (StockLog / Stock In History)
@@ -383,7 +399,7 @@ app.get('/api/products', async (req, res) => {
 // ຄິດໄລ່ອອກເປັນ stock (ຫົວໜ່ວຍຍ່ອຍ) + ຕົ້ນທຶນຕໍ່ຫົວໜ່ວຍຍ່ອຍ ໃຫ້ອັດຕະໂນມັດ ແລະ ບັນທຶກເປັນປະຫວັດ Stock In ຄັ້ງທຳອິດນຳ
 app.post('/api/products', requireRole('admin'), upload.single('image'), async (req, res) => {
   try {
-    const { sku, name, price, importQuantity, importPrice, category, unit, purchaseUnit, conversionRate } = req.body;
+    const { sku, name, price, importQuantity, importPrice, category, unit, purchaseUnit, conversionRate, productType, expiryDate } = req.body;
     
     let imagePath = '';
     if (req.file) {
@@ -392,14 +408,39 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), async (r
       imagePath = req.body.image;
     }
 
-    const rate = Number(conversionRate) || 1;
+    // 🥩 ສິນຄ້າສົດ: ບັງຄັບ conversionRate=1 ແລະ purchaseUnit=unit ຢູ່ຝັ່ງ server ນຳ (ບໍ່ເຊື່ອຄ່າຈາກ frontend ຢ່າງດຽວ)
+    // ຍ້ອນຂາຍ/ນຳເຂົ້າເປັນຫົວໜ່ວຍດຽວກັນ (ແພັກ) ບໍ່ມີອັດຕາການແປງ
+    const isFresh = productType === 'fresh';
+    const rate = isFresh ? 1 : (Number(conversionRate) || 1);
     const impQty = Number(importQuantity) || 0;
     const impPrice = Number(importPrice) || 0;
+
+    // 🛡️ ກວດຄ່າພື້ນຖານຝັ່ງ server (ກັນ NaN / ຄ່າລົບ / ທົດສະນິຍົມຂອງແພັກ)
+    if (!name || !String(name).trim()) {
+      return res.status(400).json({ error: 'ກະລຸນາໃສ່ຊື່ສິນຄ້າ' });
+    }
+    if (price === undefined || price === '' || !Number.isFinite(Number(price)) || Number(price) < 0) {
+      return res.status(400).json({ error: 'ລາຄາຂາຍບໍ່ຖືກຕ້ອງ' });
+    }
+    if (impQty < 0 || impPrice < 0) {
+      return res.status(400).json({ error: 'ຈຳນວນ ຫຼື ລາຄານຳເຂົ້າຕ້ອງບໍ່ຕິດລົບ' });
+    }
+    if (isFresh && !Number.isInteger(impQty)) {
+      return res.status(400).json({ error: 'ຈຳນວນແພັກຂອງສິນຄ້າສົດຕ້ອງເປັນເລກເຕັມ' });
+    }
+    let parsedExpiry = null;
+    if (isFresh && expiryDate) {
+      parsedExpiry = new Date(expiryDate);
+      if (Number.isNaN(parsedExpiry.getTime())) {
+        return res.status(400).json({ error: 'ວັນໝົດອາຍຸບໍ່ຖືກຕ້ອງ' });
+      }
+    }
+
     const totalPieces = impQty * rate;                                   // ຄິດອອກເປັນ ຫົວໜ່ວຍຍ່ອຍ
     const perPieceCost = rate > 0 ? Number((impPrice / rate).toFixed(2)) : 0; // ຕົ້ນທຶນຕໍ່ 1 ຫົວໜ່ວຍຍ່ອຍ
 
     const newProduct = new Product({ 
-      sku: sku || `P${Date.now().toString().slice(-4)}`,
+      sku: (sku && sku.trim()) || await generateUniqueSku(),
       name, 
       price: Number(price),
       costPrice: perPieceCost,
@@ -407,8 +448,11 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), async (r
       image: imagePath, 
       category, 
       unit, 
-      purchaseUnit: purchaseUnit || unit,
-      conversionRate: rate
+      purchaseUnit: isFresh ? unit : (purchaseUnit || unit),
+      conversionRate: rate,
+      productType: isFresh ? 'fresh' : 'packaged',
+      receivedDate: isFresh ? new Date() : null,
+      expiryDate: parsedExpiry
     });
 
     await newProduct.save();
@@ -428,13 +472,16 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), async (r
 
     res.status(201).json({ message: 'Product added successfully!', product: newProduct });
   } catch (err) {
+    if (err && err.code === 11000) {
+      return res.status(400).json({ error: 'ລະຫັດ SKU ນີ້ຊ້ຳກັບສິນຄ້າອື່ນທີ່ມີຢູ່ແລ້ວ ກະລຸນາປ່ຽນ SKU' });
+    }
     res.status(500).json({ error: err.message });
   }
 });
 
 app.put('/api/products/:id', requireRole('admin'), upload.single('image'), async (req, res) => {
   try {
-    const { sku, name, price, costPrice, stock, category, unit, purchaseUnit, conversionRate } = req.body;
+    const { sku, name, price, costPrice, stock, category, unit, purchaseUnit, conversionRate, expiryDate } = req.body;
     
     let updateData = { 
       name, 
@@ -455,6 +502,23 @@ app.put('/api/products/:id', requireRole('admin'), upload.single('image'), async
       updateData.costPrice = Number((Number(costPrice) / rateForCost).toFixed(2)) || 0;
     }
 
+    // 🥩 ອະນຸຍາດອັບເດດວັນໝົດອາຍຸ/ວັນຮັບເຂົ້າ ຕອນແກ້ໄຂສິນຄ້າສົດ (ຮັບເຂົ້າຮອບໃໝ່ ວັນໝົດອາຍຸປ່ຽນ)
+    // — ບໍ່ແຕະ productType ຕອນແກ້ໄຂ (ບໍ່ໃຫ້ສິນຄ້າເກົ່າປ່ຽນປະເພດໂດຍບັງເອີນ)
+    // ຣີເຊັດວັນຮັບເຂົ້າ (receivedDate) ສະເພາະເມື່ອວັນໝົດອາຍຸປ່ຽນຈິງ — ແກ້ແຕ່ລາຄາ/ຊື່ ບໍ່ຣີເຊັດອີກ
+    if (expiryDate !== undefined) {
+      const newExpiry = expiryDate ? new Date(expiryDate) : null;
+      if (newExpiry && Number.isNaN(newExpiry.getTime())) {
+        return res.status(400).json({ error: 'ວັນໝົດອາຍຸບໍ່ຖືກຕ້ອງ' });
+      }
+      const existing = await Product.findById(req.params.id).select('expiryDate');
+      const oldT = existing && existing.expiryDate ? new Date(existing.expiryDate).getTime() : null;
+      const newT = newExpiry ? newExpiry.getTime() : null;
+      if (oldT !== newT) {
+        updateData.expiryDate = newExpiry;
+        updateData.receivedDate = new Date();
+      }
+    }
+
     if (req.file) {
       updateData.image = `/uploads/${req.file.filename}`;
     } else if (req.body.image) {
@@ -468,6 +532,9 @@ app.put('/api/products/:id', requireRole('admin'), upload.single('image'), async
     );
     res.json({ message: 'Product updated successfully!', product: updatedProduct });
   } catch (err) {
+    if (err && err.code === 11000) {
+      return res.status(400).json({ error: 'ລະຫັດ SKU ນີ້ຊ້ຳກັບສິນຄ້າອື່ນທີ່ມີຢູ່ແລ້ວ ກະລຸນາປ່ຽນ SKU' });
+    }
     res.status(500).json({ error: err.message });
   }
 });
@@ -483,7 +550,7 @@ app.delete('/api/products/:id', requireRole('admin'), async (req, res) => {
 
 app.post('/api/stock/in', requireRole('admin'), async (req, res) => {
   try {
-    const { productId, quantity, costPrice, note } = req.body;
+    const { productId, quantity, costPrice, note, expiryDate } = req.body;
 
     const product = await Product.findById(productId);
     if (!product) {
@@ -514,6 +581,14 @@ app.post('/api/stock/in', requireRole('admin'), async (req, res) => {
     product.stock = (product.stock || 0) + totalPieces;
     if (costNumber > 0) {
       product.costPrice = Number((costNumber / conversionRate).toFixed(2));
+    }
+    // 🥩 ສິນຄ້າສົດ: ຮັບເຂົ້າຮອບໃໝ່ → ອັບເດດວັນຮັບເຂົ້າ ແລະ ວັນໝົດອາຍຸ (ຖ້າສົ່ງມາ ແລະ ເປັນວັນທີ່ຖືກຕ້ອງ)
+    if (product.productType === 'fresh') {
+      product.receivedDate = new Date();
+      if (expiryDate) {
+        const parsedExpiry = new Date(expiryDate);
+        if (!isNaN(parsedExpiry.getTime())) product.expiryDate = parsedExpiry;
+      }
     }
     await product.save();
 

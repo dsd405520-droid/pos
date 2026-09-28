@@ -11,6 +11,11 @@ function StockInModal({ isOpen, onClose, onSuccess }) {
   const [costPrice, setCostPrice] = useState('');
   const [note, setNote] = useState('');
   const [loading, setLoading] = useState(false);
+  // 🥩 ສຳລັບສິນຄ້າສົດ (ຊື້ເປັນກິໂລ ແບ່ງແພັກ): ຮັບເຂົ້າແຕ່ລະຮອບ
+  const [kgBought, setKgBought] = useState('');
+  const [costPerKg, setCostPerKg] = useState('');
+  const [packsMade, setPacksMade] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
 
   useEffect(() => {
     if (isOpen) {
@@ -32,24 +37,40 @@ function StockInModal({ isOpen, onClose, onSuccess }) {
   const conversionRate = Number(selectedProduct?.conversionRate) || 1;
   const totalPiecesPreview = Number(quantity) > 0 ? Number(quantity) * conversionRate : 0;
 
+  // 🥩 ສິນຄ້າສົດ: ຕົ້ນທຶນຕໍ່ແພັກ = (ກິໂລ × ລາຄາຕໍ່ກິໂລ) ÷ ຈຳນວນແພັກທີ່ແບ່ງໄດ້ຈິງ
+  const isFreshSelected = selectedProduct?.productType === 'fresh';
+  const freshPacks = Math.floor(Number(packsMade)) || 0;
+  const freshTotalCost = (Number(kgBought) || 0) * (Number(costPerKg) || 0);
+  const freshCostPerPack = freshPacks > 0 ? freshTotalCost / freshPacks : 0;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedProductId || !quantity) {
-      alert('ກະລຸນາເລືອກສິນຄ້າ ແລະ ໃສ່ຈຳນວນ');
+    if (!selectedProductId || (isFreshSelected ? !(freshPacks > 0 && Number(kgBought) > 0) : !quantity)) {
+      alert(isFreshSelected ? 'ກະລຸນາເລືອກສິນຄ້າ ແລະ ໃສ່ ຈຳນວນກິໂລທີ່ຊື້ ກັບ ຈຳນວນແພັກທີ່ແບ່ງໄດ້' : 'ກະລຸນາເລືອກສິນຄ້າ ແລະ ໃສ່ຈຳນວນ');
       return;
     }
 
     setLoading(true);
     try {
+      // ສິນຄ້າສົດ: ສົ່ງເປັນ "ຈຳນວນແພັກ" + "ຕົ້ນທຶນຕໍ່ແພັກ" (conversionRate=1) ແລະ ຈົດຈຳນວນກິໂລທີ່ຊື້ໄວ້ໃນໝາຍເຫດ ເພື່ອກວດຍ້ອນຫຼັງໄດ້
+      const payload = isFreshSelected
+        ? {
+            productId: selectedProductId,
+            quantity: freshPacks,
+            costPrice: Number(freshCostPerPack.toFixed(2)),
+            expiryDate: expiryDate || '',
+            note: `${note ? note + ' | ' : ''}ຊື້ ${Number(kgBought)} ກິໂລ @ ${(Number(costPerKg) || 0).toLocaleString()}/ກິໂລ → ແບ່ງໄດ້ ${freshPacks} ${saleUnitLabel}`
+          }
+        : {
+            productId: selectedProductId,
+            quantity: Number(quantity),
+            costPrice: Number(costPrice) || 0,
+            note: note
+          };
       const res = await fetch(`${API_BASE_URL}/api/stock/in`, {
         method: 'POST',
         headers: authHeaders({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify({
-          productId: selectedProductId,
-          quantity: Number(quantity),
-          costPrice: Number(costPrice) || 0,
-          note: note
-        })
+        body: JSON.stringify(payload)
       });
 
       const data = await res.json();
@@ -62,6 +83,10 @@ function StockInModal({ isOpen, onClose, onSuccess }) {
         setQuantity('');
         setCostPrice('');
         setNote('');
+        setKgBought('');
+        setCostPerKg('');
+        setPacksMade('');
+        setExpiryDate('');
       } else {
         alert('❌ ຜິດພາດ: ' + data.message);
       }
@@ -101,6 +126,10 @@ function StockInModal({ isOpen, onClose, onSuccess }) {
                 setQuantity('');
                 setCostPrice('');
                 setNote('');
+                setKgBought('');
+                setCostPerKg('');
+                setPacksMade('');
+                setExpiryDate('');
               }}
               className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
               required
@@ -114,6 +143,33 @@ function StockInModal({ isOpen, onClose, onSuccess }) {
             </select>
           </div>
 
+          {isFreshSelected ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">ຈຳນວນທີ່ຊື້ມາ (ກິໂລ)</label>
+                <input type="number" min="0" step="0.01" placeholder="ຕົວຢ່າງ: 20.5" value={kgBought} onChange={(e) => setKgBought(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">ລາຄາຊື້ (ຕໍ່ 1 ກິໂລ, ກີບ)</label>
+                <input type="number" min="0" placeholder="ຕົວຢ່າງ: 60000" value={costPerKg} onChange={(e) => setCostPerKg(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">ຈຳນວນ {saleUnitLabel} ທີ່ແບ່ງໄດ້ຈິງ</label>
+                <input type="number" min="1" step="1" placeholder="ນັບຫຼັງແບ່ງແພັກແລ້ວ" value={packsMade} onChange={(e) => setPacksMade(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-blue-500 focus:outline-none" required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">ຄວນຂາຍພາຍໃນ / ວັນໝົດອາຍຸ (ລອດໃໝ່)</label>
+                <input type="date" value={expiryDate} onChange={(e) => setExpiryDate(e.target.value)} className="w-full px-4 py-3 border border-gray-300 rounded-xl text-base focus:ring-2 focus:ring-blue-500 focus:outline-none" />
+                <p className="text-xs text-gray-400 mt-1">ຖ້າຍັງມີແພັກລອດເກົ່າເຫຼືອຢູ່ ໃຫ້ໃສ່ວັນທີ່ໃກ້ສຸດ (ຂອງເກົ່າ) — ລະບົບເກັບວັນໝົດອາຍຸແຕ່ວັນດຽວຕໍ່ສິນຄ້າ</p>
+              </div>
+              {freshPacks > 0 && Number(kgBought) > 0 && (
+                <p className="md:col-span-2 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                  = ເພີ່ມ <b>{freshPacks.toLocaleString()} {saleUnitLabel}</b> | ຕົ້ນທຶນຮວມ <b>{Math.round(freshTotalCost).toLocaleString()} ກີບ</b> | ຕົ້ນທຶນຕໍ່ {saleUnitLabel} ≈ <b>{Math.round(freshCostPerPack).toLocaleString()} ກີບ</b>
+                  {selectedProduct?.expiryDate && expiryDate && <> | ⚠️ ວັນໝົດອາຍຸຈະຖືກປ່ຽນເປັນວັນທີ່ໃໝ່ ຖ້າຍັງມີແພັກລອດເກົ່າ ໃຫ້ໃສ່ວັນທີ່ໃກ້ສຸດແທນ</>}
+                </p>
+              )}
+            </div>
+          ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -148,6 +204,7 @@ function StockInModal({ isOpen, onClose, onSuccess }) {
               />
             </div>
           </div>
+          )}
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">ໝາຍເຫດ / ຜູ້ Supplier</label>
@@ -203,7 +260,26 @@ export default function AdminPanel({ onLogout }) {
     category: '',
     unit: '',
     purchaseUnit: '',
-    conversionRate: 1
+    conversionRate: 1,
+    productType: 'packaged', // 🥩 'packaged' (ສິນຄ້າແພັກເກດ) ຫຼື 'fresh' (ຂອງສົດ — ຊື້ເປັນກິໂລ ແບ່ງແພັກຂາຍເອງ)
+    expiryDate: '',          // ສະເພາະສິນຄ້າສົດ — ວັນທີ່ຄວນຂາຍໝົດ/ໝົດອາຍຸ
+    // 🥩 ຊ່ອງຊ່ວຍຄິດສຳລັບ "ຊື້ເປັນກິໂລ ແບ່ງແພັກ" (ບໍ່ຖືກບັນທຶກເປັນ field ຂອງສິນຄ້າ, ໃຊ້ຄິດ stock/ຕົ້ນທຶນຕໍ່ແພັກ ຕອນເພີ່ມເທົ່ານັ້ນ)
+    kgBought: '',            // ຈຳນວນກິໂລທີ່ຊື້ມາ
+    costPerKg: '',           // ລາຄາຊື້ຕໍ່ 1 ກິໂລ
+    packsMade: '',           // ຈຳນວນແພັກທີ່ແບ່ງໄດ້ຈິງ (ນັບຫຼັງຕັດແຕ່ງ)
+    packGrams: ''            // ນ້ຳໜັກຕໍ່ແພັກ (ກຣາມ) — ໃຊ້ຄາດຄະເນຈຳນວນແພັກເທົ່ານັ້ນ
+  });
+
+  // 🧹 ຟອມວ່າງ (ໃຊ້ຕອນບັນທຶກສຳເລັດ ແລະ ຕອນກົດ "ຍົກເລີກ") — ລວມຊ່ອງຂອງສິນຄ້າສົດ ບໍ່ໃຫ້ມີຄ່າ undefined
+  const buildEmptyForm = () => ({
+    sku: '', name: '', price: '', stock: '', costPrice: '',
+    category: categories[0]?.name || 'ທົ່ວໄປ',
+    unit: units[0]?.name || 'ອັນ',
+    purchaseUnit: units[0]?.name || 'ອັນ',
+    conversionRate: 1,
+    productType: 'packaged',
+    expiryDate: '',
+    kgBought: '', costPerKg: '', packsMade: '', packGrams: ''
   });
   
   const [imageType, setImageType] = useState('url'); 
@@ -322,14 +398,38 @@ export default function AdminPanel({ onLogout }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const isFresh = form.productType === 'fresh';
+    const freshCreate = isFresh && !editingId;
+
+    // 🥩 ຂອງສົດແບບ "ຊື້ເປັນກິໂລ ແບ່ງແພັກຂາຍ": ຄິດ stock (ແພັກ) ແລະ ຕົ້ນທຶນຕໍ່ແພັກ ຈາກຂໍ້ມູນການຊື້ຈິງ
+    //   ຕົ້ນທຶນຕໍ່ແພັກ = (ກິໂລ × ລາຄາຕໍ່ກິໂລ) ÷ ຈຳນວນແພັກທີ່ແບ່ງໄດ້ຈິງ — ຮວມສ່ວນທີ່ເສຍຕອນຕັດແຕ່ງໄວ້ໃນຕົ້ນທຶນແລ້ວ
+    let freshPacks = 0;
+    let freshCostPerPack = 0;
+    if (freshCreate) {
+      const kg = Number(form.kgBought);
+      const perKg = Number(form.costPerKg) || 0;
+      freshPacks = Math.floor(Number(form.packsMade));
+      if (!(kg > 0) || !(freshPacks > 0)) {
+        alert('ກະລຸນາໃສ່ ຈຳນວນກິໂລທີ່ຊື້ ແລະ ຈຳນວນແພັກທີ່ແບ່ງໄດ້ (ຕ້ອງຫຼາຍກວ່າ 0)');
+        return;
+      }
+      freshCostPerPack = Number(((kg * perKg) / freshPacks).toFixed(2));
+    }
+
     const formData = new FormData();
     formData.append('sku', form.sku);
     formData.append('name', form.name);
     formData.append('category', form.category || (categories[0]?.name || 'ທົ່ວໄປ'));
-    formData.append('unit', form.unit || (units[0]?.name || 'ອັນ'));
-    formData.append('purchaseUnit', form.purchaseUnit || form.unit || (units[0]?.name || 'ອັນ'));
-    formData.append('conversionRate', form.conversionRate);
+    // 🥩 ຂອງສົດຂາຍເປັນ "ແພັກ" (ນ້ຳໜັກຄົງທີ່ ລາຄາຕາຍຕົວ) — ຕອນເພີ່ມໃໝ່ບັງຄັບ unit=ແພັກ, conversionRate=1
+    const effectiveUnit = freshCreate ? 'ແພັກ' : (form.unit || (units[0]?.name || 'ອັນ'));
+    formData.append('unit', effectiveUnit);
+    formData.append('purchaseUnit', isFresh ? effectiveUnit : (form.purchaseUnit || form.unit || (units[0]?.name || 'ອັນ')));
+    formData.append('conversionRate', isFresh ? 1 : form.conversionRate);
     formData.append('price', form.price);
+    formData.append('productType', form.productType);
+    if (isFresh) {
+      formData.append('expiryDate', form.expiryDate || '');
+    }
 
     if (editingId) {
       // ✏️ ແກ້ໄຂ — ຄ່າ stock ຄື ຈຳນວນປັດຈຸບັນຕົວຈິງ (ຫົວໜ່ວຍຍ່ອຍ), ແກ້ໄຂໂດຍກົງ
@@ -337,8 +437,13 @@ export default function AdminPanel({ onLogout }) {
       formData.append('costPrice', form.costPrice);
     } else {
       // ➕ ເພີ່ມໃໝ່ — ຄ່າ stock/costPrice ຄື "ຈຳນວນ/ລາຄານຳເຂົ້າ" ຄັ້ງທຳອິດ (ຫົວໜ່ວຍໃຫຍ່), backend ຈະຄິດໄລ່ອອກເປັນຫົວໜ່ວຍຍ່ອຍໃຫ້ເອງ
-      formData.append('importQuantity', form.stock);
-      formData.append('importPrice', form.costPrice);
+      if (freshCreate) {
+        formData.append('importQuantity', freshPacks);
+        formData.append('importPrice', freshCostPerPack);
+      } else {
+        formData.append('importQuantity', form.stock);
+        formData.append('importPrice', form.costPrice);
+      }
     }
     
     if (imageType === 'upload' && imageFile) {
@@ -354,7 +459,7 @@ export default function AdminPanel({ onLogout }) {
       const res = await fetch(url, { method, headers: authHeaders(), body: formData });
       if (res.ok) {
         fetchProducts();
-        setForm({ sku: '', name: '', price: '', stock: '', costPrice: '', category: categories[0]?.name || 'ທົ່ວໄປ', unit: units[0]?.name || 'ອັນ', purchaseUnit: units[0]?.name || 'ອັນ', conversionRate: 1 });
+        setForm(buildEmptyForm());
         setImageFile(null);
         setImageUrl('');
         setImageType('url');
@@ -389,7 +494,10 @@ export default function AdminPanel({ onLogout }) {
       category: product.category || (categories[0]?.name || 'ທົ່ວໄປ'),
       unit: product.unit || (units[0]?.name || 'ອັນ'),
       purchaseUnit: product.purchaseUnit || product.unit || (units[0]?.name || 'ອັນ'),
-      conversionRate: product.conversionRate || 1
+      conversionRate: product.conversionRate || 1,
+      productType: product.productType || 'packaged',
+      expiryDate: product.expiryDate ? new Date(product.expiryDate).toISOString().slice(0, 10) : '',
+      kgBought: '', costPerKg: '', packsMade: '', packGrams: ''
     });
     setImageType('url');
     setImageUrl(product.image || '');
@@ -487,16 +595,39 @@ export default function AdminPanel({ onLogout }) {
               <h3 className="text-lg font-semibold text-gray-700 mb-4">
                 {editingId ? '✏️ ແກ້ໄຂຂໍ້ມູນສິນຄ້າ' : '➕ ເພີ່ມສິນຄ້າໃໝ່'}
               </h3>
+
+              {/* 🥩 ສະຫຼັບປະເພດສິນຄ້າ — ສະແດງສະເພາະຕອນເພີ່ມໃໝ່ (ບໍ່ໃຫ້ປ່ຽນປະເພດຂອງສິນຄ້າທີ່ມີຢູ່ແລ້ວຕອນແກ້ໄຂ) */}
+              {!editingId && (
+                <div className="flex gap-2 mb-5 border-b border-gray-200 pb-4">
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, productType: 'packaged', unit: units[0]?.name || 'ອັນ', purchaseUnit: units[0]?.name || 'ອັນ', conversionRate: 1 })}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition ${form.productType !== 'fresh' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                  >
+                    📦 ສິນຄ້າແພັກເກດ (Mini Mart)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setForm({ ...form, productType: 'fresh', unit: 'ແພັກ', purchaseUnit: 'ແພັກ', conversionRate: 1 })}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition ${form.productType === 'fresh' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+                  >
+                    🥩 ຂອງສົດ (ຊີ້ນ/ຜັກ/ອື່ນໆ)
+                  </button>
+                </div>
+              )}
               
               <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">ລະຫັດສິນຄ້າ (SKU)</label>
-                  <input type="text" placeholder="ລະຫັດ SKU..." value={form.sku} onChange={(e) => setForm({ ...form, sku: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                  <input type="text" placeholder={!editingId && form.productType === 'fresh' ? 'ປ່ອຍວ່າງໄດ້ (ຈະສ້າງໃຫ້ອັດຕະໂນມັດ)' : 'ລະຫັດ SKU...'} value={form.sku} onChange={(e) => setForm({ ...form, sku: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                  {!editingId && form.productType === 'fresh' && (
+                    <p className="text-xs text-gray-400 mt-1">ລະຫັດນີ້ຄືເລກບາໂຄດທີ່ຕິດແພັກ (POS ຈັບຄູ່ບາໂຄດກັບ SKU) — ປ່ອຍວ່າງໄດ້ ລະບົບຈະສ້າງເລກໃຫ້</p>
+                  )}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-1">ຊື່ສິນຄ້າ</label>
-                  <input type="text" placeholder="ຊື່ສິນຄ້າ..." value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                  <input type="text" placeholder={!editingId && form.productType === 'fresh' ? 'ຕົວຢ່າງ: ໝູສາມຊັ້ນແຊ່ແຂງ 500 ກຣາມ' : 'ຊື່ສິນຄ້າ...'} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
                 </div>
 
                 <div>
@@ -504,9 +635,71 @@ export default function AdminPanel({ onLogout }) {
                   <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm bg-white">
                     {categories.length > 0 ? categories.map((cat) => <option key={cat._id} value={cat.name}>{cat.name}</option>) : <option value="ທົ່ວໄປ">ທົ່ວໄປ</option>}
                   </select>
+                  {!editingId && form.productType === 'fresh' && (
+                    <p className="text-xs text-gray-400 mt-1">ຖ້າຍັງບໍ່ມີໝວດ "ຊີ້ນສົດ"/"ຜັກສົດ" ໄປເພີ່ມກ່ອນທີ່ແຖບ "ຈັດການໝວດໝູ່"</p>
+                  )}
                 </div>
 
-                {!editingId ? (
+                {!editingId && form.productType === 'fresh' ? (
+                  // 🥩 ໂໝດເພີ່ມສິນຄ້າສົດ — "ຊື້ເປັນກິໂລ ແບ່ງແພັກຂາຍເອງ": ຂາຍເປັນ ແພັກ ນ້ຳໜັກຄົງທີ່ ລາຄາຕາຍຕົວ (ສະແກນບາໂຄດ ຄືສິນຄ້າແພັກເກດ)
+                  // ຕົ້ນທຶນຕໍ່ແພັກ ຄິດຈາກ (ກິໂລ × ລາຄາຕໍ່ກິໂລ) ÷ ຈຳນວນແພັກທີ່ແບ່ງໄດ້ຈິງ — ຮວມສ່ວນທີ່ເສຍຕອນຕັດແຕ່ງແລ້ວ
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ຈຳນວນທີ່ຊື້ມາ (ກິໂລ)</label>
+                      <input type="number" min="0" step="0.01" placeholder="ຕົວຢ່າງ: 20.5" value={form.kgBought} onChange={(e) => setForm({ ...form, kgBought: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ລາຄາຊື້ (ຕໍ່ 1 ກິໂລ)</label>
+                      <input type="number" min="0" placeholder="ຕົວຢ່າງ: 60000" value={form.costPerKg} onChange={(e) => setForm({ ...form, costPerKg: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ນ້ຳໜັກຕໍ່ແພັກ (ກຣາມ)</label>
+                      <input type="number" min="0" placeholder="ຕົວຢ່າງ: 500" value={form.packGrams} onChange={(e) => setForm({ ...form, packGrams: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                      {Number(form.kgBought) > 0 && Number(form.packGrams) > 0 && (
+                        <p className="text-xs text-gray-400 mt-1">ຄາດວ່າໄດ້ປະມານ {Math.floor((Number(form.kgBought) * 1000) / Number(form.packGrams))} ແພັກ (ກ່ອນຫັກສ່ວນທີ່ເສຍຕອນຕັດແຕ່ງ)</p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ຈຳນວນແພັກທີ່ແບ່ງໄດ້ຈິງ</label>
+                      <input type="number" min="1" step="1" placeholder="ນັບຫຼັງແບ່ງແພັກແລ້ວ" value={form.packsMade} onChange={(e) => setForm({ ...form, packsMade: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                      <p className="text-xs text-gray-400 mt-1">ນັບແພັກທີ່ແບ່ງໄດ້ຈິງ ຈະກາຍເປັນສະຕັອກເລີ່ມຕົ້ນ</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ລາຄາຂາຍ (ຕໍ່ 1 ແພັກ)</label>
+                      <input type="number" min="0" placeholder="ຕົວຢ່າງ: 35000" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ຄວນຂາຍພາຍໃນ / ວັນໝົດອາຍຸ</label>
+                      <input type="date" value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                      <p className="text-xs text-gray-400 mt-1">ໃສ່ວັນທີ່ໄວ້ ລະບົບຈະສະແດງປ້າຍເຕືອນຕອນໃກ້ໝົດອາຍຸ</p>
+                    </div>
+
+                    {Number(form.kgBought) > 0 && Number(form.packsMade) > 0 && (
+                      <div className="lg:col-span-3 bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700 space-y-1">
+                        <div>
+                          ➡️ ຈະໄດ້ສະຕັອກ = <b>{Math.floor(Number(form.packsMade))} ແພັກ</b>
+                          {' '}| ຕົ້ນທຶນຮວມ = <b>{Math.round(Number(form.kgBought) * (Number(form.costPerKg) || 0)).toLocaleString()} ກີບ</b>
+                          {' '}| ຕົ້ນທຶນຕໍ່ແພັກ ≈ <b>{Math.round((Number(form.kgBought) * (Number(form.costPerKg) || 0)) / Math.floor(Number(form.packsMade))).toLocaleString()} ກີບ</b>
+                        </div>
+                        {Number(form.price) > 0 && (
+                          <div>
+                            💰 ກຳໄລຕໍ່ແພັກ ≈ <b>{Math.round(Number(form.price) - (Number(form.kgBought) * (Number(form.costPerKg) || 0)) / Math.floor(Number(form.packsMade))).toLocaleString()} ກີບ</b>
+                          </div>
+                        )}
+                        {Number(form.packGrams) > 0 && (
+                          <div>
+                            ⚖️ ໄດ້ຜົນ (yield) ≈ <b>{Math.round((Math.floor(Number(form.packsMade)) * Number(form.packGrams)) / (Number(form.kgBought) * 10))}%</b> ຂອງນ້ຳໜັກທີ່ຊື້ (ສ່ວນທີ່ເຫຼືອແມ່ນເສຍຕອນຕັດແຕ່ງ)
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
+                ) : !editingId ? (
                   // ➕ ໂໝດເພີ່ມສິນຄ້າໃໝ່ — ພິມຂໍ້ມູນ "ນຳເຂົ້າ" ຄັ້ງທຳອິດ, ລະບົບຄິດໄລ່ stock+ຕົ້ນທຶນ/ໜ່ວຍໃຫ້ເອງ
                   <>
                     <div>
@@ -572,10 +765,11 @@ export default function AdminPanel({ onLogout }) {
                   <>
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ຈຳນວນໃນສະຕັອກ (ຫົວໜ່ວຍຍ່ອຍ)</label>
-                      <input type="number" min="0" placeholder="ຕົວຢ່າງ: 10" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                      <input type="number" min="0" step="any" placeholder="ຕົວຢ່າງ: 10" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
                       <p className="text-xs text-gray-400 mt-1">ຈຳນວນ ຫົວໜ່ວຍຍ່ອຍ ໃນສະຕັອກປັດຈຸບັນ — ແກ້ໄຂຄ່ານີ້ໂດຍກົງ (ບໍ່ຄິດໄລ່ຈາກ ຈຳນວນນຳເຂົ້າ × ອັດຕາການແປງ ຄືຕອນເພີ່ມສິນຄ້າໃໝ່)</p>
                     </div>
 
+                    {form.productType !== 'fresh' && (
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ຊື່ຫົວໜ່ວຍໃຫຍ່ (ນຳເຂົ້າ)</label>
                       <select value={form.purchaseUnit} onChange={(e) => setForm({ ...form, purchaseUnit: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm bg-white">
@@ -583,14 +777,16 @@ export default function AdminPanel({ onLogout }) {
                       </select>
                       <p className="text-xs text-gray-400 mt-1">ຫົວໜ່ວຍທີ່ຊື້ເຂົ້າຮ້ານ ເຊັ່ນ ແພັກ, ແກັດ, ລັງ</p>
                     </div>
+                    )}
 
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">
-                        ລາຄານຳເຂົ້າ (ຕໍ່ 1 {form.purchaseUnit || 'ຫົວໜ່ວຍໃຫຍ່'})
+                        {form.productType === 'fresh' ? `ຕົ້ນທຶນ (ຕໍ່ 1 ${form.unit || 'ແພັກ'})` : `ລາຄານຳເຂົ້າ (ຕໍ່ 1 ${form.purchaseUnit || 'ຫົວໜ່ວຍໃຫຍ່'})`}
                       </label>
-                      <input type="number" min="0" placeholder="ຕົວຢ່າງ: 24000" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                      <input type="number" min="0" step="any" placeholder="ຕົວຢ່າງ: 24000" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
                     </div>
 
+                    {form.productType !== 'fresh' && (
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">
                         ຈຳນວນການຂາຍຍ່ອຍ (1 {form.purchaseUnit || '...'} ໄດ້ຈັກ...)
@@ -606,6 +802,7 @@ export default function AdminPanel({ onLogout }) {
                       />
                       <p className="text-xs text-gray-400 mt-1">ໃຫ້ພະນັກງານແກະເບິ່ງ ແລ້ວນັບເອງ ຕົວຢ່າງ 1 ແພັກ ໄດ້ 6 ຕຸກ → ພິມ 6</p>
                     </div>
+                    )}
 
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ໜ່ວຍການຂາຍຍ່ອຍ (ໜ້າຮ້ານ)</label>
@@ -619,7 +816,16 @@ export default function AdminPanel({ onLogout }) {
                       <input type="number" placeholder="ລາຄາ..." value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
                     </div>
 
-                    {Number(form.conversionRate) > 0 && Number(form.stock) > 0 && (
+                    {/* 🥩 ຖ້າແມ່ນສິນຄ້າສົດ ໃຫ້ແກ້ໄຂວັນໝົດອາຍຸໄດ້ນຳ (ຮັບເຂົ້າຮອບໃໝ່ ວັນທີ່ປ່ຽນ) */}
+                    {form.productType === 'fresh' && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-600 mb-1">ຄວນຂາຍພາຍໃນ / ວັນໝົດອາຍຸ</label>
+                        <input type="date" value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                        <p className="text-xs text-gray-400 mt-1">ອັບເດດວັນທີ່ນີ້ທຸກຄັ້ງທີ່ຮັບເຂົ້າຮອບໃໝ່</p>
+                      </div>
+                    )}
+
+                    {form.productType !== 'fresh' && Number(form.conversionRate) > 0 && Number(form.stock) > 0 && (
                       <div className="lg:col-span-3 bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
                         ➡️ ສະຕັອກປັດຈຸບັນ = <b>{form.stock} {form.unit || ''}</b>
                         {' '}(≈ {Math.floor(Number(form.stock) / Number(form.conversionRate))} {form.purchaseUnit || ''}
@@ -656,7 +862,7 @@ export default function AdminPanel({ onLogout }) {
                     {editingId ? '💾 ບັນທຶກການແກ້ໄຂ' : '+ ບັນທຶກເພີ່ມສິນຄ້າ'}
                   </button>
                   {editingId && (
-                    <button type="button" onClick={() => { setEditingId(null); setImageFile(null); setImageUrl(''); setImageType('url'); }} className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 font-medium text-sm transition">
+                    <button type="button" onClick={() => { setEditingId(null); setForm(buildEmptyForm()); setImageFile(null); setImageUrl(''); setImageType('url'); }} className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500 font-medium text-sm transition">
                       ຍົກເລີກ
                     </button>
                   )}
@@ -694,7 +900,21 @@ export default function AdminPanel({ onLogout }) {
                           <img src={resolveImageUrl(p.image)} alt={p.name} className="w-10 h-10 object-cover rounded-md border" />
                         </td>
                         <td className="px-4 py-3 text-sm font-semibold text-blue-600">{p.sku || `#${p._id.slice(-6)}`}</td>
-                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{p.name}</td>
+                        <td className="px-4 py-3 text-sm font-medium text-gray-900">
+                          {p.name}
+                          {p.productType === 'fresh' && (
+                            <div className="mt-1">
+                              <span className="inline-block bg-red-100 text-red-700 text-xs px-2 py-0.5 rounded-md font-semibold mr-1">🥩 ຂອງສົດ</span>
+                              {p.expiryDate && (() => {
+                                const daysLeft = Math.ceil((new Date(p.expiryDate) - new Date()) / (1000 * 60 * 60 * 24));
+                                if (daysLeft < 0) return <span className="inline-block bg-red-600 text-white text-xs px-2 py-0.5 rounded-md font-semibold">⚠️ ໝົດອາຍຸແລ້ວ</span>;
+                                if (daysLeft <= 1) return <span className="inline-block bg-orange-500 text-white text-xs px-2 py-0.5 rounded-md font-semibold">⚠️ ໝົດອາຍຸມື້ນີ້/ມື້ອື່ນ</span>;
+                                if (daysLeft <= 3) return <span className="inline-block bg-amber-100 text-amber-700 text-xs px-2 py-0.5 rounded-md font-semibold">ເຫຼືອ {daysLeft} ມື້</span>;
+                                return <span className="text-xs text-gray-400">ໝົດອາຍຸ {new Date(p.expiryDate).toLocaleDateString('lo-LA')}</span>;
+                              })()}
+                            </div>
+                          )}
+                        </td>
                         <td className="px-4 py-3 text-sm text-gray-600">{p.category}</td>
                         <td className="px-4 py-3 text-sm font-bold text-green-600">{Number(p.price).toLocaleString()} ກີບ</td>
                         <td className="px-4 py-3 text-sm font-semibold text-gray-700">
