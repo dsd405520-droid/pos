@@ -324,6 +324,14 @@ export default function AdminPanel({ onLogout }) {
     fetchStockLogs();
   }, [fetchProducts, fetchCategories, fetchUnits, fetchStockLogs]);
 
+  // 📏 ລາຍຊື່ໜ່ວຍໃນ dropdown: ຖ້າໜ່ວຍປັດຈຸບັນຂອງສິນຄ້າ (ເຊັ່ນ "ແພັກ", "ກິໂລ") ບໍ່ຢູ່ໃນລາຍການ Units
+  // ໃຫ້ເພີ່ມເຂົ້າໄປນຳ — ບໍ່ດັ່ງນັ້ນ <select> ຈະສະແດງແຖວທຳອິດ (ເຊັ່ນ "ຖົງ") ທັງທີ່ຄ່າຈິງເປັນອັນອື່ນ
+  const unitNames = (current) => {
+    const names = units.map((u) => u.name);
+    if (current && !names.includes(current)) names.push(current);
+    return names.length > 0 ? names : ['ອັນ'];
+  };
+
   const handleAddCategory = async (e) => {
     e.preventDefault();
     if (!newCatName.trim()) return;
@@ -527,6 +535,13 @@ export default function AdminPanel({ onLogout }) {
     return matchesSearch && matchesCategory;
   });
 
+  // 🥩 ຄ່າສະຫຼຸບຂອງຟອມແກ້ໄຂສິນຄ້າສົດ (ກຳໄລຕໍ່ແພັກ, % ແລະ ຈຳນວນມື້ກ່ອນໝົດອາຍຸ)
+  const freshEditProfit = (Number(form.price) || 0) - (Number(form.costPrice) || 0);
+  const freshEditMargin = Number(form.price) > 0 ? Number(((freshEditProfit / Number(form.price)) * 100).toFixed(1)) : 0;
+  const freshEditDaysLeft = form.expiryDate
+    ? Math.ceil((new Date(form.expiryDate) - new Date()) / (1000 * 60 * 60 * 24))
+    : null;
+
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
       {/* 📌 Sidebar */}
@@ -710,7 +725,7 @@ export default function AdminPanel({ onLogout }) {
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ຊື່ຫົວໜ່ວຍໃຫຍ່ (ນຳເຂົ້າ)</label>
                       <select value={form.purchaseUnit} onChange={(e) => setForm({ ...form, purchaseUnit: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm bg-white">
-                        {units.length > 0 ? units.map((u) => <option key={u._id} value={u.name}>{u.name}</option>) : <option value="ອັນ">ອັນ</option>}
+                        {unitNames(form.purchaseUnit).map((n) => <option key={n} value={n}>{n}</option>)}
                       </select>
                       <p className="text-xs text-gray-400 mt-1">ຫົວໜ່ວຍທີ່ຊື້ເຂົ້າຮ້ານ ເຊັ່ນ ແພັກ, ແກັດ, ລັງ</p>
                     </div>
@@ -741,7 +756,7 @@ export default function AdminPanel({ onLogout }) {
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ໜ່ວຍການຂາຍຍ່ອຍ (ໜ້າຮ້ານ)</label>
                       <select value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm bg-white">
-                        {units.length > 0 ? units.map((u) => <option key={u._id} value={u.name}>{u.name}</option>) : <option value="ອັນ">ອັນ</option>}
+                        {unitNames(form.unit).map((n) => <option key={n} value={n}>{n}</option>)}
                       </select>
                     </div>
 
@@ -759,6 +774,66 @@ export default function AdminPanel({ onLogout }) {
                       </div>
                     )}
                   </>
+                ) : form.productType === 'fresh' ? (
+                  // 🥩 ໂໝດແກ້ໄຂສິນຄ້າສົດ — ຟອມແຍກ: ໜ່ວຍຂາຍຄົງທີ່ (ບໍ່ໃຫ້ເລືອກ), ບໍ່ມີ "ຫົວໜ່ວຍໃຫຍ່/ອັດຕາການແປງ"
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ໜ່ວຍຂາຍ</label>
+                      <div className="w-full border border-gray-200 bg-gray-50 p-2 rounded-lg text-sm font-semibold text-gray-700">🥩 {form.unit || 'ແພັກ'} (ຄົງທີ່)</div>
+                      <p className="text-xs text-gray-400 mt-1">ສິນຄ້າສົດຂາຍເປັນ {form.unit || 'ແພັກ'} ນ້ຳໜັກຄົງທີ່ ລາຄາຕາຍຕົວ — ບໍ່ຕ້ອງເລືອກໜ່ວຍ</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ຈຳນວນໃນສະຕັອກ ({form.unit || 'ແພັກ'})</label>
+                      <input type="number" min="0" step={form.unit === 'ແພັກ' ? '1' : 'any'} placeholder="ຕົວຢ່າງ: 19" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                      <p className="text-xs text-gray-400 mt-1">ແກ້ໄຂໂດຍກົງ (ເຊັ່ນ ນັບສະຕັອກຈິງ) — ຮັບຂອງລອດໃໝ່ ໃຫ້ໃຊ້ປຸ່ມ "📦 ຮັບສິນຄ້າເຂົ້າ" ເພື່ອໃຫ້ມີປະຫວັດ</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ຕົ້ນທຶນ (ຕໍ່ 1 {form.unit || 'ແພັກ'})</label>
+                      <input type="number" min="0" step="any" placeholder="ຕົວຢ່າງ: 17000" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ລາຄາຂາຍ (ຕໍ່ 1 {form.unit || 'ແພັກ'})</label>
+                      <input type="number" min="0" step="any" placeholder="ຕົວຢ່າງ: 25000" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1">ຄວນຂາຍພາຍໃນ / ວັນໝົດອາຍຸ</label>
+                      <input type="date" value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
+                      <p className="text-xs text-gray-400 mt-1">ປ່ຽນວັນທີ່ນີ້ ເມື່ອມີການຮັບຂອງລອດໃໝ່ (ແກ້ໄຂລາຄາ/ຊື່ ບໍ່ກະທົບວັນຮັບເຂົ້າ)</p>
+                    </div>
+
+                    {/* 📊 ສະຫຼຸບ: ກຳໄລ + ມູນຄ່າສະຕັອກ + ສະຖານະວັນໝົດອາຍຸ */}
+                    {(Number(form.price) > 0 || form.expiryDate) && (
+                      <div className="lg:col-span-3 bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700 space-y-1">
+                        {Number(form.price) > 0 && Number(form.costPrice) > 0 && (
+                          <div>
+                            💰 ກຳໄລຕໍ່ {form.unit || 'ແພັກ'} = <b className={freshEditProfit < 0 ? 'text-red-700' : ''}>{Math.round(freshEditProfit).toLocaleString()} ກີບ</b> ({freshEditMargin}%)
+                            {freshEditProfit < 0 && <span className="font-semibold"> — ຂາຍຂາດທຶນ</span>}
+                          </div>
+                        )}
+                        {Number(form.stock) > 0 && Number(form.costPrice) > 0 && (
+                          <div>
+                            📦 ມູນຄ່າສະຕັອກ: ຕາມຕົ້ນທຶນ <b>{Math.round(Number(form.stock) * Number(form.costPrice)).toLocaleString()} ກີບ</b>
+                            {Number(form.price) > 0 && <> | ຖ້າຂາຍໝົດ <b>{Math.round(Number(form.stock) * Number(form.price)).toLocaleString()} ກີບ</b></>}
+                          </div>
+                        )}
+                        {freshEditDaysLeft !== null && (
+                          <div className={freshEditDaysLeft < 0 ? 'font-bold text-red-700' : ''}>
+                            {freshEditDaysLeft < 0
+                              ? '⚠️ ໝົດອາຍຸແລ້ວ — ບໍ່ຄວນຂາຍ'
+                              : freshEditDaysLeft <= 1
+                                ? '⚠️ ໝົດອາຍຸມື້ນີ້/ມື້ອື່ນ'
+                                : freshEditDaysLeft <= 3
+                                  ? `⏳ ເຫຼືອ ${freshEditDaysLeft} ມື້ກ່ອນໝົດອາຍຸ`
+                                  : `📅 ເຫຼືອ ${freshEditDaysLeft} ມື້ກ່ອນໝົດອາຍຸ`}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
                 ) : (
                   // ✏️ ໂໝດແກ້ໄຂ — ຮຽງລຳດັບ ແລະ ໃຊ້ Label ດຽວກັນກັບຟອມເພີ່ມສິນຄ້າໃໝ່ (ຂ້າງເທິງ) ເພື່ອບໍ່ໃຫ້ສັບສົນ,
                   // ຄ່າຕ່າງໆແກ້ໄຂໂດຍກົງ (ບໍ່ນັບເປັນການນຳເຂົ້າໃໝ່) ແລະ ເພີ່ມຊ່ອງລາຄາຕົ້ນທຶນທີ່ເຄີຍຂາດໄປ
@@ -769,24 +844,21 @@ export default function AdminPanel({ onLogout }) {
                       <p className="text-xs text-gray-400 mt-1">ຈຳນວນ ຫົວໜ່ວຍຍ່ອຍ ໃນສະຕັອກປັດຈຸບັນ — ແກ້ໄຂຄ່ານີ້ໂດຍກົງ (ບໍ່ຄິດໄລ່ຈາກ ຈຳນວນນຳເຂົ້າ × ອັດຕາການແປງ ຄືຕອນເພີ່ມສິນຄ້າໃໝ່)</p>
                     </div>
 
-                    {form.productType !== 'fresh' && (
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ຊື່ຫົວໜ່ວຍໃຫຍ່ (ນຳເຂົ້າ)</label>
                       <select value={form.purchaseUnit} onChange={(e) => setForm({ ...form, purchaseUnit: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm bg-white">
-                        {units.length > 0 ? units.map((u) => <option key={u._id} value={u.name}>{u.name}</option>) : <option value="ອັນ">ອັນ</option>}
+                        {unitNames(form.purchaseUnit).map((n) => <option key={n} value={n}>{n}</option>)}
                       </select>
                       <p className="text-xs text-gray-400 mt-1">ຫົວໜ່ວຍທີ່ຊື້ເຂົ້າຮ້ານ ເຊັ່ນ ແພັກ, ແກັດ, ລັງ</p>
                     </div>
-                    )}
 
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">
-                        {form.productType === 'fresh' ? `ຕົ້ນທຶນ (ຕໍ່ 1 ${form.unit || 'ແພັກ'})` : `ລາຄານຳເຂົ້າ (ຕໍ່ 1 ${form.purchaseUnit || 'ຫົວໜ່ວຍໃຫຍ່'})`}
+                        ລາຄານຳເຂົ້າ (ຕໍ່ 1 {form.purchaseUnit || 'ຫົວໜ່ວຍໃຫຍ່'})
                       </label>
                       <input type="number" min="0" step="any" placeholder="ຕົວຢ່າງ: 24000" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
                     </div>
 
-                    {form.productType !== 'fresh' && (
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">
                         ຈຳນວນການຂາຍຍ່ອຍ (1 {form.purchaseUnit || '...'} ໄດ້ຈັກ...)
@@ -802,12 +874,11 @@ export default function AdminPanel({ onLogout }) {
                       />
                       <p className="text-xs text-gray-400 mt-1">ໃຫ້ພະນັກງານແກະເບິ່ງ ແລ້ວນັບເອງ ຕົວຢ່າງ 1 ແພັກ ໄດ້ 6 ຕຸກ → ພິມ 6</p>
                     </div>
-                    )}
 
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ໜ່ວຍການຂາຍຍ່ອຍ (ໜ້າຮ້ານ)</label>
                       <select value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm bg-white">
-                        {units.length > 0 ? units.map((u) => <option key={u._id} value={u.name}>{u.name}</option>) : <option value="ອັນ">ອັນ</option>}
+                        {unitNames(form.unit).map((n) => <option key={n} value={n}>{n}</option>)}
                       </select>
                     </div>
 
@@ -816,16 +887,7 @@ export default function AdminPanel({ onLogout }) {
                       <input type="number" placeholder="ລາຄາ..." value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
                     </div>
 
-                    {/* 🥩 ຖ້າແມ່ນສິນຄ້າສົດ ໃຫ້ແກ້ໄຂວັນໝົດອາຍຸໄດ້ນຳ (ຮັບເຂົ້າຮອບໃໝ່ ວັນທີ່ປ່ຽນ) */}
-                    {form.productType === 'fresh' && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-600 mb-1">ຄວນຂາຍພາຍໃນ / ວັນໝົດອາຍຸ</label>
-                        <input type="date" value={form.expiryDate} onChange={(e) => setForm({ ...form, expiryDate: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" />
-                        <p className="text-xs text-gray-400 mt-1">ອັບເດດວັນທີ່ນີ້ທຸກຄັ້ງທີ່ຮັບເຂົ້າຮອບໃໝ່</p>
-                      </div>
-                    )}
-
-                    {form.productType !== 'fresh' && Number(form.conversionRate) > 0 && Number(form.stock) > 0 && (
+                    {Number(form.conversionRate) > 0 && Number(form.stock) > 0 && (
                       <div className="lg:col-span-3 bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-700">
                         ➡️ ສະຕັອກປັດຈຸບັນ = <b>{form.stock} {form.unit || ''}</b>
                         {' '}(≈ {Math.floor(Number(form.stock) / Number(form.conversionRate))} {form.purchaseUnit || ''}
