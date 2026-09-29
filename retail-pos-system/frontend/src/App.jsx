@@ -7,6 +7,13 @@ import { API_BASE_URL, authHeaders, resolveImageUrl } from './api';
 // ✨ CSS ອະນິເມຊັນຕອນເລື່ອນໜ້າ (ແກ້ໄຂຄ່າໄດ້ງ່າຍທີ່ນີ້): ບັດສິນຄ້າເລື່ອນຂຶ້ນ/ລົງ + ຄ່ອຍໆປາກົດ ເມື່ອເຂົ້າມາໃນໜ້າຈໍ
 // ເປີດ/ປິດ ຈາກຄ່າ POS_SCROLL_ANIMATION ລຸ່ມນີ້ (false = ບໍ່ມີອະນິເມຊັນ) — ຖ້າເຄື່ອງຊ້າ ຫຼື ສິນຄ້າຫຼາຍຈົນກະຕຸກ ໃຫ້ປິດ
 const POS_SCROLL_ANIMATION = true;
+
+// 🎞️ ໂໝດສະໄລ້ອັດຕະໂນມັດ (Attract mode): ຕອນບໍ່ມີໃຜໃຊ້ງານ ໜ້າສິນຄ້າຈະຄ່ອຍໆເລື່ອນລົງສຸດ ແລ້ວເລື່ອນຂຶ້ນສຸດ ສະຫຼັບໄປມາ
+// ແລະ ຢຸດທັນທີເມື່ອມີການກົດ/ຄລິກ/ເລື່ອນ/ແຕະ/ຍິງບາໂຄດ. ແກ້ຄ່າຄວາມໄວ ແລະ ເວລາລໍໄດ້ງ່າຍຈາກຕົວເລກລຸ່ມນີ້
+const AUTO_SLIDE_IDLE_MS = 8000;     // ບໍ່ມີການໃຊ້ງານຈັກ 8 ວິນາທີ ຈຶ່ງເລີ່ມເລື່ອນເອງ
+const AUTO_SLIDE_SPEED = 45;         // ຄວາມໄວ (ພິກເຊວ/ວິນາທີ) — ຍິ່ງນ້ອຍຍິ່ງຊ້າ ແລະ ນຸ່ມ
+const AUTO_SLIDE_END_PAUSE_MS = 1800; // ຢຸດພັກຕອນຮອດສຸດເທິງ/ສຸດລຸ່ມ ກ່ອນເລື່ອນກັບ
+const AUTO_SLIDE_STORAGE_KEY = 'pos_auto_slide'; // ຈື່ການເປີດ/ປິດ ໄວ້ໃນເຄື່ອງ
 const POS_SCROLL_CSS = `
   .pos-reveal { opacity: 0; }
   .pos-reveal.pos-in {
@@ -117,6 +124,11 @@ function App() {
   const [paymentType, setPaymentType] = useState('cash'); // 'cash' ຫຼື 'qr'
   const [cashReceived, setCashReceived] = useState('');
   const [isCheckingQR, setIsCheckingQR] = useState(false);
+  // 🎞️ ເປີດ/ປິດໂໝດສະໄລ້ອັດຕະໂນມັດ (ຈື່ຄ່າໄວ້ໃນເຄື່ອງ, ເລີ່ມຕົ້ນ = ເປີດ)
+  const [autoSlideOn, setAutoSlideOn] = useState(() => {
+    try { return localStorage.getItem(AUTO_SLIDE_STORAGE_KEY) !== 'off'; } catch { return true; }
+  });
+  const productScrollRef = useRef(null);
   const [qrVerified, setQrVerified] = useState(false); // ✅ ພະນັກງານຕ້ອງຕິກຢືນຢັນວ່າກວດເບິ່ງເງິນເຂົ້າຈິງແລ້ວ ກ່ອນຢືນຢັນການຊຳລະ QR
   
   // ⌨️ State ສຳລັບເກັບ Buffer ຂອງບາໂຄດທີ່ກຳລັງຍິງເຂົ້າມາ
@@ -132,6 +144,91 @@ function App() {
       lastScrollTopRef.current = top;
     }
   };
+
+  const toggleAutoSlide = () => {
+    setAutoSlideOn((prev) => {
+      const next = !prev;
+      try { localStorage.setItem(AUTO_SLIDE_STORAGE_KEY, next ? 'on' : 'off'); } catch { /* ບໍ່ເປັນຫຍັງ */ }
+      return next;
+    });
+  };
+
+  // 🎞️ ໂໝດສະໄລ້ອັດຕະໂນມັດ: ເຮັດວຽກສະເພາະຕອນ "ວ່າງຈິງ" — ລູກຄ້າບໍ່ມີສິນຄ້າໃນກະຕ່າ ແລະ ບໍ່ມີໜ້າຕ່າງຈ່າຍເງິນ/ໃບບິນ/ເປີດກະ ຄ້າງຢູ່
+  const slideAllowed = Boolean(employee) && !needsShiftOpen && (activeTab === 'pos' || employee?.role === 'cashier')
+    && cart.length === 0 && !isCashModalOpen && !receipt;
+  useEffect(() => {
+    if (!autoSlideOn || !slideAllowed) return undefined;
+    // ຄົນທີ່ຕັ້ງຄ່າລະບົບໃຫ້ "ຫຼຸດການເຄື່ອນໄຫວ" ຈະບໍ່ເຫັນການເລື່ອນອັດຕະໂນມັດ
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    let idleTimer = null;
+    let rafId = null;
+    let running = false;
+    let dir = 1;          // 1 = ເລື່ອນລົງ, -1 = ເລື່ອນຂຶ້ນ
+    let pos = 0;          // ຕຳແໜ່ງແບບທົດສະນິຍົມ (browser ປັດ scrollTop ເປັນເລກເຕັມ ຖ້າບວກເທື່ອລະໜ້ອຍຈະບໍ່ຂະຫຍັບ)
+    let last = 0;
+    let pauseUntil = 0;
+    let mouseAnchor = null;
+
+    const step = (t) => {
+      const el = productScrollRef.current;
+      if (!running || !el) return;
+      if (!last) last = t;
+      const dt = Math.min(t - last, 50); // ກັນກະໂດດ ຖ້າແທັບຖືກໜ່ວງ
+      last = t;
+      const max = el.scrollHeight - el.clientHeight;
+      if (max > 4 && t >= pauseUntil) {
+        pos += dir * AUTO_SLIDE_SPEED * (dt / 1000);
+        if (pos >= max) { pos = max; dir = -1; pauseUntil = t + AUTO_SLIDE_END_PAUSE_MS; }
+        else if (pos <= 0) { pos = 0; dir = 1; pauseUntil = t + AUTO_SLIDE_END_PAUSE_MS; }
+        el.scrollTop = pos;
+      }
+      rafId = requestAnimationFrame(step);
+    };
+
+    const start = () => {
+      const el = productScrollRef.current;
+      if (!el) return;
+      const max = el.scrollHeight - el.clientHeight;
+      pos = el.scrollTop;
+      dir = pos >= max - 1 ? -1 : 1;
+      last = 0;
+      pauseUntil = 0;
+      running = true;
+      rafId = requestAnimationFrame(step);
+    };
+
+    const stop = () => {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+    };
+
+    const armIdle = () => {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(start, AUTO_SLIDE_IDLE_MS);
+    };
+
+    // ການໃຊ້ງານໃດໆ (ກົດ/ແຕະ/ເລື່ອນລໍ້/ພິມ ຫຼື ຍິງບາໂຄດ ເຊິ່ງເຄື່ອງຍິງສົ່ງມາເປັນການພິມ) → ຢຸດທັນທີ ແລ້ວເລີ່ມນັບເວລາວ່າງໃໝ່
+    const onActivity = () => { mouseAnchor = null; stop(); armIdle(); };
+    // ເມົາສ໌ສັ່ນເລັກນ້ອຍບໍ່ນັບ — ຕ້ອງຂະຫຍັບເກີນ ~8 ພິກເຊວ ຈຶ່ງຖືວ່າກຳລັງຈະໃຊ້ງານ
+    const onMouseMove = (e) => {
+      if (!mouseAnchor) { mouseAnchor = { x: e.clientX, y: e.clientY }; return; }
+      if (Math.hypot(e.clientX - mouseAnchor.x, e.clientY - mouseAnchor.y) > 8) onActivity();
+    };
+
+    const events = ['pointerdown', 'wheel', 'keydown', 'touchstart'];
+    events.forEach((ev) => window.addEventListener(ev, onActivity, { passive: true }));
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    armIdle();
+
+    return () => {
+      clearTimeout(idleTimer);
+      stop();
+      events.forEach((ev) => window.removeEventListener(ev, onActivity));
+      window.removeEventListener('mousemove', onMouseMove);
+    };
+  }, [autoSlideOn, slideAllowed]);
 
   // 📦 ດຶງຂໍ້ມູນສິນຄ້າຈາກ Server
   const fetchProducts = useCallback((isBackground = false) => {
@@ -606,7 +703,7 @@ function App() {
       <div style={{ flex: 1, overflow: 'hidden', display: 'flex' }}>
         {activeTab === 'pos' || employee.role === 'cashier' ? (
           <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-            <div onScroll={handleProductScroll} style={{ flex: 2, padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+            <div ref={productScrollRef} onScroll={handleProductScroll} style={{ flex: 2, padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
               <style>{POS_SCROLL_CSS}</style>
               
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
@@ -622,6 +719,20 @@ function App() {
                   }}
                 >
                   ຣີເຟຣຊສິນຄ້າ
+                </button>
+
+                {/* 🎞️ ປິດ/ເປີດ ການເລື່ອນອັດຕະໂນມັດຕອນວ່າງ — ຈື່ຄ່າໄວ້ໃນເຄື່ອງ */}
+                <button
+                  onClick={toggleAutoSlide}
+                  title={autoSlideOn ? 'ປິດການເລື່ອນອັດຕະໂນມັດຕອນວ່າງ' : 'ເປີດການເລື່ອນອັດຕະໂນມັດຕອນວ່າງ'}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '6px',
+                    padding: '8px 12px', background: autoSlideOn ? '#eff6ff' : '#f8fafc',
+                    color: autoSlideOn ? '#2563eb' : '#94a3b8', fontSize: '13px', fontWeight: '600',
+                    borderRadius: '8px', border: `1px solid ${autoSlideOn ? '#bfdbfe' : '#cbd5e1'}`, cursor: 'pointer'
+                  }}
+                >
+                  {autoSlideOn ? '🎞️ ສະໄລ້ອັດຕະໂນມັດ: ເປີດ' : '🎞️ ສະໄລ້ອັດຕະໂນມັດ: ປິດ'}
                 </button>
               </div>
 

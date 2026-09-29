@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_BASE_URL, authHeaders, fetchArray } from '../api';
+import { localDateKey, localMonthKey } from '../dateUtils';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -79,9 +80,11 @@ export default function Dashboard() {
   }, []);
 
   // 🔍 กรองออร์เดอร์ตามช่วงเวลาที่ Admin เลือก (Custom Date Range)
+  // ⚠️ ໃຊ້ localDateKey() (ເວລາລາວ UTC+7) ບໍ່ໃຊ່ toISOString() ເພື່ອບໍ່ໃຫ້ບິນເວລາ 17:00 ຂຶ້ນໄປຕົງເຂົ້າໃນວັນຖັດໄປ
   const filteredOrders = allOrders.filter((order) => {
     if (!startDate && !endDate) return true;
-    const orderDate = new Date(order.createdAt).toISOString().slice(0, 10);
+    const orderDate = localDateKey(order.createdAt);
+    if (!orderDate) return false;
     if (startDate && endDate) {
       return orderDate >= startDate && orderDate <= endDate;
     }
@@ -114,10 +117,10 @@ export default function Dashboard() {
       return sum + orderProfit;
     }, 0);
 
-  const todayStr = new Date().toISOString().slice(0, 10);
-  const monthStr = todayStr.slice(0, 7);
-  const ordersToday = allOrders.filter((o) => new Date(o.createdAt).toISOString().slice(0, 10) === todayStr);
-  const ordersMonth = allOrders.filter((o) => new Date(o.createdAt).toISOString().slice(0, 7) === monthStr);
+  const todayStr = localDateKey(new Date());
+  const monthStr = localMonthKey(new Date());
+  const ordersToday = allOrders.filter((o) => localDateKey(o.createdAt) === todayStr);
+  const ordersMonth = allOrders.filter((o) => localMonthKey(o.createdAt) === monthStr);
 
   const profitToday = calcProfit(ordersToday);
   const profitMonth = calcProfit(ordersMonth);
@@ -154,23 +157,24 @@ export default function Dashboard() {
 
   // 📊 เตรียมข้อมูลสำหรับ กราฟแท่งยอดขาย 7 วันย้อนหลัง
   const getLast7DaysData = () => {
-    const days = [];
+    const chartDays = [];
     const revenues = [];
 
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
       d.setDate(d.getDate() - i);
-      const dateString = d.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
-      days.push(dateString);
+      // ຄືກາຍເປັນການເວລາລາວກ່ອນ ແລ້ວສະໜຸດລະຫັດວັນນີ້ໃຊ້ໃນແຖບ label ດ້ວຍ
+      const targetDateStr = localDateKey(d);
+      const days = d.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit' });
+      chartDays.push(days);
 
-      const targetDateStr = d.toDateString();
       const dayTotal = allOrders
-        .filter((order) => new Date(order.createdAt).toDateString() === targetDateStr)
+        .filter((order) => localDateKey(order.createdAt) === targetDateStr)
         .reduce((sum, order) => sum + Number(order.totalAmount || 0), 0);
 
       revenues.push(dayTotal);
     }
-    return { days, revenues };
+    return { days: chartDays, revenues };
   };
 
   const chartInfo = getLast7DaysData();
@@ -280,7 +284,7 @@ export default function Dashboard() {
         <div className="bg-purple-50 p-4 rounded-xl border border-purple-200 shadow-sm">
           <p className="text-sm text-purple-600 font-medium">ຈຳນວນບິນມື້ນີ້</p>
           <h3 className="text-2xl font-bold text-purple-800 mt-1">
-            {stats.recentOrders ? stats.recentOrders.length : 0} <span className="text-sm font-normal">ບິນ</span>
+            {ordersToday.length} <span className="text-sm font-normal">ບິນ</span>
           </h3>
         </div>
       </div>

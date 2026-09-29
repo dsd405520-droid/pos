@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API_BASE_URL, authHeaders, fetchArray } from '../api';
+import { localDateKey } from '../dateUtils';
 
 export default function OrdersList() {
   const [orders, setOrders] = useState([]);
@@ -49,7 +50,9 @@ export default function OrdersList() {
     // 2. เงื่อนไขช่วงวันที่ (Date Range Filter)
     if (!startDate && !endDate) return matchesSearch;
     
-    const orderDate = new Date(order.createdAt).toISOString().slice(0, 10);
+    // ⚠️ ໃຊ້ localDateKey() (ເວລາລາວ UTC+7) ບໍ່ໃຊ່ toISOString() ເພື່ອບໍ່ໃຫ້ບິນເວລາ 17:00 ຂຶ້ນໄປຕົງເຂົ້າໃນວັນຖັດໄປ
+    const orderDate = localDateKey(order.createdAt);
+    if (!orderDate) return false;
     let matchesDate = true;
 
     if (startDate && endDate) {

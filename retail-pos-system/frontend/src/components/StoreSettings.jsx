@@ -16,6 +16,7 @@ export default function StoreSettings() {
   const [imageMethod, setImageMethod] = useState('upload'); // 'upload' ຫຼື 'url'
   const [qrUrl, setQrUrl] = useState('');
   const [qrFile, setQrFile] = useState(null);
+  const [removeQR, setRemoveQR] = useState(false); // 🗑️ ເຄືອກລິງລຶບ QR ເດີວ (ແກ້ໄຂຕ້ອງກົດບັນທຶກ)
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
@@ -60,7 +61,9 @@ export default function StoreSettings() {
       formData.append('printerPort', printerPort);
       formData.append('printerName', printerName);
 
-      if (imageMethod === 'upload' && qrFile) {
+      if (removeQR) {
+        formData.append('clearQR', 'true');
+      } else if (imageMethod === 'upload' && qrFile) {
         formData.append('qrImage', qrFile);
       } else if (imageMethod === 'url' && qrUrl.trim() !== '') {
         formData.append('shopQRImage', qrUrl.trim());
@@ -76,6 +79,7 @@ export default function StoreSettings() {
         alert('✅ ບັນທຶກຄ່າຮ້ານສຳເລັດ');
         setQrFile(null);
         setQrUrl('');
+        setRemoveQR(false);
         fetchSettings();
       } else {
         alert('❌ ' + (data.error || 'ບັນທຶກບໍ່ສຳເລັດ'));
@@ -162,11 +166,33 @@ export default function StoreSettings() {
         <div>
           <label className="block text-sm font-medium text-gray-600 mb-2">QR ຮັບເງິນໂອນປັດຈຸບັນ</label>
           {qrImage ? (
-            <img
-              src={resolveImageUrl(qrImage)}
-              alt="QR ຮ້ານປັດຈຸບັນ"
-              className="w-40 h-40 object-contain border border-gray-200 rounded-lg mb-3"
-            />
+            <>
+              <img
+                src={resolveImageUrl(qrImage)}
+                alt="QR ຮ້ານປັດຈຸບັນ"
+                className="w-40 h-40 object-contain border border-gray-200 rounded-lg mb-3"
+              />
+              {!removeQR ? (
+                <button
+                  type="button"
+                  onClick={() => setRemoveQR(true)}
+                  className="text-xs text-red-600 hover:underline mb-3"
+                >
+                  🗑️ ລຶກ QR ອອກ (ກົດ "ບັນທຶກຄ່າຮ້ານ" ເພື່ອຢືນຢັນ)
+                </button>
+              ) : (
+                <p className="text-xs text-red-700 bg-red-50 border border-red-200 rounded px-2 py-1.5 mb-3">
+                  ⚠️ ຈະລຶບ QR ອອກເມື່ອກົດ "ບັນທຶກຄ່າຮ້ານ"
+                  <button
+                    type="button"
+                    onClick={() => setRemoveQR(false)}
+                    className="ml-2 underline hover:no-underline"
+                  >
+                    ຍົກເລີກ
+                  </button>
+                </p>
+              )}
+            </>
           ) : (
             <p className="text-sm text-red-600 mb-3">⚠️ ຍັງບໍ່ໄດ້ຕັ້ງ QR — ໜ້າຂາຍຈະສະແດງຄຳເຕືອນແທນ ຈົນກວ່າຈະຕັ້ງ</p>
           )}

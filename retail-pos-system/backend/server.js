@@ -12,14 +12,14 @@ const app = express();
 
 // 🛠️ 1. Middleware ຕ້ອງຢູ່ເທິງສຸດສະເໝີ!
 // CORS: ຮັບຫຼາຍ origin ໄດ້ ຜ່ານ CORS_ORIGIN ໃນ .env ຄັນດ້ວຍ comma (ເຊັ່ນ: http://localhost:5173,http://192.168.1.50:5173)
-const allowedOrigins = (process.env.CORS_ORIGIN || '*')
-  .split(',')
-  .map((s) => s.trim())
-  .filter(Boolean);
+const rawCors = (process.env.CORS_ORIGIN ?? '').trim();
+const allowedOrigins = rawCors
+  ? rawCors.split(',').map((s) => s.trim()).filter(Boolean)
+  : ['*'];
 
 app.use(cors({
   origin(origin, callback) {
-    if (allowedOrigins[0] === '*' || !origin || allowedOrigins.includes(origin)) {
+    if (allowedOrigins.includes('*') || !origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     return callback(null, false);
@@ -45,25 +45,116 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
+// 🧨 ກວດ magic bytes ຂອງໄຟລ໌ຮູບພາບຈິງ — mimetype ທີ່ client ສົ່ງມາເປັນປອມໄດ້ 100%
+//    ຕ້ອງໃຊ້ລາຍເຊັນຂອງໄຟລ໌ (file signature) ເປັນຊັ້ນປ້ອງກັນສຸດທ້າຍ
+const IMAGE_SIGNATURES = [
+  { ext: '.jpg', mime: 'image/jpeg', test: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
+  {
+    ext: '.png',
+    mime: 'image/png',
+    test: (b) => b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47 && b[4] === 0x0d && b[5] === 0x0a && b[6] === 0x1a && b[7] === 0x0a,
+  },
+  { ext: '.gif', mime: 'image/gif', test: (b) => b.slice(0, 6).toString('ascii') === 'GIF87a' || b.slice(0, 6).toString('ascii') === 'GIF89a' },
+  {
+    ext: '.webp',
+    mime: 'image/webp',
+    test: (b) => b.slice(0, 4).toString('ascii') === 'RIFF' && b.slice(8, 12).toString('ascii') === 'WEBP',
+  },
+];
+
+// ຄືນ true ຖ້າໄຟລ໌ເປັນຮູບພາບຈິງ (jpg/png/gif/webp)
+function isRealImageFile(filePath) {
+  let fd;
+  try {
+    fd = fs.openSync(filePath, 'r');
+    const buf = Buffer.alloc(12);
+    const bytesRead = fs.readSync(fd, buf, 0, 12, 0);
+    if (bytesRead < 4) return false;
+    return IMAGE_SIGNATURES.some((sig) => sig.test(buf));
+  } catch {
+    return false;
+  } finally {
+    if (fd !== undefined) {
+      try { fs.closeSync(fd); } catch { /* ignore */ }
+    }
+  }
+}
+
+// 🛡️ Middleware ຫຼັງ multer — ລຶບໄຟລ໌ທີ່ເປັນຮູບປອມ ແລະຢືນຢັນ magic bytes ຕົງກັບຮູບພາບຈິງ
+// ★ ຕ້ອງໃສ່ຕໍ່ຈາກ upload.single(...) ໃນທຸກ route ທີ່ຮັບອັບໂຫຼດຮູບ ບໍ່ດັ່ງນັ້ນການກວດນີ້ຈະບໍ່ຖືກໃຊ້ວຽກຈິງ
+function verifyUploadedImage(req, res, next) {
+  if (!req.file) return next();
+  if (!isRealImageFile(req.file.path)) {
+    try { fs.unlinkSync(req.file.path); } catch { /* ignore */ }
+    return res.status(400).json({ error: 'ໄຟລ໌ນີ້ບໍ່ແມ່ນຮູບພາບ (jpg, png, gif, webp) ຈິງ' });
+  }
+  return next();
+}
+
+// 💰 ປັດເສດຕົວເລກເງິນໃຫ້ມີແຕ່ 2 ຕຳແໜ່ງ ປ້ອງກັນ floating point error (0.1 + 0.2 = 0.30000000000000004)
+const round2 = (n) => Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+
+// ⚙️ ແປງ error ຈາກ Mongoose/Mongo ໃຫ້ເປັນ { status, message } ທີ່ເໝາະສະແດງໃຫ້ user ເຫັນ
+//    ໃຊ້ຮ່ວມກັນທັງໃນ catch ຂອງແຕ່ລະ route (ເພື່ອໃຫ້ໄດ້ status ທີ່ຖືກຕ້ອງ ບໍ່ແມ່ນ 500 ໝົດ)
+//    ແລະໃນ global error handler ທ້າຍໄຟລ໌ (ສຳລັບ error ທີ່ຫຼຸດ try/catch ຂອງ route ມາ)
+function classifyError(err) {
+  if (err && err.name === 'CastError') {
+    return { status: 400, message: 'ຮູບແບບລະຫັດ (ID) ບໍ່ຖືກຕ້ອງ' };
+  }
+  if (err && err.name === 'ValidationError') {
+    return { status: 400, message: Object.values(err.errors).map((e) => e.message).join(', ') };
+  }
+  if (err && err.code === 11000) {
+    return { status: 409, message: 'ຂໍ້ມູນນີ້ມີຢູ່ແລ້ວ (ຊື່/ລະຫັດຊ້ຳ)' };
+  }
+  return { status: 500, message: (err && err.message) || 'ເກີດຂໍ້ຜິດພາດຢູ່ເຊີເວີ' };
+}
+
+// 🧯 ໃຊ້ໃນ catch ຂອງ route: ตอบ response ດ້ວຍ status/message ທີ່ຈັດປະເພດແລ້ວ
+function sendError(res, err, fallbackMessage) {
+  const { status, message } = classifyError(err);
+  console.error('Request error:', err);
+  return res.status(status).json({ error: status === 500 && fallbackMessage ? fallbackMessage : message });
+}
+
 // ຕັ້ງຄ່າ Multer ສຳລັບອັບໂຫຼດໄຟລ໌ຮູບພາບ
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    // ⚠️ ຕ້ອງໃຊ້ path ແບບ absolute — ຖ້າໃຊ້ 'uploads/' ຈະອີງກັບ working directory ຂອງ process
+    cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    // 🛡️ ບໍ່ໃຊ້ extension ຈາກ file.originalname ໂດຍກົງ — ໃຊ້ mapping ຈາກ mimetype ທີ່ກວດຜ່ານແລ້ວແທນ
+    const extByMime = {
+      'image/jpeg': '.jpg',
+      'image/pjpeg': '.jpg',
+      'image/png': '.png',
+      'image/gif': '.gif',
+      'image/webp': '.webp',
+    };
+    const ext = extByMime[String(file.mimetype || '').toLowerCase()] || '.jpg';
+    cb(null, uniqueSuffix + ext);
   }
 });
-// 🛡️ ອະນຸຍາດສະເພາະໄຟລ໌ຮູບພາບ (jpg, png, gif, webp) + ຈຳກັດຂະໜາດ 5MB — ກັນການອັບໂຫຼດໄຟລ໌ອັນຕະລາຍປອມເປັນຮູບ
+// 🛡️ ອະນຸຍາດສະເພາະໄຟລ໌ຮູບພາບ (jpg, png, gif, webp) + ຈຳກັດຂະໜາດ 5MB
 const allowedImageTypes = /jpeg|jpg|png|gif|webp/;
+const ALLOWED_IMAGE_MIME = new Set([
+  'image/jpeg',
+  'image/pjpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+]);
 const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
   fileFilter: (req, file, cb) => {
-    const extOk = allowedImageTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimeOk = allowedImageTypes.test(file.mimetype);
-    if (extOk && mimeOk) {
+    const mime = String(file.mimetype || '').toLowerCase();
+    const ext = path.extname(file.originalname || '').toLowerCase();
+    const mimeOk = ALLOWED_IMAGE_MIME.has(mime);
+    const extOk = allowedImageTypes.test(ext.replace(/^\./, '')) && ext.startsWith('.');
+    if (mimeOk && extOk) {
       cb(null, true);
     } else {
       cb(new Error('ອະນຸຍາດສະເພາະໄຟລ໌ຮູບພາບເທົ່ານັ້ນ (jpg, png, gif, webp)'));
@@ -74,7 +165,7 @@ const upload = multer({
 // ໃຫ້ Server ສາມາດເປີດເບິ່ງຮູບຜ່ານ URL ໄດ້ (path ແບບ relative, frontend ຈະຕໍ່ host ເອງ)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// 🔗 ເຊື່ອມຕໍ່ MongoDB (ອ່ານຈາກ .env ດຽວນີ້ ບໍ່ hardcode ອີກຕໍ່ໄປ — ໃຊ້ໄດ້ທັງ local ແລະ Docker)
+// 🔗 ເຊື່ອມຕໍ່ MongoDB
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/retail_pos';
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -82,12 +173,10 @@ mongoose.connect(MONGO_URI, {
 })
 .then(() => {
   console.log('MongoDB Connected Successfully! ->', MONGO_URI);
-  backfillEmployeeCodes(); // 🆔 ຕື່ມລະຫັດພະນັກງານໃຫ້ຄົນເກົ່າອັດຕະໂນມັດ (ຮັນທຸກຄັ້ງທີ່ server ເປີດ, ບໍ່ເປັນຫຍັງ — ຂ້າມຄົນທີ່ມີແລ້ວໃຫ້ເອງ)
+  backfillEmployeeCodes();
 })
 .catch((err) => console.log('MongoDB Connection Error:', err));
 
-// 🆔 ຕື່ມ employeeCode ໃຫ້ພະນັກງານທີ່ຍັງບໍ່ມີ (ເຊັ່ນ ຄົນທີ່ສ້າງໄວ້ກ່ອນ feature ນີ້ຈະມີ) — ຮັນອັດຕະໂນມັດຕອນ server ເລີ່ມ,
-// ບໍ່ຕ້ອງເປີດ script ແຍກຕ່າງຫາກອີກຕໍ່ໄປ. ຮັນຊ້ຳໄດ້ຮ້ອຍເທື່ອກໍ່ບໍ່ເປັນຫຍັງ ເພາະຈະຂ້າມຄົນທີ່ມີລະຫັດແລ້ວ.
 async function backfillEmployeeCodes() {
   try {
     const Employee = require('./models/Employee');
@@ -119,98 +208,86 @@ async function backfillEmployeeCodes() {
   }
 }
 
-// 📦 ດຶງ Routes ຕ່າງໆເຂົ້າມາใช้งาน
 const authRoutes = require('./routes/auth');
 const shiftRoutes = require('./routes/shifts');
 const employeeRoutes = require('./routes/employeeRoutes');
-const Order = require('./models/Order');
+const Order = require('./models/Order');//patched
 const Shift = require('./models/Shift');
 
 // --- Schemas & Models ---
 
-// 📦 Schema & Model ສຳລັບສິນຄ້າ (Product)
 const productSchema = new mongoose.Schema({
   sku: { type: String, unique: true, sparse: true },
   name: String,
   price: Number,
-  costPrice: { type: Number, default: 0 }, // 💰 ເພີ່ມລາຄາຕົ້ນທຶນ (ຕໍ່ 1 ຫົວໜ່ວຍຍ່ອຍ)
-  stock: Number,        
+  costPrice: { type: Number, default: 0 },
+  stock: Number,
   image: String,
   category: { type: String, default: 'ທົ່ວໄປ' },
-  unit: { type: String, default: 'ອັນ' },              // ຫົວໜ່ວຍຍ່ອຍ — ໃຊ້ຂາຍໜ້າຮ້ານ (ອັນ, ແກ້ວ, ຊິ້ນ...)
-  purchaseUnit: { type: String, default: '' },          // ຫົວໜ່ວຍໃຫຍ່ — ໃຊ້ຕອນຊື້ເຂົ້າ (ແພັກ, ແກັດ, ລັງ...)
-  conversionRate: { type: Number, default: 1 },         // 1 purchaseUnit = ຈັກ unit (ຫົວໜ່ວຍຍ່ອຍ)
-  // 🥩 ສິນຄ້າສົດ (ຊີ້ນ/ຜັກ/ຂອງສົດ) — ຊື້ເປັນກິໂລ ແບ່ງແພັກຢູ່ນອກລະບົບ ແລ້ວຂາຍເປັນ "ແພັກ" ນ້ຳໜັກຄົງທີ່ (unit=ແພັກ, conversionRate=1), ຕ້ອງຕິດຕາມວັນໝົດອາຍຸ
+  unit: { type: String, default: 'ອັນ' },
+  purchaseUnit: { type: String, default: '' },
+  conversionRate: { type: Number, default: 1 },
   productType: { type: String, enum: ['packaged', 'fresh'], default: 'packaged' },
-  receivedDate: { type: Date, default: null },   // ວັນທີ່ຮັບເຂົ້າລ່າສຸດ
-  expiryDate: { type: Date, default: null }      // ວັນທີ່ຄວນຂາຍໝົດ/ໝົດອາຍຸ (ສະເພາະສິນຄ້າສົດ)
+  receivedDate: { type: Date, default: null },
+  expiryDate: { type: Date, default: null }
 });
-// 🏷️ ສ້າງ SKU ອັດຕະໂນມັດ (ເມື່ອບໍ່ໄດ້ໃສ່ເອງ): ເລກ 6 ຫຼັກ ບໍ່ຊ້ຳກັບສິນຄ້າທີ່ມີຢູ່ — ເໝາະໃຊ້ເປັນເລກບາໂຄດຕິດແພັກ
-// (ແທນວິທີເກົ່າ "P + 4 ຫຼັກທ້າຍຂອງເວລາ" ທີ່ຊ້ຳກັນໄດ້ງ່າຍເມື່ອສິນຄ້າຫຼາຍຂຶ້ນ ແລ້ວບັນທຶກບໍ່ໄດ້)
 async function generateUniqueSku() {
   for (let i = 0; i < 20; i++) {
     const candidate = String(Math.floor(100000 + Math.random() * 900000));
     const exists = await Product.exists({ sku: candidate });
     if (!exists) return candidate;
   }
-  // ໂອກາດນ້ອຍຫຼາຍທີ່ຈະມາຮອດນີ້: ໃຊ້ເລກຈາກເວລາເຕັມ (13 ຫຼັກ) ແທນ
   return String(Date.now());
 }
 
 const Product = mongoose.model('Product', productSchema);
 
-// 📦 Schema & Model ສຳລັບປະຫວັດການນຳເຂົ້າສິນຄ້າ (StockLog / Stock In History)
 const stockLogSchema = new mongoose.Schema({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-  quantity: { type: Number, required: true },        // ຈຳນວນຫົວໜ່ວຍຍ່ອຍທັງໝົດທີ່ເພີ່ມເຂົ້າ stock (ຄິດໄລ່ແລ້ວ)
-  purchaseQuantity: { type: Number, default: null }, // ຈຳນວນຫົວໜ່ວຍໃຫຍ່ທີ່ຮັບເຂົ້າຕົວຈິງ (ຕາມທີ່ admin ພິມ)
-  purchaseUnit: { type: String, default: '' },       // ຊື່ຫົວໜ່ວຍໃຫຍ່ ຕອນນັ້ນ (ບັນທຶກໄວ້ເຜື່ອສິນຄ້າປ່ຽນຫົວໜ່ວຍພາຍຫຼັງ)
-  costPrice: { type: Number, default: 0 },           // ລາຄາຕົ້ນທຶນຕໍ່ 1 ຫົວໜ່ວຍໃຫຍ່ ຕາມທີ່ admin ພິມ
+  quantity: { type: Number, required: true },
+  purchaseQuantity: { type: Number, default: null },
+  purchaseUnit: { type: String, default: '' },
+  costPrice: { type: Number, default: 0 },
   note: { type: String, default: 'ຮັບສິນຄ້າເຂົ້າຮ້ານ' },
   createdAt: { type: Date, default: Date.now }
 });
 const StockLog = mongoose.model('StockLog', stockLogSchema);
 
-// ⚙️ Schema & Model ສຳລັບຕັ້ງຄ່າຮ້ານ (Setting) — document ດຽວ (singleton), ໃຊ້ເກັບ QR ຮັບເງິນໂອນຈິງຂອງຮ້ານ
 const settingSchema = new mongoose.Schema({
   shopName: { type: String, default: '' },
-  shopQRImage: { type: String, default: '' }, // 🏦 ຮູບ QR ຈິງ (ບໍ່ແມ່ນ QR ປອມອີກຕໍ່ໄປ) — admin ອັບໂຫຼດ/ຕັ້ງເອງ
-  shopAddress: { type: String, default: '' },   // 🏪 ທີ່ຢູ່ຮ້ານ (ສະແດງໃນໃບບິນ)
-  shopPhone: { type: String, default: '' },     // ☎️ ເບີໂທຮ້ານ (ສະແດງໃນໃບບິນ)
-  receiptFooter: { type: String, default: '' }, // 📝 ຂໍ້ຄວາມທ້າຍໃບບິນ
-  printerEnabled: { type: Boolean, default: false },          // 🖨️ ເປີດ/ປິດ ການພິມອອກເຄື່ອງ
-  printerMethod: { type: String, default: 'network-escpos' }, // 'network-escpos' | 'windows'
-  printerIp: { type: String, default: '' },                   // IP ເຄື່ອງພິມ (ແບບ network)
-  printerPort: { type: Number, default: 9100 },               // Port ເຄື່ອງພິມ (ປົກກະຕິ 9100)
-  printerName: { type: String, default: '' },                 // ຊື່ເຄື່ອງພິມໃນ Windows (ແບບ driver)
+  shopQRImage: { type: String, default: '' },
+  shopAddress: { type: String, default: '' },
+  shopPhone: { type: String, default: '' },
+  receiptFooter: { type: String, default: '' },
+  printerEnabled: { type: Boolean, default: false },
+  printerMethod: { type: String, default: 'network-escpos' },
+  printerIp: { type: String, default: '' },
+  printerPort: { type: Number, default: 9100 },
+  printerName: { type: String, default: '' },
   updatedAt: { type: Date, default: Date.now }
 });
 const Setting = mongoose.model('Setting', settingSchema);
 
-// 🏷️ Schema & Model ສຳລັບໝວດໝູ່ (Category)
-const categorySchema = new mongoose.Schema({ 
-  name: { type: String, unique: true, required: true } 
+const categorySchema = new mongoose.Schema({
+  name: { type: String, unique: true, required: true }
 });
 const Category = mongoose.model('Category', categorySchema);
 
-// 📏 Schema & Model ສຳລັບໜ່ວຍນັບ (Unit)
-const unitSchema = new mongoose.Schema({ 
-  name: { type: String, unique: true, required: true } 
+const unitSchema = new mongoose.Schema({
+  name: { type: String, unique: true, required: true }
 });
 const Unit = mongoose.model('Unit', unitSchema);
 
 // --- API Endpoints & Routes Registration ---
 
-app.use('/api/auth', authRoutes);       // 🔓 Public (login)
-app.use('/api/shifts', shiftRoutes);    // 🔒 protected inside shifts.js
-app.use('/api/employees', employeeRoutes); // 🔒 admin-only, protected inside employeeRoutes.js
+app.use('/api/auth', authRoutes);
+app.use('/api/shifts', shiftRoutes);
+app.use('/api/employees', employeeRoutes);
 
-// 🩺 ກວດສຸຂະພາບ (healthcheck ຂອງ Docker ໃຊ້) — ບໍ່ຕ້ອງ Login
 app.get('/api/health', (req, res) => {
   res.json({ ok: true, db: mongoose.connection.readyState === 1, time: new Date().toISOString() });
 });
 
-// 🔒 2. ຈາກຈຸດນີ້ລົງໄປ ທຸກ Route ຕ້ອງ Login ກ່ອນຈຶ່ງເອີ້ນໃຊ້ໄດ້ (ແກ້ບັນຫາ "ບໍ່ມີ Authentication" ທີ່ພົບ)
 app.use(verifyToken);
 
 // --- 📂 API ສຳລັບ Category (ໝວດໝູ່) ---
@@ -219,7 +296,7 @@ app.get('/api/categories', async (req, res) => {
     const categories = await Category.find();
     res.json(categories);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -229,7 +306,8 @@ app.post('/api/categories', requireRole('admin'), async (req, res) => {
     await newCat.save();
     res.status(201).json(newCat);
   } catch (err) {
-    res.status(400).json({ error: 'Category already exists or invalid' });
+    const { status, message } = classifyError(err);
+    res.status(status === 500 ? 400 : status).json({ error: status === 500 ? 'Category already exists or invalid' : message });
   }
 });
 
@@ -238,7 +316,7 @@ app.delete('/api/categories/:id', requireRole('admin'), async (req, res) => {
     await Category.findByIdAndDelete(req.params.id);
     res.json({ message: 'Category deleted successfully' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -248,7 +326,7 @@ app.get('/api/units', async (req, res) => {
     const units = await Unit.find();
     res.json(units);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -258,7 +336,8 @@ app.post('/api/units', requireRole('admin'), async (req, res) => {
     await newUnit.save();
     res.status(201).json(newUnit);
   } catch (err) {
-    res.status(400).json({ error: 'Unit already exists or invalid' });
+    const { status, message } = classifyError(err);
+    res.status(status === 500 ? 400 : status).json({ error: status === 500 ? 'Unit already exists or invalid' : message });
   }
 });
 
@@ -267,58 +346,40 @@ app.delete('/api/units/:id', requireRole('admin'), async (req, res) => {
     await Unit.findByIdAndDelete(req.params.id);
     res.json({ message: 'Unit deleted successfully' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
 // --- ⚙️ API ສຳລັບຕັ້ງຄ່າຮ້ານ (Setting) ---
-// ໃຫ້ພະນັກງານທຸກຄົນທີ່ login ແລ້ວອ່ານໄດ້ (ຕ້ອງໃຊ້ຕອນ checkout ເພື່ອສະແດງ QR ຈິງ)
 app.get('/api/settings', async (req, res) => {
   try {
     let setting = await Setting.findOne();
     if (!setting) setting = { shopName: '', shopQRImage: '' };
     res.json(setting);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
-// ສະເພາະ admin ຕັ້ງ/ແກ້ໄຂໄດ້ — ຮັບໄດ້ທັງອັບໂຫຼດໄຟລ໌ (qrImage) ຫຼື ວາງລິ້ງຮູບ (shopQRImage)
-app.put('/api/settings', requireRole('admin'), upload.single('qrImage'), async (req, res) => {
+app.put('/api/settings', requireRole('admin'), upload.single('qrImage'), verifyUploadedImage, async (req, res) => {
   const isTrue = (v) => v === true || v === 'true' || v === 'on' || v === '1';
   try {
     let setting = await Setting.findOne();
     if (!setting) setting = new Setting();
 
-    if (req.body.shopName !== undefined) {
-      setting.shopName = req.body.shopName;
-    }
-    if (req.body.shopAddress !== undefined) {
-      setting.shopAddress = req.body.shopAddress;
-    }
-    if (req.body.shopPhone !== undefined) {
-      setting.shopPhone = req.body.shopPhone;
-    }
-    if (req.body.receiptFooter !== undefined) {
-      setting.receiptFooter = req.body.receiptFooter;
-    }
-    if (req.body.printerEnabled !== undefined) {
-      setting.printerEnabled = isTrue(req.body.printerEnabled);
-    }
-    if (req.body.printerMethod !== undefined) {
-      setting.printerMethod = req.body.printerMethod;
-    }
-    if (req.body.printerIp !== undefined) {
-      setting.printerIp = String(req.body.printerIp).trim();
-    }
-    if (req.body.printerPort !== undefined) {
-      setting.printerPort = Number(req.body.printerPort) || 9100;
-    }
-    if (req.body.printerName !== undefined) {
-      setting.printerName = String(req.body.printerName).trim();
-    }
+    if (req.body.shopName !== undefined) setting.shopName = req.body.shopName;
+    if (req.body.shopAddress !== undefined) setting.shopAddress = req.body.shopAddress;
+    if (req.body.shopPhone !== undefined) setting.shopPhone = req.body.shopPhone;
+    if (req.body.receiptFooter !== undefined) setting.receiptFooter = req.body.receiptFooter;
+    if (req.body.printerEnabled !== undefined) setting.printerEnabled = isTrue(req.body.printerEnabled);
+    if (req.body.printerMethod !== undefined) setting.printerMethod = req.body.printerMethod;
+    if (req.body.printerIp !== undefined) setting.printerIp = String(req.body.printerIp).trim();
+    if (req.body.printerPort !== undefined) setting.printerPort = Number(req.body.printerPort) || 9100;
+    if (req.body.printerName !== undefined) setting.printerName = String(req.body.printerName).trim();
 
-    if (req.file) {
+    if (isTrue(req.body.clearQR)) {
+      setting.shopQRImage = '';
+    } else if (req.file) {
       setting.shopQRImage = `/uploads/${req.file.filename}`;
     } else if (req.body.shopQRImage !== undefined && req.body.shopQRImage !== '') {
       setting.shopQRImage = req.body.shopQRImage;
@@ -328,12 +389,11 @@ app.put('/api/settings', requireRole('admin'), upload.single('qrImage'), async (
     await setting.save();
     res.json({ message: 'ບັນທຶກຄ່າຮ້ານສຳເລັດ', setting });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
 // --- 🖨️ API ສຳລັບເຄື່ອງພິມໃບບິນ (Receipt Printer) ---
-// ອ່ານຄ່າເຄື່ອງພິມຈາກຖານຂໍ້ມູນ (ຕັ້ງຢູ່ໜ້າຕັ້ງຄ່າ) ກ່ອນ, ຖ້າບໍ່ມີຈະກັບໄປໃຊ້ຄ່າເລີ່ມຕົ້ນຈາກ .env
 function buildPrinterConfig(setting) {
   const envBool = process.env.PRINTER_ENABLED === 'true';
   return {
@@ -345,7 +405,6 @@ function buildPrinterConfig(setting) {
   };
 }
 
-// 🖨️ ພິມໃບບິນອອກເຄື່ອງພິມຈິງ — ພະນັກງານທຸກຄົນທີ່ login ຢູ່ໃຊ້ໄດ້ (ຕ້ອງການຕອນ checkout)
 app.post('/api/print/receipt', async (req, res) => {
   try {
     const receipt = req.body.receipt || req.body;
@@ -365,11 +424,10 @@ app.post('/api/print/receipt', async (req, res) => {
     const result = await printer.printReceipt(cfg, receipt, shop);
     res.json(result);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
-// 🧪 ທົດສອບພິມ — ສະເພາະ admin
 app.post('/api/print/test', requireRole('admin'), async (req, res) => {
   try {
     const setting = await Setting.findOne();
@@ -380,7 +438,7 @@ app.post('/api/print/test', requireRole('admin'), async (req, res) => {
     const result = await printer.printTestPage(cfg, shop);
     res.json(result);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -391,31 +449,26 @@ app.get('/api/products', async (req, res) => {
     const products = await Product.find();
     res.json(products);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
-// ➕ ສ້າງສິນຄ້າໃໝ່ — ຮັບ "ຈຳນວນ/ລາຄານຳເຂົ້າ" ເປັນ ຫົວໜ່ວຍໃຫຍ່ (importQuantity/importPrice),
-// ຄິດໄລ່ອອກເປັນ stock (ຫົວໜ່ວຍຍ່ອຍ) + ຕົ້ນທຶນຕໍ່ຫົວໜ່ວຍຍ່ອຍ ໃຫ້ອັດຕະໂນມັດ ແລະ ບັນທຶກເປັນປະຫວັດ Stock In ຄັ້ງທຳອິດນຳ
-app.post('/api/products', requireRole('admin'), upload.single('image'), async (req, res) => {
+app.post('/api/products', requireRole('admin'), upload.single('image'), verifyUploadedImage, async (req, res) => {
   try {
     const { sku, name, price, importQuantity, importPrice, category, unit, purchaseUnit, conversionRate, productType, expiryDate } = req.body;
-    
+
     let imagePath = '';
     if (req.file) {
-      imagePath = `/uploads/${req.file.filename}`; // ✅ relative path, frontend ຕໍ່ host ເອງ
+      imagePath = `/uploads/${req.file.filename}`;
     } else if (req.body.image) {
       imagePath = req.body.image;
     }
 
-    // 🥩 ສິນຄ້າສົດ: ບັງຄັບ conversionRate=1 ແລະ purchaseUnit=unit ຢູ່ຝັ່ງ server ນຳ (ບໍ່ເຊື່ອຄ່າຈາກ frontend ຢ່າງດຽວ)
-    // ຍ້ອນຂາຍ/ນຳເຂົ້າເປັນຫົວໜ່ວຍດຽວກັນ (ແພັກ) ບໍ່ມີອັດຕາການແປງ
     const isFresh = productType === 'fresh';
     const rate = isFresh ? 1 : (Number(conversionRate) || 1);
     const impQty = Number(importQuantity) || 0;
     const impPrice = Number(importPrice) || 0;
 
-    // 🛡️ ກວດຄ່າພື້ນຖານຝັ່ງ server (ກັນ NaN / ຄ່າລົບ / ທົດສະນິຍົມຂອງແພັກ)
     if (!name || !String(name).trim()) {
       return res.status(400).json({ error: 'ກະລຸນາໃສ່ຊື່ສິນຄ້າ' });
     }
@@ -436,18 +489,18 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), async (r
       }
     }
 
-    const totalPieces = impQty * rate;                                   // ຄິດອອກເປັນ ຫົວໜ່ວຍຍ່ອຍ
-    const perPieceCost = rate > 0 ? Number((impPrice / rate).toFixed(2)) : 0; // ຕົ້ນທຶນຕໍ່ 1 ຫົວໜ່ວຍຍ່ອຍ
+    const totalPieces = impQty * rate;
+    const perPieceCost = rate > 0 ? Number((impPrice / rate).toFixed(2)) : 0;
 
-    const newProduct = new Product({ 
+    const newProduct = new Product({
       sku: (sku && sku.trim()) || await generateUniqueSku(),
-      name, 
+      name,
       price: Number(price),
       costPrice: perPieceCost,
-      stock: totalPieces, 
-      image: imagePath, 
-      category, 
-      unit, 
+      stock: totalPieces,
+      image: imagePath,
+      category,
+      unit,
       purchaseUnit: isFresh ? unit : (purchaseUnit || unit),
       conversionRate: rate,
       productType: isFresh ? 'fresh' : 'packaged',
@@ -457,7 +510,6 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), async (r
 
     await newProduct.save();
 
-    // 📝 ບັນທຶກການນຳເຂົ້າຄັ້ງທຳອິດນີ້ລົງ Stock In History ນຳ (ຖ້າມີການລະບຸຈຳນວນນຳເຂົ້າ)
     if (impQty > 0) {
       const stockLog = new StockLog({
         productId: newProduct._id,
@@ -472,25 +524,22 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), async (r
 
     res.status(201).json({ message: 'Product added successfully!', product: newProduct });
   } catch (err) {
-    if (err && err.code === 11000) {
-      return res.status(400).json({ error: 'ລະຫັດ SKU ນີ້ຊ້ຳກັບສິນຄ້າອື່ນທີ່ມີຢູ່ແລ້ວ ກະລຸນາປ່ຽນ SKU' });
-    }
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
-app.put('/api/products/:id', requireRole('admin'), upload.single('image'), async (req, res) => {
+app.put('/api/products/:id', requireRole('admin'), upload.single('image'), verifyUploadedImage, async (req, res) => {
   try {
     const { sku, name, price, costPrice, stock, category, unit, purchaseUnit, conversionRate, expiryDate } = req.body;
-    
-    let updateData = { 
-      name, 
+
+    let updateData = {
+      name,
       price: Number(price),
-      stock: Number(stock), 
-      category, 
-      unit, 
+      stock: Number(stock),
+      category,
+      unit,
       purchaseUnit: purchaseUnit || unit,
-      conversionRate: Number(conversionRate) || 1 
+      conversionRate: Number(conversionRate) || 1
     };
 
     if (sku && sku.trim() !== '') {
@@ -502,9 +551,6 @@ app.put('/api/products/:id', requireRole('admin'), upload.single('image'), async
       updateData.costPrice = Number((Number(costPrice) / rateForCost).toFixed(2)) || 0;
     }
 
-    // 🥩 ອະນຸຍາດອັບເດດວັນໝົດອາຍຸ/ວັນຮັບເຂົ້າ ຕອນແກ້ໄຂສິນຄ້າສົດ (ຮັບເຂົ້າຮອບໃໝ່ ວັນໝົດອາຍຸປ່ຽນ)
-    // — ບໍ່ແຕະ productType ຕອນແກ້ໄຂ (ບໍ່ໃຫ້ສິນຄ້າເກົ່າປ່ຽນປະເພດໂດຍບັງເອີນ)
-    // ຣີເຊັດວັນຮັບເຂົ້າ (receivedDate) ສະເພາະເມື່ອວັນໝົດອາຍຸປ່ຽນຈິງ — ແກ້ແຕ່ລາຄາ/ຊື່ ບໍ່ຣີເຊັດອີກ
     if (expiryDate !== undefined) {
       const newExpiry = expiryDate ? new Date(expiryDate) : null;
       if (newExpiry && Number.isNaN(newExpiry.getTime())) {
@@ -530,12 +576,10 @@ app.put('/api/products/:id', requireRole('admin'), upload.single('image'), async
       updateData,
       { new: true }
     );
+    if (!updatedProduct) return res.status(404).json({ error: 'ບໍ່ພົບສິນຄ້ານີ້ໃນລະບົບ' });
     res.json({ message: 'Product updated successfully!', product: updatedProduct });
   } catch (err) {
-    if (err && err.code === 11000) {
-      return res.status(400).json({ error: 'ລະຫັດ SKU ນີ້ຊ້ຳກັບສິນຄ້າອື່ນທີ່ມີຢູ່ແລ້ວ ກະລຸນາປ່ຽນ SKU' });
-    }
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -544,7 +588,7 @@ app.delete('/api/products/:id', requireRole('admin'), async (req, res) => {
     await Product.findByIdAndDelete(req.params.id);
     res.json({ message: 'Product deleted successfully!' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -582,7 +626,6 @@ app.post('/api/stock/in', requireRole('admin'), async (req, res) => {
     if (costNumber > 0) {
       product.costPrice = Number((costNumber / conversionRate).toFixed(2));
     }
-    // 🥩 ສິນຄ້າສົດ: ຮັບເຂົ້າຮອບໃໝ່ → ອັບເດດວັນຮັບເຂົ້າ ແລະ ວັນໝົດອາຍຸ (ຖ້າສົ່ງມາ ແລະ ເປັນວັນທີ່ຖືກຕ້ອງ)
     if (product.productType === 'fresh') {
       product.receivedDate = new Date();
       if (expiryDate) {
@@ -592,15 +635,14 @@ app.post('/api/stock/in', requireRole('admin'), async (req, res) => {
     }
     await product.save();
 
-    res.status(200).json({ 
-      success: true, 
-      message: `ເພີ່ມ Stock ສຳເລັດແລ້ວ (+${totalPieces} ${product.unit})`, 
-      updatedStock: product.stock 
+    res.status(200).json({
+      success: true,
+      message: `ເພີ່ມ Stock ສຳເລັດແລ້ວ (+${totalPieces} ${product.unit})`,
+      updatedStock: product.stock
     });
 
   } catch (err) {
-    console.error('Error stock in:', err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    sendError(res, err, 'Internal Server Error');
   }
 });
 
@@ -611,8 +653,7 @@ app.get('/api/stock/logs', requireRole('admin'), async (req, res) => {
       .sort({ createdAt: -1 });
     res.status(200).json(logs);
   } catch (err) {
-    console.error('Error fetching stock logs:', err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    sendError(res, err, 'Internal Server Error');
   }
 });
 
@@ -624,18 +665,14 @@ app.post('/api/orders', async (req, res) => {
       return res.status(400).json({ error: 'ບໍ່ມີສິນຄ້າໃນລາຍການ' });
     }
 
-    // 🔒 employee ຈາກ Token (req.user.id) ເທົ່ານັ້ນ — ບໍ່ເຊື່ອ employeeId ຈາກ body ອີກຕໍ່ໄປ (ເຄີຍເປັນການປອມແທນເຈົ້າຂອງບັນຊີໄດ້)
     const employeeId = req.user.id;
 
-    // 🔒 ກະ (Shift) ມາຈາກ Token ເທົ່ານັ້ນ — ບໍ່ເຊື່ອ shiftId ຈາກ body
-    // cashier ຕ້ອງມີກະທີ່ກຳລັງເປີດຢູ່ຈຶ່ງຂາຍໄດ້ (admin ຂາຍໄດ້ໂດຍບໍ່ຕ້ອງເປີດກະ)
     const activeShift = await Shift.findActiveFor(req.user.id);
     if (!activeShift && req.user.role !== 'admin') {
       return res.status(400).json({ code: 'NO_OPEN_SHIFT', error: 'ຍັງບໍ່ໄດ້ເປີດກະ ຫຼື ກະຖືກປິດແລ້ວ — ກະລຸນາເປີດກະກ່ອນຂາຍ' });
     }
     const validShiftId = activeShift ? activeShift._id : null;
 
-    // 🏷️ Whitelist ວິທີຊຳລະເງິນ — ບໍ່ຮັບຄ່າມົວໆ ຈາກ body
     const ALLOWED_METHODS = ['cash', 'qr code', 'transfer'];
     const rawMethod = String(paymentMethod || '').trim();
     const methodKey = rawMethod.toLowerCase();
@@ -654,7 +691,7 @@ app.post('/api/orders', async (req, res) => {
         return res.status(400).json({ error: `ບໍ່ພົບສິນຄ້າ: ${item.name || item._id}` });
       }
       const qty = Number(item.quantity) || 0;
-      if (qty <= 0) {
+      if (qty <= 0 || !Number.isFinite(qty)) {
         return res.status(400).json({ error: `ຈຳນວນສິນຄ້າ "${product.name}" ບໍ່ຖືກຕ້ອງ` });
       }
       verifiedItems.push({
@@ -662,20 +699,20 @@ app.post('/api/orders', async (req, res) => {
         sku: product.sku,
         name: product.name,
         price: product.price,
-        costPrice: product.costPrice || 0, // 📊 ບັນທຶກຕົ້ນທຶນ ณ ເວລາຂາຍໄວ້ນຳ ເພື່ອຄິດກຳໄລຍ້ອນຫຼັງໄດ້ຖືກຕ້ອງ (ບໍ່ຖືກກະທົບຖ້າຕົ້ນທຶນປ່ຽນພາຍຫຼັງ)
+        costPrice: product.costPrice || 0,
         unit: product.unit,
         image: product.image,
         quantity: qty,
       });
-      verifiedTotal += product.price * qty;
+      verifiedTotal += round2(Number(product.price) * qty);
     }
+    verifiedTotal = round2(verifiedTotal);
 
-    // 💵 ກວດສອບເງິນທີ່ຮັບມາກັບຍອດລວມທີ່ server ຄິດໄລ່ — ບໍ່ພຽງພໍຕ້ອງຕັດອອກທັນທີ (ເຄີຍກວດພຽງ frontend ເທົ່ານັ້ນ)
-    const received = Number(cashReceived) || 0;
+    const received = round2(Number(cashReceived) || 0);
     if (received < verifiedTotal) {
       return res.status(400).json({ error: `ຈຳນວນເງິນທີ່ຮັບມາ (${received.toLocaleString()}) ນ້ອຍກວ່າຍອດລວມ (${verifiedTotal.toLocaleString()})` });
     }
-    const changeAmount = received - verifiedTotal;
+    const changeAmount = round2(received - verifiedTotal);
 
     const decremented = [];
     for (const item of verifiedItems) {
@@ -706,7 +743,6 @@ app.post('/api/orders', async (req, res) => {
       await newOrder.save();
       res.status(201).json({ message: 'Order created successfully!', order: newOrder });
 
-      // 🕐 ອັບເດດຍອດຂາຍລວມຂອງກະ (Shift) ໃຫ້ທັນເວລາ — ຕອນປິດກະຈະຄິດໄລ່ໃໝ່ຈາກ Order ອີກເທື່ອໜຶ່ງ ເພື່ອຄວາມຖືກຕ້ອງ
       if (validShiftId) {
         try {
           await Shift.findByIdAndUpdate(validShiftId, { $inc: { totalSales: verifiedTotal } });
@@ -721,7 +757,7 @@ app.post('/api/orders', async (req, res) => {
       throw saveErr;
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -731,8 +767,8 @@ app.get('/api/dashboard/stats', requireRole('admin'), async (req, res) => {
     const totalProducts = await Product.countDocuments();
 
     let totalToday = 0;
-    let cashToday = 0; 
-    let qrToday = 0;   
+    let cashToday = 0;
+    let qrToday = 0;
     let totalMonth = 0;
 
     const now = new Date();
@@ -770,17 +806,16 @@ app.get('/api/dashboard/stats', requireRole('admin'), async (req, res) => {
 
     const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(5);
 
-    res.json({ 
-      totalToday, 
-      cashToday, 
-      qrToday, 
-      totalMonth, 
-      totalProducts, 
-      recentOrders 
+    res.json({
+      totalToday,
+      cashToday,
+      qrToday,
+      totalMonth,
+      totalProducts,
+      recentOrders
     });
   } catch (err) {
-    console.error('Error fetching dashboard stats:', err);
-    res.status(500).json({ error: 'Server error' });
+    sendError(res, err, 'Server error');
   }
 });
 
@@ -789,7 +824,7 @@ app.get('/api/orders', requireRole('admin'), async (req, res) => {
     const orders = await Order.find().sort({ createdAt: -1 });
     res.json(orders);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
 
@@ -806,19 +841,41 @@ app.delete('/api/orders/:id', requireRole('admin'), async (req, res) => {
       }
     }
 
+    if (order.shiftId) {
+      try {
+        await Shift.findByIdAndUpdate(order.shiftId, { $inc: { totalSales: -Number(order.totalAmount || 0) } });
+      } catch (shiftErr) {
+        console.error('Error updating shift totalSales on order delete:', shiftErr);
+      }
+    }
+
     await Order.findByIdAndDelete(req.params.id);
     res.json({ message: 'Order deleted and stock restored successfully!' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    sendError(res, err);
   }
 });
-  
-// 🛡️ ຈັດການ error ຈາກ multer (ໄຟລ໌ຮູບຜິດປະເພດ, ໃຫຍ່ເກີນ 5MB) ໃຫ້ຕອບເປັນ JSON ແທນ crash ດ້ວຍ stack trace
+
+// 🚫 ບໍ່ພົບ API — ຕອບເປັນ JSON ແທນ HTML
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: `ບໍ່ພົບ API: ${req.method} ${req.originalUrl}` });
+});
+
+// 🛡️ ຈັດການ error ທີ່ຫຼຸດ try/catch ຂອງ route ມາ (ເຊັ່ນ error ຈາກ multer, express.json() ຫຼື middleware ອື່ນ)
 app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+
   if (err instanceof multer.MulterError || (err && err.message && err.message.includes('ໄຟລ໌ຮູບພາບ'))) {
     return res.status(400).json({ error: err.message });
   }
-  next(err);
+
+  if (err && (err.type === 'entity.parse.failed' || err instanceof SyntaxError)) {
+    return res.status(400).json({ error: 'ຮູບແບບຄຳຮ້ອງ (JSON) ບໍ່ຖືກຕ້ອງ' });
+  }
+
+  const { status, message } = classifyError(err);
+  if (status === 500) console.error('Unhandled error:', err);
+  res.status(status).json({ error: message });
 });
 
 const PORT = process.env.PORT || 5001;
