@@ -472,8 +472,10 @@ app.post('/api/products', requireRole('admin'), upload.single('image'), verifyUp
     if (!name || !String(name).trim()) {
       return res.status(400).json({ error: 'ກະລຸນາໃສ່ຊື່ສິນຄ້າ' });
     }
-    if (price === undefined || price === '' || !Number.isFinite(Number(price)) || Number(price) < 0) {
-      return res.status(400).json({ error: 'ລາຄາຂາຍບໍ່ຖືກຕ້ອງ' });
+    // 💰 ລາຄາຂາຍຕ້ອງ > 0 ບໍ່ແມ່ນແຄ່ >= 0 — ລາຄາ 0 = ສິນຄ້າຟຮາ, ລາຄາຕົດລົງ = POST /api/orders ສ້າງ order ລວມຕົດລົງ
+    //    ແລ້ changeAmount ກາຍເປັນບວກ → ຮ້ານຕ້ອງຈ່າຍເງິນໃຫ້ລູກຄ້າ (see POST /api/orders)
+    if (price === undefined || price === '' || !Number.isFinite(Number(price)) || Number(price) <= 0) {
+      return res.status(400).json({ error: 'ລາຄາຂາຍຕ້ອງເປັນຕົວເລກທີ່ມາກວ່າ 0' });
     }
     if (impQty < 0 || impPrice < 0) {
       return res.status(400).json({ error: 'ຈຳນວນ ຫຼື ລາຄານຳເຂົ້າຕ້ອງບໍ່ຕິດລົບ' });
@@ -532,18 +534,46 @@ app.put('/api/products/:id', requireRole('admin'), upload.single('image'), verif
   try {
     const { sku, name, price, costPrice, stock, category, unit, purchaseUnit, conversionRate, expiryDate } = req.body;
 
-    let updateData = {
-      name,
-      price: Number(price),
-      stock: Number(stock),
-      category,
-      unit,
-      purchaseUnit: purchaseUnit || unit,
-      conversionRate: Number(conversionRate) || 1
-    };
+    // 🛡️ ປ້ອງຄວາມຖືກຕ້ອງຂອງຕົວເລກ — ເດີມຊະໂນໃຊ້ input ຂອງ browser ຢ່າງດຽວ
+    //    ຖ້າບໍ່ກວດ: price ຕົດລົງ/0 → order ລວມຕົດລົງ → ຈ່າຍເງິນໃຫ້ລູກຄ້າ
+    //    ແລະ stock/conversionRate ຕົດລົງ → ການຮັບສິນຄ້າເຂົ້າຫຼີກສິນຄ້າໃນສາງ
+    if (price !== undefined && price !== '') {
+      if (!Number.isFinite(Number(price)) || Number(price) <= 0) {
+        return res.status(400).json({ error: 'ລາຄາຂາຍຕ້ອງເປັນຕົວເລກທີ່ມາກວ່າ 0' });
+      }
+    }
+    if (stock !== undefined && stock !== '') {
+      if (!Number.isFinite(Number(stock)) || Number(stock) < 0) {
+        return res.status(400).json({ error: 'ຈຳນວນສິນຄ້າຕ້ອງເປັນຕົວເລກ 0 ຂຶ້ນໄປ' });
+      }
+    }
+    if (conversionRate !== undefined && conversionRate !== '') {
+      const rate = Number(conversionRate);
+      if (!Number.isFinite(rate) || rate <= 0) {
+        return res.status(400).json({ error: 'ອັດຕະໂນດັບຕ້ອງເປັນຕົວເລກທີ່ມາກວ່າ 0' });
+      }
+    }
 
-    if (sku && sku.trim() !== '') {
-      updateData.sku = sku.trim();
+    // ກຳມະກວານໃສ່ແຕ່ field ທີ່ client ສົ່ງມາຈິງ — ຖ້າ Number(undefined) ຖືກເຂົ້າ updateData
+    // mongoose ຈະ throw CastError "Cast to Number failed for NaN" ແລ້ classifyError
+    // ຕອກ "ຮູບແບບລະຫັດ (ID) ບໍ່ຖືກຕ້ອງ" — ຂໍ້ຄວາມຜິດພາດໃຫ້ admin
+    const updateData = {};
+    if (name !== undefined) updateData.name = name;
+    if (price !== undefined && price !== '') updateData.price = Number(price);
+    if (stock !== undefined && stock !== '') updateData.stock = Number(stock);
+    if (category !== undefined) updateData.category = category;
+    if (unit !== undefined) {
+      updateData.unit = unit;
+      updateData.purchaseUnit = purchaseUnit || unit;
+    } else if (purchaseUnit !== undefined) {
+      updateData.purchaseUnit = purchaseUnit;
+    }
+    if (conversionRate !== undefined && conversionRate !== '') {
+      updateData.conversionRate = Number(conversionRate);
+    }
+
+    if (sku && String(sku).trim() !== '') {
+      updateData.sku = String(sku).trim();
     }
 
     if (costPrice !== undefined && costPrice !== '') {
@@ -608,10 +638,45 @@ app.post('/api/stock/in', requireRole('admin'), async (req, res) => {
       return res.status(400).json({ message: 'ຈຳນວນສິນຄ້າຕ້ອງຫຼາຍກວ່າ 0' });
     }
 
-    const conversionRate = Number(product.conversionRate) || 1;
-    const totalPieces = purchaseQty * conversionRate;
+    // 🛡️ ກວດ conversionRate > 0 ກ່ອນ: ຂໍ້ມູນເກົາທີ່ rate ຕົດລົງ (ເກົາ POST/PUT /api/products ກວດແລ້ວ)
+    //    ເຮັດໃຫ້ `|| 1` ບໍ່ຊ່ວມ → ຄິດ totalPieces ເປັນຕົດລົງ ແລະ ຫຍອຍ stock
+    const conversionRate = Number(product.conversionRate);
+    if (!Number.isFinite(conversionRate) || conversionRate <= 0) {
+      return res.status(400).json({
+        message: `ອັດຕະໂນດັບຂອງ "${product.name}" ບໍ່ຖືກຕ້ອງ (ຕ້ອງເປັນຈຳນວນທີ່ໃຊົ່ນໄດ້) ກະລຸນາແກ້ໃຫ້ admin ຕັ້ງຄືນ`
+      });
+    }
 
-    const stockLog = new StockLog({
+    const totalPieces = round2(purchaseQty * conversionRate);
+
+    // 🔒 ເພີ່ມ stock ດ້ວຍ $inc ໃນ query ໜຶ່ງດຽວ = atomic, ບໍ່ lost update
+    //    ຖ້າຂຽງໃຊ້ read-modify-write (product.stock = ...; product.save())
+    //    request ພ້ອມກັນ 2 ອັນຈະເຮັດໃຫ້ increment ຫາຍໜຶ່ງຫາຍ
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: productId, conversionRate: { $gt: 0 } },
+      { $inc: { stock: totalPieces } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(400).json({ message: 'ສິນຄ້າມີການປ່ຽນແປງລະຫວ່ງຂອງອັດຕະໂນດັບ — ກະລຸນາລອງໃໝ່' });
+    }
+
+    if (costNumber > 0) {
+      await Product.findByIdAndUpdate(productId, {
+        $set: { costPrice: Number((costNumber / conversionRate).toFixed(2)) }
+      });
+    }
+    if (product.productType === 'fresh') {
+      const freshFields = { receivedDate: new Date() };
+      if (expiryDate) {
+        const parsedExpiry = new Date(expiryDate);
+        if (!isNaN(parsedExpiry.getTime())) freshFields.expiryDate = parsedExpiry;
+      }
+      await Product.findByIdAndUpdate(productId, { $set: freshFields });
+    }
+
+    await new StockLog({
       productId,
       quantity: totalPieces,
       purchaseQuantity: purchaseQty,
@@ -619,26 +684,12 @@ app.post('/api/stock/in', requireRole('admin'), async (req, res) => {
       costPrice: costNumber || 0,
       note: note || 'ຮັບສິນຄ້າເຂົ້າຮ້ານ',
       createdAt: new Date()
-    });
-    await stockLog.save();
-
-    product.stock = (product.stock || 0) + totalPieces;
-    if (costNumber > 0) {
-      product.costPrice = Number((costNumber / conversionRate).toFixed(2));
-    }
-    if (product.productType === 'fresh') {
-      product.receivedDate = new Date();
-      if (expiryDate) {
-        const parsedExpiry = new Date(expiryDate);
-        if (!isNaN(parsedExpiry.getTime())) product.expiryDate = parsedExpiry;
-      }
-    }
-    await product.save();
+    }).save();
 
     res.status(200).json({
       success: true,
       message: `ເພີ່ມ Stock ສຳເລັດແລ້ວ (+${totalPieces} ${product.unit})`,
-      updatedStock: product.stock
+      updatedStock: updatedProduct.stock
     });
 
   } catch (err) {
@@ -693,6 +744,12 @@ app.post('/api/orders', async (req, res) => {
       const qty = Number(item.quantity) || 0;
       if (qty <= 0 || !Number.isFinite(qty)) {
         return res.status(400).json({ error: `ຈຳນວນສິນຄ້າ "${product.name}" ບໍ່ຖືກຕ້ອງ` });
+      }
+      // ປ້ອງຂໍ້ມູນເກົາ/ຂໍ້ມູນທີ່ເຄົາທີ່ມີລາຄາ <= 0: ຖ້າບໍ່ກວດ total ຈະເປັນຕົດລົງ
+      // ແລະ changeAmount ຈະເປັນບວກ ທ້າຮ້ານຕ້ອງຈ່າຍເງິນໃຫ້ລູກຄ້າ
+      const unitPrice = Number(product.price);
+      if (!Number.isFinite(unitPrice) || unitPrice <= 0) {
+        return res.status(400).json({ error: `ລາຄາຂາຍຍ່ອຍຂອງ "${product.name}" ບໍ່ຖືກຕ້ອງ (ຕ້ອງເປັນຈຳນວນທີ່ໃຊົ່ນໄດ້) ກະລຸນາແກ້ໃຫ້ admin ຕັ້ງລາຄາໃໝ່` });
       }
       verifiedItems.push({
         _id: product._id,
@@ -830,13 +887,21 @@ app.get('/api/orders', requireRole('admin'), async (req, res) => {
 
 app.delete('/api/orders/:id', requireRole('admin'), async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    // 🔒 ລຶບ order ດ້ວຍ findOneAndDelete ກ່ອນ ແລ້ຄືນ stock.
+    //    - atomic claim: 2 request ພ້ອມກັນ ຈະໄດ້ order ພຽງອັນໜຶ່ງ → ຄືນ stock 1 ຄັ້ງ (ບໍ່ 2 ຄັ້ງ)
+    //    - ທິດທານ: ຖ້າຄືນ stock ກ່ອນ ແລ້ delete ລົ້ມ → ໄດ້ສິນຄ້າຟຮາ + order ຍັງຢູ່
+    //      ແລະກົດ delete ອີກເທື່ອງໄດ້ (ຄືນ stock ຊົ້ວ) = ການກວດດາວຊີ້ລາຄາໄດ້ເລີຍ
+    //    - ຖ້າຄືນ stock ລົ້ມ → order ຖືກລຶບແລ້ວ = ຂໍ້ມູນບັນທຶກຜິດ (ປອດໄພ, ກົດຊົ້ວບໍ່ໄດ້)
+    const order = await Order.findOneAndDelete({ _id: req.params.id });
     if (!order) return res.status(404).json({ error: 'ບໍ່ພົບຂໍ້ມູນບິນນີ້' });
 
-    if (Array.isArray(order.items)) {
-      for (const item of order.items) {
-        if (item._id && item.quantity) {
+    const items = Array.isArray(order.items) ? order.items : [];
+    for (const item of items) {
+      if (item._id && item.quantity) {
+        try {
           await Product.findByIdAndUpdate(item._id, { $inc: { stock: item.quantity } });
+        } catch (stockErr) {
+          console.error(`Error restoring stock for product ${item._id} on order delete:`, stockErr);
         }
       }
     }
@@ -849,7 +914,6 @@ app.delete('/api/orders/:id', requireRole('admin'), async (req, res) => {
       }
     }
 
-    await Order.findByIdAndDelete(req.params.id);
     res.json({ message: 'Order deleted and stock restored successfully!' });
   } catch (err) {
     sendError(res, err);

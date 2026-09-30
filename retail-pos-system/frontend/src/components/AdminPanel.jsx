@@ -409,6 +409,20 @@ export default function AdminPanel({ onLogout }) {
     const isFresh = form.productType === 'fresh';
     const freshCreate = isFresh && !editingId;
 
+    // 💰 ຢືນຢັນລາຄາຂາຍກ່ອນສ້ງຟອມ — ປ້ອງບັງທີ່ເຮັດໃຫ້ລູກຄ້າ "ຈ່າຍເງິນໃຫ້ຮ້ານ" ຫຼື ຂາຍສິນຄ້າຟຮາ
+    //    Number('') === 0 ເຮັດໃຫ້ `required` ບໍ່ມີຜົນ (value ບໍ່ຫວ່າງແລ້) ແລະ min="0" ອະນຸຍ 0 ຢູ່
+    //    => ຕ້ອງກວດ > 0 ໂດຍກົງ ເພື່ອບໍ່ໃຫ້ລາຄາ 0 ຫຼື ຕົດລົງຜ່ານໄດ້
+    const priceNum = Number(form.price);
+    if (!Number.isFinite(priceNum) || priceNum <= 0) {
+      alert('ກະລຸນາໃສ່ ລາຄາຂາຍຕ້ອງມາກວ່າ 0 ກີບ');
+      return;
+    }
+    const stockNum = Number(form.stock);
+    if (!Number.isFinite(stockNum) || stockNum < 0) {
+      alert('ກະລຸນາໃສ່ ຈຳນວນສິນຄ້າ ແຕ່ຕ້ອງບໍ່ຕົດລົງ');
+      return;
+    }
+
     // 🥩 ຂອງສົດແບບ "ຊື້ເປັນກິໂລ ແບ່ງແພັກຂາຍ": ຄິດ stock (ແພັກ) ແລະ ຕົ້ນທຶນຕໍ່ແພັກ ຈາກຂໍ້ມູນການຊື້ຈິງ
     //   ຕົ້ນທຶນຕໍ່ແພັກ = (ກິໂລ × ລາຄາຕໍ່ກິໂລ) ÷ ຈຳນວນແພັກທີ່ແບ່ງໄດ້ຈິງ — ຮວມສ່ວນທີ່ເສຍຕອນຕັດແຕ່ງໄວ້ໃນຕົ້ນທຶນແລ້ວ
     let freshPacks = 0;
@@ -762,7 +776,7 @@ export default function AdminPanel({ onLogout }) {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ລາຄາຂາຍຍ່ອຍ (ຕໍ່ 1 {form.unit || 'ໜ່ວຍ'})</label>
-                      <input type="number" placeholder="ລາຄາ..." value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                      <input type="number" min="0" step="any" placeholder="ລາຄາ..." value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
                     </div>
 
                     {Number(form.conversionRate) > 0 && Number(form.stock) > 0 && (
@@ -884,7 +898,7 @@ export default function AdminPanel({ onLogout }) {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-600 mb-1">ລາຄາຂາຍຍ່ອຍ (ຕໍ່ 1 {form.unit || 'ໜ່ວຍ'})</label>
-                      <input type="number" placeholder="ລາຄາ..." value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
+                      <input type="number" min="0" step="any" placeholder="ລາຄາ..." value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} className="w-full border border-gray-300 p-2 rounded-lg text-sm" required />
                     </div>
 
                     {Number(form.conversionRate) > 0 && Number(form.stock) > 0 && (

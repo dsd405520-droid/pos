@@ -124,6 +124,13 @@ function App() {
   const [paymentType, setPaymentType] = useState('cash'); // 'cash' ຫຼື 'qr'
   const [cashReceived, setCashReceived] = useState('');
   const [isCheckingQR, setIsCheckingQR] = useState(false);
+  // 🔒 ລັອກກັນການຊຳລະເງິນສົດຊົ່ວ 2 ຄັ້ງ
+  //    - isProcessingCash ໃຊ້ເພື່ອ disable ປຸ່ມ
+  //    - cashLockRef ເປັນຕົວລັອກຈິງ (synchronous) ເພາະ state ຢັນ set ບໍ່ທັນທີ ສະນັ້ນ double-click
+  //      ໃນ tick ໜຶ່ງດຽວຈະເຮັດໃຫ້ state ທັງສອງອ່ານເປັນ false ໄດ້
+  const [isProcessingCash, setIsProcessingCash] = useState(false);
+  const cashLockRef = useRef(false);
+  const qrLockRef = useRef(false); // ລັອກຊົ່ວ 2 ຄັ້ງ ສຳລັບ QR (state ຢັນ set ບໍ່ທັນທີ)
   // 🎞️ ເປີດ/ປິດໂໝດສະໄລ້ອັດຕະໂນມັດ (ຈື່ຄ່າໄວ້ໃນເຄື່ອງ, ເລີ່ມຕົ້ນ = ເປີດ)
   const [autoSlideOn, setAutoSlideOn] = useState(() => {
     try { return localStorage.getItem(AUTO_SLIDE_STORAGE_KEY) !== 'off'; } catch { return true; }
@@ -509,8 +516,14 @@ function App() {
   };
 
   const handleConfirmPayment = async () => {
+    if (cashLockRef.current) return;
+    cashLockRef.current = true;
+    setIsProcessingCash(true);
+
     const received = Number(cashReceived);
     if (isNaN(received) || received < totalAmount) {
+      cashLockRef.current = false;
+      setIsProcessingCash(false);
       return alert('❌ ຈຳນວນເງິນທີ່ຮັບມາໜ້ອຍກວ່າຍອດລວມສິນຄ້າ!');
     }
 
@@ -552,11 +565,21 @@ function App() {
     } catch (err) {
       console.error('Checkout error:', err);
       alert('ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່');
+    } finally {
+      cashLockRef.current = false;
+      setIsProcessingCash(false);
     }
   };
 
   const handleConfirmQRPayment = async () => {
-    if (!qrVerified) return alert('❌ ກະລຸນາຕິກຊ່ອງຢືນຢັນວ່າ ກວດເບິ່ງເງິນເຂົ້າຈິງແລ້ວ ກ່ອນ');
+    // 🔒 ລັອກຊົ່ວ 2 ຄັ້ງ + ປ້ອງກັນກົດ "ຍົກເລີກ" ຂອງນີ້ໃຜ່ນ request ຍັງບໍ່ທັນສຳເລັດ
+    //    (ຖ້າບໍ່ລັອກ: response ຈະ setCart([]) ລຶບສິນຄ້າຂອງລູກຄ້າຄົນຕໍ່ໄປ)
+    if (qrLockRef.current) return;
+    qrLockRef.current = true;
+    if (!qrVerified) {
+      qrLockRef.current = false;
+      return alert('❌ ກະລຸນາຕິກຊ່ອງຢືນຢັນວ່າ ກວດເບິ່ງເງິນເຂົ້າຈິງແລ້ວ ກ່ອນ');
+    }
     setIsCheckingQR(true);
 
     try {
@@ -570,9 +593,8 @@ function App() {
         }),
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        setIsCheckingQR(false);
+      const data = await response.json().catch(() => null);
+      if (response.ok && data && data.order) {
         setIsCashModalOpen(false);
 
         setReceipt({
@@ -587,20 +609,21 @@ function App() {
         });
         setCart([]);
         fetchProducts(false);
-        alert('✅ ຊຳລະເງິນຜ່ານ QR Code ສໍາເລັດແລ້ວ!');
+        alert('✅ ຊຳລະເງິນຜ່ານ QR Code ສຳເລັດແລ້ວ!');
       } else {
-        setIsCheckingQR(false);
-        if (data.code === 'NO_OPEN_SHIFT') {
+        if (data && data.code === 'NO_OPEN_SHIFT') {
           alert('⚠️ ' + data.error);
           window.location.reload(); // ກັບໄປຟອມເປີດກະ
           return;
         }
-        alert('Checkout failed: ' + data.error);
+        alert('Checkout failed: ' + ((data && data.error) || `HTTP ${response.status}`));
       }
     } catch (err) {
-      setIsCheckingQR(false);
       console.error('Checkout error:', err);
       alert('ເກີດຂໍ້ຜິດພາດໃນການເຊື່ອມຕໍ່');
+    } finally {
+      qrLockRef.current = false;
+      setIsCheckingQR(false);
     }
   };
 
@@ -858,13 +881,13 @@ function App() {
                 )}
 
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  <button onClick={() => setIsCashModalOpen(false)} style={{ flex: 1, padding: '12px', background: '#e2e8f0', color: '#334155', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>ຍົກເລີກ</button>
+                  <button onClick={() => setIsCashModalOpen(false)} disabled={isProcessingCash} style={{ flex: 1, padding: '12px', background: '#e2e8f0', color: '#334155', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: isProcessingCash ? 'not-allowed' : 'pointer', opacity: isProcessingCash ? 0.6 : 1 }}>ຍົກເລີກ</button>
                   <button 
                     onClick={handleConfirmPayment}
-                    disabled={Number(cashReceived) < totalAmount}
-                    style={{ flex: 1, padding: '12px', background: Number(cashReceived) < totalAmount ? '#94a3b8' : '#16a34a', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: Number(cashReceived) < totalAmount ? 'not-allowed' : 'pointer' }}
+                    disabled={Number(cashReceived) < totalAmount || isProcessingCash}
+                    style={{ flex: 1, padding: '12px', background: (Number(cashReceived) < totalAmount || isProcessingCash) ? '#94a3b8' : '#16a34a', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: (Number(cashReceived) < totalAmount || isProcessingCash) ? 'not-allowed' : 'pointer' }}
                   >
-                    ຢືນຢັນການຊຳລະເງິນສົດ
+                    {isProcessingCash ? 'ກຳລັງປະມວນຜົນ...' : 'ຢືນຢັນການຊຳລະເງິນສົດ'}
                   </button>
                 </div>
               </>
@@ -902,7 +925,7 @@ function App() {
                 )}
 
                 <div style={{ display: 'flex', gap: '10px' }}>
-                  <button onClick={() => setIsCashModalOpen(false)} style={{ flex: 1, padding: '12px', background: '#e2e8f0', color: '#334155', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>ຍົກເລີກ</button>
+                  <button onClick={() => setIsCashModalOpen(false)} disabled={isCheckingQR} style={{ flex: 1, padding: '12px', background: '#e2e8f0', color: '#334155', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: isCheckingQR ? 'not-allowed' : 'pointer', opacity: isCheckingQR ? 0.6 : 1 }}>ຍົກເລີກ</button>
                   <button 
                     onClick={handleConfirmQRPayment}
                     disabled={isCheckingQR || !qrVerified || !(shopSettings && shopSettings.shopQRImage)}

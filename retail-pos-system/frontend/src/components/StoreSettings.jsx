@@ -21,25 +21,47 @@ export default function StoreSettings() {
   const [saving, setSaving] = useState(false);
   const [testing, setTesting] = useState(false);
   const [testMsg, setTestMsg] = useState(null); // { ok, text }
+  const [loadError, setLoadError] = useState(null); // ຂໍ້ຄວາມໂຫຼດຂໍ້ມູນຮ້ານບໍ່ສຳເລັດ (ປ້ອງກັນບໍ່ໃຫ້ບັນທຶກທັບຄືນຂໍ້ມູນຫວີໃຫ້ວ່າງ)
 
-  const fetchSettings = () => {
+  const fetchSettings = async () => {
     setLoading(true);
-    fetch(`${API_BASE_URL}/api/settings`, { headers: authHeaders() })
-      .then((res) => res.json())
-      .then((data) => {
-        setShopName(data.shopName || '');
-        setShopAddress(data.shopAddress || '');
-        setShopPhone(data.shopPhone || '');
-        setReceiptFooter(data.receiptFooter || '');
-        setPrinterEnabled(!!data.printerEnabled);
-        setPrinterMethod(data.printerMethod || 'network-escpos');
-        setPrinterIp(data.printerIp || '');
-        setPrinterPort(data.printerPort || 9100);
-        setPrinterName(data.printerName || '');
-        setQrImage(data.shopQRImage || '');
-      })
-      .catch((err) => console.error('Error fetching settings:', err))
-      .finally(() => setLoading(false));
+    setLoadError(null);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/settings`, { headers: authHeaders() });
+
+      // 🔒 Session ໝົດອາຍຸ/ບໍ່ຖືກຕ້ອງ → ລ້າງ session ແລ້ວກັບໄປໜ້າ Login
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('employee');
+        window.location.href = '/';
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+
+      // ⚠️ ຢ່າດ້າບອກເຂົ້າພຽງແຕ່ HTTP status ເທົ່ານັ້ນ — ຖ້າບໍ່ກວດ ຂໍ້ມູນຜິດພາດ (401/403/500/network)
+      //    ຈະຖືກໃສ່ໃນຟອມເປັນຄ່າວ່າງ ແລ້ວກົດ "ບັນທຶກ" → ລຶບຊື່ຮ້ານ + ຄ່າເຄື່ອງພິມທັງໝົດ
+      if (!res.ok || !data || typeof data !== 'object') {
+        setLoadError((data && data.error) || `ບໍ່ສຳເລັດ (HTTP ${res.status})`);
+        return;
+      }
+
+      setShopName(data.shopName || '');
+      setShopAddress(data.shopAddress || '');
+      setShopPhone(data.shopPhone || '');
+      setReceiptFooter(data.receiptFooter || '');
+      setPrinterEnabled(!!data.printerEnabled);
+      setPrinterMethod(data.printerMethod || 'network-escpos');
+      setPrinterIp(data.printerIp || '');
+      setPrinterPort(data.printerPort || 9100);
+      setPrinterName(data.printerName || '');
+      setQrImage(data.shopQRImage || '');
+    } catch (err) {
+      console.error('Error fetching settings:', err);
+      setLoadError('ເຊື່ອມຕໍ່ເຊີເວີບໍ່ໄດ້');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -71,10 +93,12 @@ export default function StoreSettings() {
 
       const res = await fetch(`${API_BASE_URL}/api/settings`, {
         method: 'PUT',
-        headers: authHeaders(), // ບໍ່ໃສ່ Content-Type ເອງ ໃຫ້ browser ຕັ້ງ boundary ຂອງ FormData ໃຫ້
+        headers: authHeaders(), // ບໍ່ໃສ່ Content-Type ແອງ ໃຫ້ browser ຕັ້ງ boundary ຂອງ FormData ໃຫ້
         body: formData,
       });
-      const data = await res.json();
+      // ⚠️ .catch(() => null) ກັນ body ທີ່ບໍ່ແມ່ນ JSON (proxy/gateway ຕອກ HTML, 401 ຈາກ reverse proxy)
+      //    ຖ້າບໍ່ກວດ ມັນຈະ throw ເຂົ້າ catch ຂ້າງເທິງ ແລະເຮັນໃຫ້ເຫັນຂໍ້ຄວາມຜິດພາດທົນໃຫ້ ບໍ່ເຫັນສາເຫດຈິງ
+      const data = await res.json().catch(() => null);
       if (res.ok) {
         alert('✅ ບັນທຶກຄ່າຮ້ານສຳເລັດ');
         setQrFile(null);
@@ -82,7 +106,7 @@ export default function StoreSettings() {
         setRemoveQR(false);
         fetchSettings();
       } else {
-        alert('❌ ' + (data.error || 'ບັນທຶກບໍ່ສຳເລັດ'));
+        alert('❌ ' + ((data && data.error) || `ບັນທຶກບໍ່ສຳເລັດ (HTTP ${res.status})`));
       }
     } catch (err) {
       console.error('Save settings error:', err);
@@ -108,6 +132,30 @@ export default function StoreSettings() {
 
   if (loading) {
     return <p className="text-gray-400 text-center mt-10">ກຳລັງໂຫຼດ...</p>;
+  }
+
+  // 🛑 ບໍ່ສະເລັດໃຫ້ສະແດງ/ບັນທຶກຟອມທີ່ຍັງບໍ່ໄດ້ໂຫຼດຂໍ້ມູນມາ — ສານີ້ເປັນຄ່າວ່າງທັງໝົດ
+  //    ຖ້າປະໄວ້ໃຫ້ບັນທຶກ ມັນຈະສົ່ງຄ່າວ່າງກັບ server → ຊື່ຮ້ານ/ທີ່ຢູ່/ເບີໂທ/ເຄື່ອງພິມ ຫາຍໄປ
+  if (loadError) {
+    return (
+      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6">
+        <h2 className="text-2xl font-bold text-gray-800 border-b pb-4">⚙️ ຕັ້ງຄ່າຮ້ານ</h2>
+        <div className="mt-4 bg-red-50 border border-red-200 text-red-800 rounded-lg p-4">
+          <p className="font-semibold">❌ ໂຫຼດຂໍ້ມູນຮ້ານບໍ່ສຳເລັດ: {loadError}</p>
+          <p className="text-sm mt-2">
+            ການບັນທຶກຖືກປິດໄວ້ ເພື່ອປ້ອງຂໍ້ມູນຮ້ານ ແລະ ຄ່າເຄື່ອງພິມທີ່ມີຢູ່ແລ້ວ ບໍ່ໃຫ້ຖືກບັນທຶກທັບຄືນເປັນຄ່າວ່ງ.
+            ກະລຸນາກົດ "ລອງໃໝ່" ໃຫ້ໂຫຼດສຳເລັດກ່ອນ.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={fetchSettings}
+          className="mt-4 w-full py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700"
+        >
+          🔄 ລອງໃໝ່
+        </button>
+      </div>
+    );
   }
 
   return (

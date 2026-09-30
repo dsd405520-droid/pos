@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Dashboard from './components/Dashboard';
 import AdminPanel from './components/AdminPanel';
 import OrdersList from './components/OrdersList'; // 1. ນຳເຂົ້າ Component ປະຫວັດການຂາຍ
-import ShiftHistory from './components/ShiftHistory'; // 🕐 ປະຫວັດກະ (ເງິນຄວນມີ vs ເງິນນັບໄດ້)
+import ShiftHistory from './components/Shifthistory'; // 🕐 ປະຫວັດກະ (ເງິນຄວນມີ vs ເງິນນັບໄດ້) — 🩹 ແກ້ໃຫ້ຕົງກັບຊື່ໄຟລ໌ຈິງ (Shifthistory.jsx, h ນ້ອຍ) ບໍ່ດັ່ງນັ້ນ build ຢູ່ Linux/Docker ຈະພັງ
 import StoreSettings from './components/StoreSettings'; // ⚙️ ໜ້າຕັ້ງຄ່າຮ້ານ (QR ຮັບເງິນໂອນຈິງ)
 
 export default function AdminPage() {
