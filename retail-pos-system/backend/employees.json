@@ -1,0 +1,116 @@
+[
+  {
+    "_id": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "name": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "username": "tong",
+    "pin": "$2b$10$nZ59cF21KGD65.vK2pmE2uv6zkztMHGe3mPvECoM8OrKYIWNc8W/.",
+    "role": "cashier",
+    "phone": "02094167894",
+    "status": "active",
+    "createdAt": {
+      "$date": "2026-08-20T08:48:06.923Z"
+    },
+    "updatedAt": {
+      "$date": "2026-09-22T08:57:03.467Z"
+    },
+    "__v": 0,
+    "employeeCode": "EMP0002"
+  },
+  {
+    "_id": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "name": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "username": "off",
+    "pin": "$2b$10$xjLojsg.3DYkDaENs3WGwer2iP5D.RYUSY4w7yHNS/fMhOEKhIFXS",
+    "role": "cashier",
+    "phone": "22151284",
+    "status": "active",
+    "createdAt": {
+      "$date": "2026-08-21T03:59:17.158Z"
+    },
+    "updatedAt": {
+      "$date": "2026-09-22T08:57:03.474Z"
+    },
+    "__v": 0,
+    "employeeCode": "EMP0003"
+  },
+  {
+    "_id": {
+      "$oid": "6aacb331da835a30f7cc2cf8"
+    },
+    "name": "Administrator",
+    "username": "admin",
+    "pin": "$2b$10$dye7iAXzA3waXcbiCYzqae8dqPP.0Qh8JaP.nwrBn9hzUhU8TFlLm",
+    "role": "admin",
+    "status": "active",
+    "createdAt": {
+      "$date": "2026-09-18T03:42:41.111Z"
+    },
+    "updatedAt": {
+      "$date": "2026-09-22T08:57:03.477Z"
+    },
+    "__v": 0,
+    "phone": "",
+    "employeeCode": "EMP0004"
+  },
+  {
+    "_id": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "name": "khone",
+    "username": "Jane@example.com",
+    "pin": "$2b$10$tWUrSCMgfyWsIuFvPxu5.e/jiWqa3qcVxeFFvY/6jsTUgJxRDMyfu",
+    "role": "cashier",
+    "phone": "5458888",
+    "status": "active",
+    "createdAt": {
+      "$date": "2026-09-18T04:01:54.207Z"
+    },
+    "updatedAt": {
+      "$date": "2026-09-22T08:57:03.480Z"
+    },
+    "__v": 0,
+    "employeeCode": "EMP0005"
+  },
+  {
+    "_id": {
+      "$oid": "6ab0ebb6e8eec1a684fc517d"
+    },
+    "name": "saiy phu luang Mr",
+    "username": "jame",
+    "pin": "$2b$10$t6qzOoz8VK3nruz6hRiTi.9Toq2qAmzsCoPtvb34a6PosEgenMGge",
+    "role": "cashier",
+    "phone": "22151284",
+    "status": "active",
+    "createdAt": {
+      "$date": "2026-09-21T08:32:54.503Z"
+    },
+    "updatedAt": {
+      "$date": "2026-09-22T08:57:03.482Z"
+    },
+    "__v": 0,
+    "employeeCode": "EMP0006"
+  },
+  {
+    "_id": {
+      "$oid": "6ab242600ad9890a60d323ce"
+    },
+    "employeeCode": "EMP0001",
+    "name": "ປັນຍາວົງ",
+    "username": "dex",
+    "pin": "$2b$10$0b08.LCx0n.8M9E26vJs3e97C.ZwPOLpBpUhXJTthCF/b6VPMS0ly",
+    "role": "cashier",
+    "phone": "229416789",
+    "status": "active",
+    "createdAt": {
+      "$date": "2026-09-22T08:54:56.324Z"
+    },
+    "updatedAt": {
+      "$date": "2026-09-22T08:54:56.324Z"
+    },
+    "__v": 0
+  }
+]

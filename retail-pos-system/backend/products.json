@@ -1,0 +1,322 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab1f298f6338663028e7940"
+    },
+    "sku": "P2864",
+    "name": "ໝືກກູ່ບ",
+    "price": 15000,
+    "costPrice": 10000,
+    "stock": 62,
+    "image": "/uploads/1790131802647-809831954.jpg",
+    "category": "ອາຫານ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 5,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f570f6338663028e79b7"
+    },
+    "sku": "8859313500200",
+    "name": "ນຳ້ດື່ມຫົວເສື້ອໃຫຍ່",
+    "price": 10000,
+    "costPrice": 2500,
+    "stock": 53,
+    "image": "https://www.shopping-d.com/cdn/shop/products/11_4773d101-9fd9-4a3b-944e-7c28a4ca7faa.png?v=1661666561&width=533",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຕຸກ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f5caf6338663028e79eb"
+    },
+    "sku": "P0695",
+    "name": "ຊາຂຽວ (Green Tea)",
+    "price": 15000,
+    "costPrice": 0,
+    "stock": 194,
+    "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຈອກ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 12,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f62ef6338663028e7a08"
+    },
+    "sku": "#6e0968",
+    "name": "ກາເຟເຢັນ (Iced Coffee)",
+    "price": 20000,
+    "costPrice": 2000,
+    "stock": 17,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຈອກ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 5,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f683f6338663028e7a23"
+    },
+    "sku": "P5510",
+    "name": "ເຂົ້າໜົມປັງ (Bread)",
+    "price": 10000,
+    "costPrice": 8000,
+    "stock": 8,
+    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+    "category": "ທົ່ວໄປ",
+    "unit": "ອັນ",
+    "purchaseUnit": "ຖົງ",
+    "conversionRate": 5,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f6b8f6338663028e7a37"
+    },
+    "sku": "P8793",
+    "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+    "price": 23000,
+    "costPrice": 18000,
+    "stock": 7,
+    "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+    "category": "ອາຫານ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 4,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f6c6f6338663028e7a3e"
+    },
+    "sku": "P2824",
+    "name": "ສະໄລ(ເເບບຖົງ)",
+    "price": 15000,
+    "costPrice": 10000,
+    "stock": 13,
+    "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+    "category": "ເຄື່ອງໃຊ້",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 3,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f713f6338663028e7a52"
+    },
+    "sku": "P3588",
+    "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+    "price": 13000,
+    "costPrice": 6500,
+    "stock": 50,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ເເກ້ວ",
+    "purchaseUnit": "ເເກັດ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f729f6338663028e7a59"
+    },
+    "sku": "P1659",
+    "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+    "price": 12000,
+    "costPrice": 45000,
+    "stock": 10,
+    "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+    "category": "ອາຫານ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 5,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f736f6338663028e7a60"
+    },
+    "sku": "P7196",
+    "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+    "price": 15000,
+    "costPrice": 65000,
+    "stock": 21,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+    "category": "ທົ່ວໄປ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 8,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f747f6338663028e7a68"
+    },
+    "sku": "P7692",
+    "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+    "price": 8000,
+    "costPrice": 75000,
+    "stock": 35,
+    "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+    "category": "ຂະຫນົມ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ກັບ",
+    "conversionRate": 10,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f756f6338663028e7a6f"
+    },
+    "sku": "P8706",
+    "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+    "price": 15000,
+    "costPrice": 75000,
+    "stock": 27,
+    "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຕຸກ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f765f6338663028e7a76"
+    },
+    "sku": "P6715",
+    "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+    "price": 15000,
+    "costPrice": 75000,
+    "stock": 29,
+    "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຕຸກ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f772f6338663028e7a7d"
+    },
+    "sku": "P0569",
+    "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+    "price": 15000,
+    "costPrice": 75000,
+    "stock": 28,
+    "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຕຸກ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f780f6338663028e7a85"
+    },
+    "sku": "P2484",
+    "name": "ມ່າມ່າ ຕົ້ມຍຳກຸ້ງ (ເເບບປອ່ງ)",
+    "price": 13000,
+    "costPrice": 65000,
+    "stock": 29,
+    "image": "https://media.allonline.7eleven.co.th/pdmain/120182_010_04.jpg",
+    "category": "ອາຫານ",
+    "unit": "ກັບ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f793f6338663028e7a8c"
+    },
+    "sku": "P6099",
+    "name": "ໝີ່ໄວໄວ(ເເບບຊອງ)",
+    "price": 5000,
+    "costPrice": 35000,
+    "stock": 60,
+    "image": "https://cache-igetweb-v2.mt108.info/uploads/images-cache/images-cache/5052/product/d5c62daeb78abd41a08256f3f1180ff5_400x300.gif?w=399&h=299&q=60",
+    "category": "ອາຫານ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ກັບ",
+    "conversionRate": 10,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f7a0f6338663028e7a93"
+    },
+    "sku": "P5041",
+    "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+    "price": 15000,
+    "costPrice": 75000,
+    "stock": 50,
+    "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ປອ່ງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 6,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f99af6338663028e7ada"
+    },
+    "sku": "P7916",
+    "name": "ສະຕີງ",
+    "price": 12000,
+    "costPrice": 6250,
+    "stock": 120,
+    "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຕຸກ",
+    "purchaseUnit": "ເເກັດ",
+    "conversionRate": 12,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab20430f6338663028e7b44"
+    },
+    "sku": "P3106",
+    "name": "M-150",
+    "price": 12000,
+    "costPrice": 5625,
+    "stock": 160,
+    "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ເເກ້ວ",
+    "purchaseUnit": "ເເກັດ",
+    "conversionRate": 8,
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab2054ff6338663028e7b4d"
+    },
+    "sku": "8859448902474",
+    "name": "ກາເຟດາວເຮືອງ ",
+    "price": 55000,
+    "costPrice": 9000,
+    "stock": 125,
+    "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+    "category": "ເຄື່ອງດື່ມ",
+    "unit": "ຖົງ",
+    "purchaseUnit": "ເເພັກ",
+    "conversionRate": 5,
+    "__v": 0
+  }
+]

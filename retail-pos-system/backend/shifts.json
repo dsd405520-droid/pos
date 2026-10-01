@@ -1,0 +1,1388 @@
+[
+  {
+    "_id": {
+      "$oid": "6a86c21a6442b75f0c0a2277"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-20T09:00:10.139Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 0,
+    "actualCash": 460000,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-08-20T09:00:46.314Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a86c2dc6442b75f0c0a227d"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-20T09:03:24.710Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 0,
+    "actualCash": 210000,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-08-20T09:05:39.432Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a87b9c65109e6ae198d8526"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T02:36:54.640Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.695Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a87bdc25109e6ae198d855a"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T02:53:54.361Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 550000,
+    "actualCash": 0,
+    "totalSales": 50000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.704Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a87c57af64ba20c49a07734"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T03:26:50.826Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.708Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a87cd26fee98dda47c695d5"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T03:59:34.360Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.712Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a87ce9dfee98dda47c695dc"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T04:05:49.226Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.715Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a87eed0fee98dda47c69637"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T06:23:12.538Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.718Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8808aafee98dda47c69803"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-21T08:13:30.098Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 763000,
+    "actualCash": 0,
+    "totalSales": 263000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.722Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8ba358238e151970c07367"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T01:50:16.754Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.725Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8ba642238e151970c0737b"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T02:02:42.984Z"
+    },
+    "startingCash": 600000,
+    "expectedCash": 600000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.729Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8bad05238e151970c07381"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T02:31:33.667Z"
+    },
+    "startingCash": 400000,
+    "expectedCash": 400000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.732Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8bb01f238e151970c07391"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T02:44:47.670Z"
+    },
+    "startingCash": 400000,
+    "expectedCash": 400000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.736Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8bb132238e151970c07395"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T02:49:22.809Z"
+    },
+    "startingCash": 300000,
+    "expectedCash": 300000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.739Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8bb4f4238e151970c07399"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T03:05:24.571Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 1000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.743Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8bbe2c238e151970c073f8"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T03:44:44.831Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 105000,
+    "actualCash": 0,
+    "totalSales": 5000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.746Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8bbfa0238e151970c07412"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T03:50:56.017Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.749Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T06:33:22.142Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 708000,
+    "actualCash": 0,
+    "totalSales": 608000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.753Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-24T08:25:38.485Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 709000,
+    "actualCash": 0,
+    "totalSales": 609000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.757Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8cfba67fcbf93f428d085b"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T02:19:18.303Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 223000,
+    "actualCash": 0,
+    "totalSales": 123000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.761Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8d04cf7fcbf93f428d089f"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T02:58:23.596Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 214000,
+    "actualCash": 0,
+    "totalSales": 114000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.764Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8d09357fcbf93f428d08f4"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T03:17:09.334Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.767Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T03:32:43.566Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 239000,
+    "actualCash": 0,
+    "totalSales": 294000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.771Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8d36cd7871ea955cd7f3ea"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T06:31:41.304Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.773Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8d3fa9736204035a571c7c"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T07:09:29.472Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 138000,
+    "actualCash": 0,
+    "totalSales": 38000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.776Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8d584a736204035a571e0e"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-25T08:54:34.478Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.779Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e43f70ef6cebf21e1fc0d"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T01:40:07.501Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.783Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e4f0a244636279d5a2daa"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T02:27:22.787Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.787Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e53c9244636279d5a2e06"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T02:47:37.731Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 1000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.789Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e58d1244636279d5a2e1b"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T03:09:05.183Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.792Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e59f3244636279d5a2e4d"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T03:13:55.538Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.794Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e5e3d244636279d5a2e8a"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T03:32:13.911Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.797Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e64267fc6945a92f0c3c1"
+    },
+    "employee": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "employeeName": "ທ ໄຊຍະປັນຍາ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T03:57:26.492Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 1000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.802Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e66027fc6945a92f0c3cd"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T04:05:22.292Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 100000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.805Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a8e67187fc6945a92f0c3d2"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-08-26T04:10:00.731Z"
+    },
+    "startingCash": 2000000,
+    "expectedCash": 2000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.808Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6a9c028bfb166f47b41abb42"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-05T11:52:43.280Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 1000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.810Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aaba34cbfb18bcf226394bb"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-17T08:22:36.891Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.813Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aacb7cf07ec1af461f7d7a1"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-18T04:02:23.027Z"
+    },
+    "startingCash": 400000,
+    "expectedCash": 400000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.815Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aacb87f07ec1af461f7d815"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-18T04:05:19.293Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 0,
+    "actualCash": 500000,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-18T06:28:38.631Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aacda2507ec1af461f7e378"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-18T06:28:53.798Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 1000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.818Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aacda3a07ec1af461f7e37b"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-18T06:29:14.234Z"
+    },
+    "startingCash": 2000000,
+    "expectedCash": 2000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.822Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aacdf5407ec1af461f7e439"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-18T06:51:00.350Z"
+    },
+    "startingCash": 5000000,
+    "expectedCash": 5085000,
+    "actualCash": 0,
+    "totalSales": 85000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.825Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6aace3b2c0e13c63f2030f9d"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-18T07:09:38.506Z"
+    },
+    "startingCash": 5000000,
+    "expectedCash": 5000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.827Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab099cce8eec1a684fc4d25"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-21T02:43:24.476Z"
+    },
+    "startingCash": 1000000,
+    "expectedCash": 1000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.830Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab09ae6e8eec1a684fc4d64"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-21T02:48:06.067Z"
+    },
+    "startingCash": 400000,
+    "expectedCash": 0,
+    "actualCash": 700000,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-21T02:48:18.392Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab09efee8eec1a684fc4e1e"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-21T03:05:34.269Z"
+    },
+    "startingCash": 400000,
+    "expectedCash": 400000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.832Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab0d6e1e8eec1a684fc4ec5"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-21T07:04:01.738Z"
+    },
+    "startingCash": 4000000,
+    "expectedCash": 4000000,
+    "actualCash": 0,
+    "totalSales": 85000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.835Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab0ead6e8eec1a684fc5101"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-21T08:29:10.896Z"
+    },
+    "startingCash": 4000000,
+    "expectedCash": 4000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.838Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab0ecb5e8eec1a684fc51a0"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-21T08:37:09.505Z"
+    },
+    "startingCash": 5000000,
+    "expectedCash": 5000000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.841Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab0f0b8e8eec1a684fc5215"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-21T08:54:16.996Z"
+    },
+    "startingCash": 4000000,
+    "expectedCash": 4000000,
+    "actualCash": 0,
+    "totalSales": 5000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.844Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f2bcf6338663028e7946"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-22T03:15:08.443Z"
+    },
+    "startingCash": 400000,
+    "expectedCash": 400000,
+    "actualCash": 0,
+    "totalSales": 250000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.847Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab222aff6338663028e7b98"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-22T06:39:43.606Z"
+    },
+    "startingCash": 560000,
+    "expectedCash": 560000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.850Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab3307ee962978912eedee1"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T01:50:54.962Z"
+    },
+    "startingCash": 4000000,
+    "expectedCash": 4159000,
+    "actualCash": 0,
+    "totalSales": 159000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.852Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab33e637f2a4a3eb8dc1d0b"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T02:50:11.990Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.855Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab3831709a3aca7f98bba3a"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T07:43:19.914Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.858Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab3852b09a3aca7f98bba96"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T07:52:11.197Z"
+    },
+    "startingCash": 420000,
+    "expectedCash": 0,
+    "actualCash": 450000,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-23T07:59:57.552Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab3870f09a3aca7f98bbb4c"
+    },
+    "employee": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "employeeName": "ທ ສາຍພູຫຼວງ ນັນທະສີ",
+    "startTime": {
+      "$date": "2026-09-23T08:00:15.333Z"
+    },
+    "startingCash": 520000,
+    "expectedCash": 0,
+    "actualCash": 0,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-23T08:03:09.825Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab38ed79dcb7dfbab4617ee"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T08:33:27.661Z"
+    },
+    "startingCash": 450000,
+    "expectedCash": 586000,
+    "actualCash": 0,
+    "totalSales": 136000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.862Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab38f7c9dcb7dfbab461859"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T08:36:12.612Z"
+    },
+    "startingCash": 800000,
+    "expectedCash": 921000,
+    "actualCash": 0,
+    "totalSales": 171000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.865Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab393f49dcb7dfbab46195d"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T08:55:16.357Z"
+    },
+    "startingCash": 420000,
+    "expectedCash": 503000,
+    "actualCash": 0,
+    "totalSales": 166000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.868Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab394439dcb7dfbab4619b1"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-23T08:56:35.504Z"
+    },
+    "startingCash": 444444,
+    "expectedCash": 506444,
+    "actualCash": 0,
+    "totalSales": 62000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:49:12.871Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab491b246520bc4e7ed294c"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-24T02:57:54.851Z"
+    },
+    "startingCash": 100000,
+    "expectedCash": 178000,
+    "actualCash": 200000,
+    "totalSales": 78000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T02:59:26.165Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab4922846520bc4e7ed2992"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-24T02:59:52.322Z"
+    },
+    "startingCash": 500000,
+    "expectedCash": 500000,
+    "actualCash": 100000,
+    "totalSales": 83000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T03:00:48.450Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab495edcd6dfb2eb8578e1e"
+    },
+    "employee": {
+      "$oid": "6ab495edcd6dfb2eb8578e19"
+    },
+    "employeeName": "Test Cashier",
+    "startTime": {
+      "$date": "2026-09-24T03:15:57.767Z"
+    },
+    "startingCash": 0,
+    "expectedCash": 0,
+    "actualCash": 1,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T03:15:57.959Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab495edcd6dfb2eb8578e22"
+    },
+    "employee": {
+      "$oid": "6aacb331da835a30f7cc2cf8"
+    },
+    "employeeName": "Administrator",
+    "startTime": {
+      "$date": "2026-09-24T03:15:57.778Z"
+    },
+    "startingCash": 200000,
+    "expectedCash": 200000,
+    "actualCash": 1,
+    "totalSales": 0,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T03:15:57.965Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6ab4982ecd6dfb2eb8578eb0"
+    },
+    "employee": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "employeeName": "khone",
+    "startTime": {
+      "$date": "2026-09-24T03:25:34.114Z"
+    },
+    "startingCash": 120000,
+    "expectedCash": 182000,
+    "actualCash": 620000,
+    "totalSales": 62000,
+    "status": "closed",
+    "__v": 0,
+    "endTime": {
+      "$date": "2026-09-24T03:26:38.092Z"
+    }
+  }
+]

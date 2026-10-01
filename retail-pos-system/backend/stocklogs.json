@@ -1,0 +1,566 @@
+[
+  {
+    "_id": {
+      "$oid": "6a8e4f44244636279d5a2daf"
+    },
+    "productId": {
+      "$oid": "6a8bc262238e151970c07419"
+    },
+    "quantity": 20,
+    "costPrice": 45000,
+    "note": "ບໍລີສັດດາວເຮືອງ",
+    "createdAt": {
+      "$date": "2026-08-26T02:28:20.748Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8e5652244636279d5a2e13"
+    },
+    "productId": {
+      "$oid": "6a86abc4dfe0ddc4a053840b"
+    },
+    "quantity": 20,
+    "costPrice": 15000,
+    "note": "ບໍລິສັດ ກົມການຢາ",
+    "createdAt": {
+      "$date": "2026-08-26T02:58:26.029Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8e65a27fc6945a92f0c3c6"
+    },
+    "productId": {
+      "$oid": "6a880d15fee98dda47c69811"
+    },
+    "quantity": 10,
+    "costPrice": 9000,
+    "note": "ຮ້ານຂາຍເຄື່ອງສົ່ງ ພູຄຳ",
+    "createdAt": {
+      "$date": "2026-08-26T04:03:46.340Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8e67397fc6945a92f0c3da"
+    },
+    "productId": {
+      "$oid": "6a856aab97e6289da6f7d522"
+    },
+    "quantity": 10,
+    "costPrice": 10000,
+    "note": "ຮ້ານຂາຍເຄື່ອງສົ່ງ ຄຳພູ",
+    "createdAt": {
+      "$date": "2026-08-26T04:10:33.934Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8e67c17fc6945a92f0c3ef"
+    },
+    "productId": {
+      "$oid": "6a852290fd7966d42b6e0967"
+    },
+    "quantity": 12,
+    "costPrice": 10000,
+    "note": "ຮ້ານຂາຍເຄື່ອງສົ່ງ ຄຳພູ",
+    "createdAt": {
+      "$date": "2026-08-26T04:12:49.849Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6aacdfe607ec1af461f7e4c2"
+    },
+    "productId": {
+      "$oid": "6a852290fd7966d42b6e0968"
+    },
+    "quantity": 10,
+    "costPrice": 10000,
+    "note": "ອະນຸສິດ",
+    "createdAt": {
+      "$date": "2026-09-18T06:53:26.819Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab0d95fe8eec1a684fc4f3a"
+    },
+    "productId": {
+      "$oid": "6a852290fd7966d42b6e0966"
+    },
+    "quantity": 10,
+    "costPrice": 3000,
+    "note": "ບໍລິສັດ ເບຍລາວ",
+    "createdAt": {
+      "$date": "2026-09-21T07:14:39.387Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f298f6338663028e7942"
+    },
+    "productId": {
+      "$oid": "6ab1f298f6338663028e7940"
+    },
+    "quantity": 50,
+    "purchaseQuantity": 10,
+    "purchaseUnit": "ເເພັກ",
+    "costPrice": 20000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:14:32.867Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f570f6338663028e79b9"
+    },
+    "productId": {
+      "$oid": "6ab1f570f6338663028e79b7"
+    },
+    "quantity": 60,
+    "purchaseQuantity": 10,
+    "purchaseUnit": "ເເພັກ",
+    "costPrice": 15000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:26:40.268Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f5caf6338663028e79ed"
+    },
+    "productId": {
+      "$oid": "6ab1f5caf6338663028e79eb"
+    },
+    "quantity": 204,
+    "purchaseQuantity": 17,
+    "purchaseUnit": "ເເພັກ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:28:10.697Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f62ef6338663028e7a0a"
+    },
+    "productId": {
+      "$oid": "6ab1f62ef6338663028e7a08"
+    },
+    "quantity": 25,
+    "purchaseQuantity": 5,
+    "purchaseUnit": "ເເພັກ",
+    "costPrice": 10000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:29:50.661Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f683f6338663028e7a25"
+    },
+    "productId": {
+      "$oid": "6ab1f683f6338663028e7a23"
+    },
+    "quantity": 16,
+    "purchaseQuantity": 16,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:31:15.512Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f699f6338663028e7a32"
+    },
+    "productId": {
+      "$oid": "6ab1f699f6338663028e7a30"
+    },
+    "quantity": 19,
+    "purchaseQuantity": 19,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 10000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:31:37.918Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f6b8f6338663028e7a39"
+    },
+    "productId": {
+      "$oid": "6ab1f6b8f6338663028e7a37"
+    },
+    "quantity": 21,
+    "purchaseQuantity": 21,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:32:08.795Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f6c6f6338663028e7a40"
+    },
+    "productId": {
+      "$oid": "6ab1f6c6f6338663028e7a3e"
+    },
+    "quantity": 25,
+    "purchaseQuantity": 25,
+    "purchaseUnit": "ຖົງ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:32:22.827Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f6fbf6338663028e7a4c"
+    },
+    "productId": {
+      "$oid": "6ab1f6fbf6338663028e7a4a"
+    },
+    "quantity": 29,
+    "purchaseQuantity": 29,
+    "purchaseUnit": "ເເກ້ວ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:33:15.443Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f713f6338663028e7a54"
+    },
+    "productId": {
+      "$oid": "6ab1f713f6338663028e7a52"
+    },
+    "quantity": 13,
+    "purchaseQuantity": 13,
+    "purchaseUnit": "ເເກ້ວ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:33:39.340Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f729f6338663028e7a5b"
+    },
+    "productId": {
+      "$oid": "6ab1f729f6338663028e7a59"
+    },
+    "quantity": 19,
+    "purchaseQuantity": 19,
+    "purchaseUnit": "ຖົງ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:34:01.139Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f736f6338663028e7a62"
+    },
+    "productId": {
+      "$oid": "6ab1f736f6338663028e7a60"
+    },
+    "quantity": 15,
+    "purchaseQuantity": 15,
+    "purchaseUnit": "ຖົງ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:34:14.243Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f747f6338663028e7a6a"
+    },
+    "productId": {
+      "$oid": "6ab1f747f6338663028e7a68"
+    },
+    "quantity": 20,
+    "purchaseQuantity": 20,
+    "purchaseUnit": "ຖົງ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:34:31.138Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f756f6338663028e7a71"
+    },
+    "productId": {
+      "$oid": "6ab1f756f6338663028e7a6f"
+    },
+    "quantity": 8,
+    "purchaseQuantity": 8,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:34:46.393Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f765f6338663028e7a78"
+    },
+    "productId": {
+      "$oid": "6ab1f765f6338663028e7a76"
+    },
+    "quantity": 15,
+    "purchaseQuantity": 15,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:35:01.875Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f772f6338663028e7a7f"
+    },
+    "productId": {
+      "$oid": "6ab1f772f6338663028e7a7d"
+    },
+    "quantity": 24,
+    "purchaseQuantity": 24,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:35:14.019Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f780f6338663028e7a87"
+    },
+    "productId": {
+      "$oid": "6ab1f780f6338663028e7a85"
+    },
+    "quantity": 16,
+    "purchaseQuantity": 16,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:35:28.625Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f793f6338663028e7a8e"
+    },
+    "productId": {
+      "$oid": "6ab1f793f6338663028e7a8c"
+    },
+    "quantity": 10,
+    "purchaseQuantity": 10,
+    "purchaseUnit": "ຖົງ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:35:47.112Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f7a0f6338663028e7a95"
+    },
+    "productId": {
+      "$oid": "6ab1f7a0f6338663028e7a93"
+    },
+    "quantity": 12,
+    "purchaseQuantity": 12,
+    "purchaseUnit": "ອັນ",
+    "costPrice": 0,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:36:00.993Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f7d7f6338663028e7a9d"
+    },
+    "productId": {
+      "$oid": "6ab1f7d7f6338663028e7a9b"
+    },
+    "quantity": 29,
+    "purchaseQuantity": 29,
+    "purchaseUnit": "ຖົງ",
+    "costPrice": 45000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:36:55.270Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f99af6338663028e7adc"
+    },
+    "productId": {
+      "$oid": "6ab1f99af6338663028e7ada"
+    },
+    "quantity": 60,
+    "purchaseQuantity": 5,
+    "purchaseUnit": "ເເກັດ",
+    "costPrice": 10000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T03:44:26.140Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab20430f6338663028e7b46"
+    },
+    "productId": {
+      "$oid": "6ab20430f6338663028e7b44"
+    },
+    "quantity": 160,
+    "purchaseQuantity": 20,
+    "purchaseUnit": "ເເກັດ",
+    "costPrice": 45000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T04:29:36.975Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab2054ff6338663028e7b4f"
+    },
+    "productId": {
+      "$oid": "6ab2054ff6338663028e7b4d"
+    },
+    "quantity": 125,
+    "purchaseQuantity": 25,
+    "purchaseUnit": "ເເພັກ",
+    "costPrice": 45000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-22T04:34:23.740Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab22ca90ad9890a60d32324"
+    },
+    "productId": {
+      "$oid": "6ab1f298f6338663028e7940"
+    },
+    "quantity": 25,
+    "purchaseQuantity": 5,
+    "purchaseUnit": "ເເພັກ",
+    "costPrice": 50000,
+    "note": "ຮ້ານຂາຍເຄື່ອງ ພູຄຳ",
+    "createdAt": {
+      "$date": "2026-09-22T07:22:17.361Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab22fdb0ad9890a60d32354"
+    },
+    "productId": {
+      "$oid": "6ab1f99af6338663028e7ada"
+    },
+    "quantity": 60,
+    "purchaseQuantity": 5,
+    "purchaseUnit": "ເເກັດ",
+    "costPrice": 75000,
+    "note": "ຮ້ານຂາຍເຄື່ອງ ພູຄຳ",
+    "createdAt": {
+      "$date": "2026-09-22T07:35:55.034Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab48ad57a29c29d158f3cac"
+    },
+    "productId": {
+      "$oid": "6ab48ad57a29c29d158f3caa"
+    },
+    "quantity": 60,
+    "purchaseQuantity": 5,
+    "purchaseUnit": "????",
+    "costPrice": 60000,
+    "note": "ນຳເຂົ້າສິນຄ້າໃໝ່ (ຄັ້ງທຳອິດ)",
+    "createdAt": {
+      "$date": "2026-09-24T02:28:37.752Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab48ad57a29c29d158f3caf"
+    },
+    "productId": {
+      "$oid": "6ab48ad57a29c29d158f3caa"
+    },
+    "quantity": 24,
+    "purchaseQuantity": 2,
+    "purchaseUnit": "????",
+    "costPrice": 60000,
+    "note": "??????????????",
+    "createdAt": {
+      "$date": "2026-09-24T02:28:37.767Z"
+    },
+    "__v": 0
+  }
+]

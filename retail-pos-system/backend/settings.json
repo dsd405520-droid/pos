@@ -1,0 +1,21 @@
+[
+  {
+    "_id": {
+      "$oid": "6ab3851709a3aca7f98bba8f"
+    },
+    "shopName": "ຮ້ານ ຂາຍເຄື່ອງ ຄໍາຮຸ່ງ",
+    "shopQRImage": "/uploads/1790149911113-599714550.jpeg",
+    "updatedAt": {
+      "$date": "2026-09-23T08:56:16.923Z"
+    },
+    "__v": 0,
+    "printerEnabled": false,
+    "printerIp": "",
+    "printerMethod": "network-escpos",
+    "printerName": "",
+    "printerPort": 9100,
+    "receiptFooter": "ພອ່ງຕາຍ",
+    "shopAddress": "ສາຂາ ຫລັກ 5 ນະຄອນຫຼວງ ",
+    "shopPhone": "94167894"
+  }
+]

@@ -1,0 +1,4147 @@
+[
+  {
+    "_id": {
+      "$oid": "6a852598fd7966d42b6e096f"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6a852290fd7966d42b6e0967"
+        },
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 20,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 30,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 25000,
+    "createdAt": {
+      "$date": "2026-08-19T03:40:08.230Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a852bf7fd7966d42b6e0978"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-19T04:07:19.739Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a855354fd7966d42b6e0986"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 29,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 15,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 3
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມ (Drinking Water)",
+        "price": 5000,
+        "stock": 50,
+        "image": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 80000,
+    "createdAt": {
+      "$date": "2026-08-19T06:55:16.069Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a85567dfd7966d42b6e09db"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 15,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-19T07:08:45.022Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a855a19fd7966d42b6e0a0b"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມ (Drinking Water)",
+        "price": 5000,
+        "stock": 49,
+        "image": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 14,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 14,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 28,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 50000,
+    "createdAt": {
+      "$date": "2026-08-19T07:24:09.502Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a855b39fd7966d42b6e0a12"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມ (Drinking Water)",
+        "price": 5000,
+        "stock": 48,
+        "image": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 27,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-19T07:28:57.829Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866afc9a637b8c85e85ca5"
+    },
+    "items": [
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 20,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-20T02:48:28.245Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866b099a637b8c85e85caf"
+    },
+    "items": [
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-20T02:48:41.479Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866bef9a637b8c85e85cbf"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 26,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 10000,
+    "createdAt": {
+      "$date": "2026-08-20T02:52:31.947Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866c2e9a637b8c85e85cc9"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 25,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 10000,
+    "createdAt": {
+      "$date": "2026-08-20T02:53:34.751Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866e6a9a637b8c85e85cd1"
+    },
+    "items": [
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-20T03:03:06.216Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866f619a637b8c85e85cd9"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມ (Drinking Water)",
+        "price": 5000,
+        "stock": 47,
+        "image": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 5000,
+    "createdAt": {
+      "$date": "2026-08-20T03:07:13.582Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a866ff49a637b8c85e85cdf"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 13,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "createdAt": {
+      "$date": "2026-08-20T03:09:40.336Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8670519a637b8c85e85ce3"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມ (Drinking Water)",
+        "price": 5000,
+        "stock": 46,
+        "image": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 5000,
+    "createdAt": {
+      "$date": "2026-08-20T03:11:13.840Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8676e8dfe0ddc4a0538139"
+    },
+    "items": [
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 30,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 17,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 38000,
+    "createdAt": {
+      "$date": "2026-08-20T03:39:20.626Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a867f02dfe0ddc4a053819c"
+    },
+    "items": [
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 29,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 16,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 24,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 13,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 12,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມ (Drinking Water)",
+        "price": 5000,
+        "stock": 45,
+        "image": "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 88000,
+    "createdAt": {
+      "$date": "2026-08-20T04:13:54.826Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a86c2e36442b75f0c0a2280"
+    },
+    "items": [
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 15,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 2
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 11,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 12,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 75000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a86c2dc6442b75f0c0a227d"
+    },
+    "createdAt": {
+      "$date": "2026-08-20T09:03:31.890Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a87c02a5109e6ae198d8569"
+    },
+    "items": [
+      {
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມຫົວເສືອ ",
+        "price": 5000,
+        "stock": 44,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatj8ds3-bh8LoIfvyg5fCkmfMTUrUVmRtuOw6Kb3PvXHsycmzmZv6u8U&s=10",
+        "__v": 0,
+        "category": "ທົ່ວໄປ",
+        "sku": "",
+        "unit": "ອັນ",
+        "quantity": 10
+      }
+    ],
+    "totalAmount": 50000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a87bdc25109e6ae198d855a"
+    },
+    "createdAt": {
+      "$date": "2026-08-21T03:04:10.283Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a881196fee98dda47c69850"
+    },
+    "items": [
+      {
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມຫົວເສືອ ",
+        "price": 5000,
+        "stock": 34,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatj8ds3-bh8LoIfvyg5fCkmfMTUrUVmRtuOw6Kb3PvXHsycmzmZv6u8U&s=10",
+        "__v": 0,
+        "category": "ທົ່ວໄປ",
+        "sku": "",
+        "unit": "ອັນ",
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 10,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 11,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 23,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 15,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 28,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86a9c0dfe0ddc4a0538406",
+        "name": "ສະໄລ(ເເບບຖົງ)",
+        "price": 15000,
+        "stock": 30,
+        "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 13,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 10,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880cbdfee98dda47c6980c",
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "stock": 20,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d15fee98dda47c69811",
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "stock": 15,
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d89fee98dda47c69821",
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "stock": 20,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "category": "ທົ່ວໄປ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 13,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 15,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f54fee98dda47c69830",
+        "sku": "P6715",
+        "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+        "price": 15000,
+        "stock": 21,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880fbcfee98dda47c69834",
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "stock": 10,
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a88109afee98dda47c69838",
+        "sku": "P2484",
+        "name": "ມ່າມ່າ ຕົ້ມຍຳກຸ້ງ (ເເບບປອ່ງ)",
+        "price": 13000,
+        "stock": 20,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/120182_010_04.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881102fee98dda47c6983c",
+        "sku": "P6099",
+        "name": "ໝີ່ໄວໄວ(ເເບບຊອງ)",
+        "price": 5000,
+        "stock": 13,
+        "image": "https://cache-igetweb-v2.mt108.info/uploads/images-cache/images-cache/5052/product/d5c62daeb78abd41a08256f3f1180ff5_400x300.gif?w=399&h=299&q=60",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 20,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 263000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8808aafee98dda47c69803"
+    },
+    "createdAt": {
+      "$date": "2026-08-21T08:51:34.644Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bbe3d238e151970c073fb"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມຫົວເສືອ ",
+        "price": 5000,
+        "stock": 33,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatj8ds3-bh8LoIfvyg5fCkmfMTUrUVmRtuOw6Kb3PvXHsycmzmZv6u8U&s=10",
+        "__v": 0,
+        "category": "ເຄື່ອງດື່ມ",
+        "sku": "8859313500200",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 5000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8bbe2c238e151970c073f8"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T03:45:01.917Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8becf4238e151970c07423"
+    },
+    "items": [
+      {
+        "_id": "6a8bc262238e151970c07419",
+        "sku": "8859448902474",
+        "name": "ກາເຟດາວເຮືອງ ",
+        "price": 55000,
+        "stock": 20,
+        "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 5
+      }
+    ],
+    "totalAmount": 275000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:04:20.304Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bef1d238e151970c0743e"
+    },
+    "items": [
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:13:33.496Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf14a238e151970c07442"
+    },
+    "items": [
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:22:50.944Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf1f9238e151970c07456"
+    },
+    "items": [
+      {
+        "_id": "6a8bc262238e151970c07419",
+        "sku": "8859448902474",
+        "name": "ກາເຟດາວເຮືອງ ",
+        "price": 55000,
+        "stock": 15,
+        "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 12,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 75000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:25:45Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf482238e151970c0745b"
+    },
+    "items": [
+      {
+        "_id": "6a88109afee98dda47c69838",
+        "sku": "P2484",
+        "name": "ມ່າມ່າ ຕົ້ມຍຳກຸ້ງ (ເເບບປອ່ງ)",
+        "price": 13000,
+        "stock": 19,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/120182_010_04.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d89fee98dda47c69821",
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "category": "ທົ່ວໄປ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d15fee98dda47c69811",
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "stock": 14,
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 40000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:36:34.681Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf4de238e151970c07461"
+    },
+    "items": [
+      {
+        "_id": "6a880d89fee98dda47c69821",
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "category": "ທົ່ວໄປ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d15fee98dda47c69811",
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "stock": 13,
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a88109afee98dda47c69838",
+        "sku": "P2484",
+        "name": "ມ່າມ່າ ຕົ້ມຍຳກຸ້ງ (ເເບບປອ່ງ)",
+        "price": 13000,
+        "stock": 18,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/120182_010_04.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881102fee98dda47c6983c",
+        "sku": "P6099",
+        "name": "ໝີ່ໄວໄວ(ເເບບຊອງ)",
+        "price": 5000,
+        "stock": 12,
+        "image": "https://cache-igetweb-v2.mt108.info/uploads/images-cache/images-cache/5052/product/d5c62daeb78abd41a08256f3f1180ff5_400x300.gif?w=399&h=299&q=60",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 45000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:38:06.080Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf5cd238e151970c0747a"
+    },
+    "items": [
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 12,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 8000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:42:05.111Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf738238e151970c07498"
+    },
+    "items": [
+      {
+        "_id": "6a880f54fee98dda47c69830",
+        "sku": "P6715",
+        "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+        "price": 15000,
+        "stock": 20,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 9,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880cbdfee98dda47c6980c",
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 42000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:48:08.673Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf7e8238e151970c074a6"
+    },
+    "items": [
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 11,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 8000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:51:04.745Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf813238e151970c074aa"
+    },
+    "items": [
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 17,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:51:47.303Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf89f238e151970c074ae"
+    },
+    "items": [
+      {
+        "_id": "6a8bc262238e151970c07419",
+        "sku": "8859448902474",
+        "name": "ກາເຟດາວເຮືອງ ",
+        "price": 55000,
+        "stock": 14,
+        "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 55000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:54:07.697Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8bf8dc238e151970c074ba"
+    },
+    "items": [
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 16,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8be5b2238e151970c07420"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T07:55:08.152Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c0035093c94a83f611b14"
+    },
+    "items": [
+      {
+        "_id": "6a8bc262238e151970c07419",
+        "sku": "8859448902474",
+        "name": "ກາເຟດາວເຮືອງ ",
+        "price": 55000,
+        "stock": 13,
+        "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 15,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 70000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:26:29.005Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c003f093c94a83f611b19"
+    },
+    "items": [
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 8,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 27,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 35000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:26:39.809Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c00f5093c94a83f611b1e"
+    },
+    "items": [
+      {
+        "_id": "6a8bc262238e151970c07419",
+        "sku": "8859448902474",
+        "name": "ກາເຟດາວເຮືອງ ",
+        "price": 55000,
+        "stock": 12,
+        "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 2
+      }
+    ],
+    "totalAmount": 110000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:29:41.857Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c0111093c94a83f611b22"
+    },
+    "items": [
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 11,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 20000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:30:09.121Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c020a093c94a83f611b59"
+    },
+    "items": [
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 10,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 14,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a8bc262238e151970c07419",
+        "sku": "8859448902474",
+        "name": "ກາເຟດາວເຮືອງ ",
+        "price": 55000,
+        "stock": 10,
+        "image": "https://www.shopping-d.com/cdn/shop/files/DaoCoffeePureArabicaFromTheBolavenPlateauFormulaTurbo200gBoxesof10Sticks_8857121782573_12000.png?v=1741590255",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 78000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:34:18.305Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c02b4093c94a83f611b67"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 10,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 22,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 14,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 45000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:37:08.456Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c02ee093c94a83f611b6d"
+    },
+    "items": [
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 9,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 13,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f54fee98dda47c69830",
+        "sku": "P6715",
+        "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880fbcfee98dda47c69834",
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "stock": 9,
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 53000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:38:06.641Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c04a6093c94a83f611b8a"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 21,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 13,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 14,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 40000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:45:26.841Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c0635093c94a83f611b92"
+    },
+    "items": [
+      {
+        "_id": "6a880cbdfee98dda47c6980c",
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 7,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d15fee98dda47c69811",
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "stock": 12,
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 39000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:52:05.522Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8c0742093c94a83f611b98"
+    },
+    "items": [
+      {
+        "_id": "6a880cbdfee98dda47c6980c",
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "stock": 17,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 2
+      },
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 6,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 2
+      },
+      {
+        "_id": "6a880f54fee98dda47c69830",
+        "sku": "P6715",
+        "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 2
+      },
+      {
+        "_id": "6a880fbcfee98dda47c69834",
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "stock": 8,
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 10,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 119000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8c0002093c94a83f611b10"
+    },
+    "createdAt": {
+      "$date": "2026-08-24T08:56:34.546Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8cfc9e7fcbf93f428d0863"
+    },
+    "items": [
+      {
+        "_id": "6a880d15fee98dda47c69811",
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "stock": 11,
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d89fee98dda47c69821",
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "stock": 17,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "category": "ທົ່ວໄປ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 8,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 4,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 4
+      }
+    ],
+    "totalAmount": 83000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8cfba67fcbf93f428d085b"
+    },
+    "createdAt": {
+      "$date": "2026-08-25T02:23:26.201Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8cfdb97fcbf93f428d0890"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 9,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 9,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມຫົວເສືອ ",
+        "price": 5000,
+        "stock": 32,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatj8ds3-bh8LoIfvyg5fCkmfMTUrUVmRtuOw6Kb3PvXHsycmzmZv6u8U&s=10",
+        "__v": 0,
+        "category": "ເຄື່ອງດື່ມ",
+        "sku": "8859313500200",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 40000,
+    "employeeId": {
+      "$oid": "6a87cd15fee98dda47c695d1"
+    },
+    "shiftId": {
+      "$oid": "6a8cfba67fcbf93f428d085b"
+    },
+    "createdAt": {
+      "$date": "2026-08-25T02:28:09.609Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8d05097fcbf93f428d08c0"
+    },
+    "items": [
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 26,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86a9c0dfe0ddc4a0538406",
+        "name": "ສະໄລ(ເເບບຖົງ)",
+        "price": 15000,
+        "stock": 29,
+        "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 12,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 7,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 61000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d04cf7fcbf93f428d089f"
+    },
+    "createdAt": {
+      "$date": "2026-08-25T02:59:21.702Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8d05857fcbf93f428d08d9"
+    },
+    "items": [
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 25,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880fbcfee98dda47c69834",
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "stock": 7,
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f54fee98dda47c69830",
+        "sku": "P6715",
+        "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+        "price": 15000,
+        "stock": 16,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 53000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d04cf7fcbf93f428d089f"
+    },
+    "createdAt": {
+      "$date": "2026-08-25T03:01:25.804Z"
+    },
+    "__v": 0,
+    "paymentMethod": "Cash"
+  },
+  {
+    "_id": {
+      "$oid": "6a8d0e747871ea955cd7f10d"
+    },
+    "items": [
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 24,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86a9c0dfe0ddc4a0538406",
+        "name": "ສະໄລ(ເເບບຖົງ)",
+        "price": 15000,
+        "stock": 28,
+        "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 11,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 53000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 70000,
+    "changeAmount": 17000,
+    "paymentMethod": "Cash",
+    "createdAt": {
+      "$date": "2026-08-25T03:39:32.406Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d12e37871ea955cd7f128"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 20,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 12,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 23,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 48000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 50000,
+    "changeAmount": 2000,
+    "paymentMethod": "Cash",
+    "createdAt": {
+      "$date": "2026-08-25T03:58:27.371Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d13067871ea955cd7f136"
+    },
+    "items": [
+      {
+        "_id": "6a880fbcfee98dda47c69834",
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "stock": 6,
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a88109afee98dda47c69838",
+        "sku": "P2484",
+        "name": "ມ່າມ່າ ຕົ້ມຍຳກຸ້ງ (ເເບບປອ່ງ)",
+        "price": 13000,
+        "stock": 17,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/120182_010_04.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881102fee98dda47c6983c",
+        "sku": "P6099",
+        "name": "ໝີ່ໄວໄວ(ເເບບຊອງ)",
+        "price": 5000,
+        "stock": 11,
+        "image": "https://cache-igetweb-v2.mt108.info/uploads/images-cache/images-cache/5052/product/d5c62daeb78abd41a08256f3f1180ff5_400x300.gif?w=399&h=299&q=60",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a881179fee98dda47c6984c",
+        "sku": "P5041",
+        "name": "ເບຍລາວ(ເເບບປອ່ງ)ນອ້ຍ",
+        "price": 15000,
+        "stock": 13,
+        "image": "https://foodpanda.dhmedia.io/image/nv/t4sj-SOKXAYViengchalern/Beerlao%20Can%20330ml%20.jpg?height=176",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 48000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 48000,
+    "changeAmount": 0,
+    "paymentMethod": "QR Code",
+    "createdAt": {
+      "$date": "2026-08-25T03:59:02.772Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d141b7871ea955cd7f14d"
+    },
+    "items": [
+      {
+        "_id": "6a867619dfe0ddc4a053812a",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "stock": 22,
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "category": "ອາຫານ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 11,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 38000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 50000,
+    "changeAmount": 12000,
+    "paymentMethod": "Cash",
+    "createdAt": {
+      "$date": "2026-08-25T04:03:39.380Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d14437871ea955cd7f152"
+    },
+    "items": [
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 10,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 6,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 23000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 23000,
+    "changeAmount": 0,
+    "paymentMethod": "QR Code",
+    "createdAt": {
+      "$date": "2026-08-25T04:04:19.813Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d149e7871ea955cd7f15f"
+    },
+    "items": [
+      {
+        "_id": "6a880cbdfee98dda47c6980c",
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "stock": 15,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880d15fee98dda47c69811",
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "stock": 10,
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a87ce83fee98dda47c695d8",
+        "sku": "P3106",
+        "name": "M-150",
+        "price": 12000,
+        "stock": 30,
+        "image": "http://localhost:5001/uploads/1787285123103-939576875.jpg",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 39000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 39000,
+    "changeAmount": 0,
+    "paymentMethod": "QR Code",
+    "createdAt": {
+      "$date": "2026-08-25T04:05:50.715Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d15fa7871ea955cd7f165"
+    },
+    "items": [
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 8,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 19,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a856aab97e6289da6f7d522",
+        "name": "ສະຕີງ",
+        "price": 15000,
+        "stock": 10,
+        "image": "https://www.suntorypepsico.co.th/assets/img/products/sting__slider-product@2x.png",
+        "category": "ເຄື່ອງດື່ມ",
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 45000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d0cdb7871ea955cd7f0cd"
+    },
+    "cashReceived": 45000,
+    "changeAmount": 0,
+    "paymentMethod": "QR Code",
+    "createdAt": {
+      "$date": "2026-08-25T04:11:38.239Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6a8d3fb6736204035a571c88"
+    },
+    "items": [
+      {
+        "_id": "6a880d89fee98dda47c69821",
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "stock": 16,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "category": "ທົ່ວໄປ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880e79fee98dda47c69828",
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "stock": 5,
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "category": "ຂະຫນົມ",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a880f06fee98dda47c6982c",
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "stock": 9,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 38000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6a8d3fa9736204035a571c7c"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 40000,
+    "changeAmount": 2000,
+    "createdAt": {
+      "$date": "2026-08-25T07:09:42.888Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6aacb33e597bb7bd2321c68f"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "Green Tea",
+        "price": 15000,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 15000,
+    "paymentMethod": "Cash",
+    "cashReceived": 20000,
+    "changeAmount": 5000,
+    "createdAt": {
+      "$date": "2026-09-18T03:42:54.753Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6aacdf7007ec1af461f7e446"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 19,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "category": "ທົ່ວໄປ",
+        "conversionRate": 1,
+        "costPrice": 10000,
+        "unit": "ອັນ",
+        "quantity": 1
+      },
+      {
+        "costPrice": 0,
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 7,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 2
+      },
+      {
+        "costPrice": 0,
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 18,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 29,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "costPrice": 15000,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 85000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6aacdf5407ec1af461f7e439"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 15000,
+    "createdAt": {
+      "$date": "2026-09-18T06:51:28.211Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6aace6f48b7cf7bd94abf40b"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "stock": 15,
+        "image": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "category": "ທົ່ວໄປ",
+        "conversionRate": 1,
+        "costPrice": 10000,
+        "unit": "ອັນ",
+        "quantity": 1
+      },
+      {
+        "costPrice": 0,
+        "category": "ທົ່ວໄປ",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "_id": "6a852290fd7966d42b6e0969",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "stock": 17,
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "quantity": 1
+      },
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 28,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "costPrice": 15000,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 50000,
+    "employeeId": {
+      "$oid": "6aacb331da835a30f7cc2cf8"
+    },
+    "shiftId": null,
+    "paymentMethod": "Cash",
+    "cashReceived": 200000,
+    "changeAmount": 150000,
+    "createdAt": {
+      "$date": "2026-09-18T07:23:32.957Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab0da9ae8eec1a684fc4fb1"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0967",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "stock": 18,
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "__v": 0,
+        "category": "ທົ່ວໄປ",
+        "conversionRate": 1,
+        "costPrice": 10000,
+        "unit": "ອັນ",
+        "quantity": 1
+      },
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມຫົວເສືອ ",
+        "price": 5000,
+        "stock": 41,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatj8ds3-bh8LoIfvyg5fCkmfMTUrUVmRtuOw6Kb3PvXHsycmzmZv6u8U&s=10",
+        "__v": 0,
+        "category": "ເຄື່ອງດື່ມ",
+        "sku": "8859313500200",
+        "unit": "ອັນ",
+        "conversionRate": 1,
+        "costPrice": 3000,
+        "quantity": 1
+      },
+      {
+        "costPrice": 0,
+        "_id": "6a86a9c0dfe0ddc4a0538406",
+        "name": "ສະໄລ(ເເບບຖົງ)",
+        "price": 15000,
+        "stock": 27,
+        "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ຖົງ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 2
+      },
+      {
+        "_id": "6a86abc4dfe0ddc4a053840b",
+        "name": "ຖົງຍາງອະນາໄມ (Durex)ຄອມຟອນ",
+        "price": 20000,
+        "stock": 27,
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8850163000452-1.webp",
+        "category": "ເຄື່ອງໃຊ້",
+        "unit": "ກັບ",
+        "conversionRate": 1,
+        "__v": 0,
+        "costPrice": 15000,
+        "quantity": 1
+      },
+      {
+        "costPrice": 0,
+        "_id": "6a880cbdfee98dda47c6980c",
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "stock": 14,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "category": "ເຄື່ອງດື່ມ",
+        "unit": "ເເກ້ວ",
+        "conversionRate": 1,
+        "__v": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 85000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab0d6e1e8eec1a684fc4ec5"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 85000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-21T07:19:54.172Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab0f0cee8eec1a684fc5220"
+    },
+    "items": [
+      {
+        "_id": "6a852290fd7966d42b6e0966",
+        "name": "ນ້ຳດື່ມຫົວເສືອ ",
+        "price": 5000,
+        "stock": 10,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQatj8ds3-bh8LoIfvyg5fCkmfMTUrUVmRtuOw6Kb3PvXHsycmzmZv6u8U&s=10",
+        "__v": 0,
+        "category": "ເຄື່ອງດື່ມ",
+        "sku": "8859313500200",
+        "unit": "ຕຸກ",
+        "conversionRate": 6,
+        "costPrice": 0,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 5000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab0f0b8e8eec1a684fc5215"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 5000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-21T08:54:38.433Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab1f2e6f6338663028e7958"
+    },
+    "items": [
+      {
+        "_id": "6ab1f298f6338663028e7940",
+        "sku": "P2864",
+        "name": "ໝືກກູ່ບ",
+        "price": 25000,
+        "costPrice": 4000,
+        "stock": 50,
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvxCcGeZ3kD2BwtV4-rkd1HQ50WLMUZ3LzLIf2y36D3A&s",
+        "category": "ອາຫານ",
+        "unit": "ຖົງ",
+        "purchaseUnit": "ເເພັກ",
+        "conversionRate": 5,
+        "__v": 0,
+        "quantity": 10
+      }
+    ],
+    "totalAmount": 250000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab1f2bcf6338663028e7946"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 250000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-22T03:15:50.955Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab33091e962978912eedef5"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f298f6338663028e7940"
+        },
+        "sku": "P2864",
+        "name": "ໝືກກູ່ບ",
+        "price": 15000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvxCcGeZ3kD2BwtV4-rkd1HQ50WLMUZ3LzLIf2y36D3A&s",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f570f6338663028e79b7"
+        },
+        "sku": "8859313500200",
+        "name": "ນຳ້ດື່ມຫົວເສື້ອໃຫຍ່",
+        "price": 10000,
+        "unit": "ຕຸກ",
+        "image": "https://www.shopping-d.com/cdn/shop/products/11_4773d101-9fd9-4a3b-944e-7c28a4ca7faa.png?v=1661666561&width=533",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f729f6338663028e7a59"
+        },
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "unit": "ຖົງ",
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f780f6338663028e7a85"
+        },
+        "sku": "P2484",
+        "name": "ມ່າມ່າ ຕົ້ມຍຳກຸ້ງ (ເເບບປອ່ງ)",
+        "price": 13000,
+        "unit": "ກັບ",
+        "image": "https://media.allonline.7eleven.co.th/pdmain/120182_010_04.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f747f6338663028e7a68"
+        },
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "unit": "ຖົງ",
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 2
+      }
+    ],
+    "totalAmount": 159000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab3307ee962978912eedee1"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 200000,
+    "changeAmount": 41000,
+    "createdAt": {
+      "$date": "2026-09-23T01:51:13.372Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab3856109a3aca7f98bbacb"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "costPrice": 18000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f747f6338663028e7a68"
+        },
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "costPrice": 75000,
+        "unit": "ຖົງ",
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 66000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab3852b09a3aca7f98bba96"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 66000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-23T07:53:05.705Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab3871709a3aca7f98bbb58"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "costPrice": 8000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f729f6338663028e7a59"
+        },
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "costPrice": 45000,
+        "unit": "ຖົງ",
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 72000,
+    "employeeId": {
+      "$oid": "6a86bf468c15cdd8abc20bf8"
+    },
+    "shiftId": {
+      "$oid": "6ab3870f09a3aca7f98bbb4c"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 72000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-23T08:00:23.074Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab38ee19dcb7dfbab4617fb"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "costPrice": 8000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 2
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f747f6338663028e7a68"
+        },
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "costPrice": 75000,
+        "unit": "ຖົງ",
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "quantity": 2
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f756f6338663028e7a6f"
+        },
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "costPrice": 75000,
+        "unit": "ຕຸກ",
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 86000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab38ed79dcb7dfbab4617ee"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 14000,
+    "createdAt": {
+      "$date": "2026-09-23T08:33:37.027Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab38f539dcb7dfbab461844"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 50000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab38ed79dcb7dfbab4617ee"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 50000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-23T08:35:31.612Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab38f829dcb7dfbab461864"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "costPrice": 18000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "costPrice": 8000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f747f6338663028e7a68"
+        },
+        "sku": "P7692",
+        "name": "ຊອ໊ກໂກເເລັດ(ຄີນເດີບູເອໂນ)",
+        "price": 8000,
+        "costPrice": 75000,
+        "unit": "ຖົງ",
+        "image": "https://media.allonline.7eleven.co.th/pdmain/407908_020_Kinder_bueno_Supermarket.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 76000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab38f7c9dcb7dfbab461859"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 24000,
+    "createdAt": {
+      "$date": "2026-09-23T08:36:18.613Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab38fd79dcb7dfbab461890"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 50000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab38f7c9dcb7dfbab461859"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 50000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-23T08:37:43.572Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab3929e9dcb7dfbab46191e"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "costPrice": 8000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 45000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab38f7c9dcb7dfbab461859"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 50000,
+    "changeAmount": 5000,
+    "createdAt": {
+      "$date": "2026-09-23T08:49:34.201Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab393fb9dcb7dfbab46196b"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "costPrice": 8000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f570f6338663028e79b7"
+        },
+        "sku": "8859313500200",
+        "name": "ນຳ້ດື່ມຫົວເສື້ອໃຫຍ່",
+        "price": 10000,
+        "costPrice": 2500,
+        "unit": "ຕຸກ",
+        "image": "https://www.shopping-d.com/cdn/shop/products/11_4773d101-9fd9-4a3b-944e-7c28a4ca7faa.png?v=1661666561&width=533",
+        "quantity": 2
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "costPrice": 18000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 83000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab393f49dcb7dfbab46195d"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 17000,
+    "createdAt": {
+      "$date": "2026-09-23T08:55:23.501Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab3943a9dcb7dfbab4619ab"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6c6f6338663028e7a3e"
+        },
+        "sku": "P2824",
+        "name": "ສະໄລ(ເເບບຖົງ)",
+        "price": 15000,
+        "costPrice": 10000,
+        "unit": "ຖົງ",
+        "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "costPrice": 18000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f756f6338663028e7a6f"
+        },
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "costPrice": 75000,
+        "unit": "ຕຸກ",
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f772f6338663028e7a7d"
+        },
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "costPrice": 75000,
+        "unit": "ຕຸກ",
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 83000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab393f49dcb7dfbab46195d"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 83000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-23T08:56:26.264Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab394499dcb7dfbab4619bd"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f729f6338663028e7a59"
+        },
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "costPrice": 45000,
+        "unit": "ຖົງ",
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 62000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab394439dcb7dfbab4619b1"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 38000,
+    "createdAt": {
+      "$date": "2026-09-23T08:56:41.169Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab4917e46520bc4e7ed2911"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f570f6338663028e79b7"
+        },
+        "sku": "8859313500200",
+        "name": "ນຳ້ດື່ມຫົວເສື້ອໃຫຍ່",
+        "price": 10000,
+        "costPrice": 2500,
+        "unit": "ຕຸກ",
+        "image": "https://www.shopping-d.com/cdn/shop/products/11_4773d101-9fd9-4a3b-944e-7c28a4ca7faa.png?v=1661666561&width=533",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f298f6338663028e7940"
+        },
+        "sku": "P2864",
+        "name": "ໝືກກູ່ບ",
+        "price": 15000,
+        "costPrice": 10000,
+        "unit": "ຖົງ",
+        "image": "/uploads/1790131802647-809831954.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f62ef6338663028e7a08"
+        },
+        "sku": "#6e0968",
+        "name": "ກາເຟເຢັນ (Iced Coffee)",
+        "price": 20000,
+        "costPrice": 2000,
+        "unit": "ຈອກ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgmxT0S7YRf6oC4CVCLWAWc8JKC3m6CvlZgdXO_KMBmOAh4SwP_bSJ8s&s=10",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 60000,
+    "employeeId": {
+      "$oid": "6aacb331da835a30f7cc2cf8"
+    },
+    "shiftId": null,
+    "paymentMethod": "QR Code",
+    "cashReceived": 60000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-24T02:57:02.976Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab491c146520bc4e7ed295c"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f570f6338663028e79b7"
+        },
+        "sku": "8859313500200",
+        "name": "ນຳ້ດື່ມຫົວເສື້ອໃຫຍ່",
+        "price": 10000,
+        "costPrice": 2500,
+        "unit": "ຕຸກ",
+        "image": "https://www.shopping-d.com/cdn/shop/products/11_4773d101-9fd9-4a3b-944e-7c28a4ca7faa.png?v=1661666561&width=533",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f298f6338663028e7940"
+        },
+        "sku": "P2864",
+        "name": "ໝືກກູ່ບ",
+        "price": 15000,
+        "costPrice": 10000,
+        "unit": "ຖົງ",
+        "image": "/uploads/1790131802647-809831954.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6c6f6338663028e7a3e"
+        },
+        "sku": "P2824",
+        "name": "ສະໄລ(ເເບບຖົງ)",
+        "price": 15000,
+        "costPrice": 10000,
+        "unit": "ຖົງ",
+        "image": "https://officework.co.th/upload/product/1041-0002-01.JPG",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "costPrice": 18000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 78000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab491b246520bc4e7ed294c"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 22000,
+    "createdAt": {
+      "$date": "2026-09-24T02:58:09.110Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab4923346520bc4e7ed29a1"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f6b8f6338663028e7a37"
+        },
+        "sku": "P8793",
+        "name": "ຫມີ່ເຜັດເກົາຫລີ່",
+        "price": 23000,
+        "costPrice": 18000,
+        "unit": "ຖົງ",
+        "image": "https://img-v2.salehere.co.th/p/1200x0/2022/01/04/biyybs2aykwe.jpg",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f756f6338663028e7a6f"
+        },
+        "sku": "P8706",
+        "name": "ໂອອີຊີ(ກີ່ນຮວງເຂົ້າ)",
+        "price": 15000,
+        "costPrice": 75000,
+        "unit": "ຕຸກ",
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005289-1.webp",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f765f6338663028e7a76"
+        },
+        "sku": "P6715",
+        "name": "ໂອອີຊີ(ກີ່ນເລມອ່ນ)",
+        "price": 15000,
+        "costPrice": 75000,
+        "unit": "ຕຸກ",
+        "image": "https://media-stark.gourmetmarketthailand.com/products/cover/8854698005043-1.webp",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f772f6338663028e7a7d"
+        },
+        "sku": "P0569",
+        "name": "ອີຊີຕັນ(ກີ່ນຊາຂຽວ)",
+        "price": 15000,
+        "costPrice": 75000,
+        "unit": "ຕຸກ",
+        "image": "https://fit-d.com/image_webp/f?src=./uploads/food/3ce38eacbd9cd929ee3ac944d8cafc72.jpg",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 83000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab4922846520bc4e7ed2992"
+    },
+    "paymentMethod": "QR Code",
+    "cashReceived": 83000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-24T03:00:03.854Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab4980acd6dfb2eb8578e91"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f729f6338663028e7a59"
+        },
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "costPrice": 45000,
+        "unit": "ຖົງ",
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f683f6338663028e7a23"
+        },
+        "sku": "P5510",
+        "name": "ເຂົ້າໜົມປັງ (Bread)",
+        "price": 10000,
+        "costPrice": 8000,
+        "unit": "ອັນ",
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f736f6338663028e7a60"
+        },
+        "sku": "P7196",
+        "name": "ມັນຝລັ່ງທອດ(ເທສໂຕ້)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ຖົງ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT59LD204GaFij8NnVNhwl-bq5nW-OXrapiIjrd63I37gwy2Vpb8WnBuznR&s=10",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 37000,
+    "employeeId": {
+      "$oid": "6aacb331da835a30f7cc2cf8"
+    },
+    "shiftId": null,
+    "paymentMethod": "QR Code",
+    "cashReceived": 37000,
+    "changeAmount": 0,
+    "createdAt": {
+      "$date": "2026-09-24T03:24:58.811Z"
+    },
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6ab49859cd6dfb2eb8578eca"
+    },
+    "items": [
+      {
+        "_id": {
+          "$oid": "6ab1f5caf6338663028e79eb"
+        },
+        "sku": "P0695",
+        "name": "ຊາຂຽວ (Green Tea)",
+        "price": 15000,
+        "costPrice": 0,
+        "unit": "ຈອກ",
+        "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f570f6338663028e79b7"
+        },
+        "sku": "8859313500200",
+        "name": "ນຳ້ດື່ມຫົວເສື້ອໃຫຍ່",
+        "price": 10000,
+        "costPrice": 2500,
+        "unit": "ຕຸກ",
+        "image": "https://www.shopping-d.com/cdn/shop/products/11_4773d101-9fd9-4a3b-944e-7c28a4ca7faa.png?v=1661666561&width=533",
+        "quantity": 2
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f713f6338663028e7a52"
+        },
+        "sku": "P3588",
+        "name": "ສະປອນເຊີ(ຂວດເເກ້ວ)",
+        "price": 15000,
+        "costPrice": 65000,
+        "unit": "ເເກ້ວ",
+        "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbDt65Vj7NaM0ldzihNzEL2lnNkxONBJIhFmYWoj12Gu24VFd5uZZpmjLi&s=10",
+        "quantity": 1
+      },
+      {
+        "_id": {
+          "$oid": "6ab1f729f6338663028e7a59"
+        },
+        "sku": "P1659",
+        "name": "ປາມືກຢ່າງ(ເບນໂຕະ)",
+        "price": 12000,
+        "costPrice": 45000,
+        "unit": "ຖົງ",
+        "image": "https://gourmetmarketthailand.com/_next/image?url=https%3A%2F%2Fmedia-stark.gourmetmarketthailand.com%2Fproducts%2Fcover%2F8850157406840-1.webp&w=1200&q=75",
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 62000,
+    "employeeId": {
+      "$oid": "6aacb7b207ec1af461f7d78d"
+    },
+    "shiftId": {
+      "$oid": "6ab4982ecd6dfb2eb8578eb0"
+    },
+    "paymentMethod": "Cash",
+    "cashReceived": 100000,
+    "changeAmount": 38000,
+    "createdAt": {
+      "$date": "2026-09-24T03:26:17.167Z"
+    },
+    "__v": 0
+  }
+]
